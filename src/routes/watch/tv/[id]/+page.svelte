@@ -54,7 +54,7 @@
 {#if show.data}
 	<div class="relative flex min-h-screen flex-col bg-black">
 		<div class="flex flex-col items-center pt-20 pb-8">
-			<div class="w-full max-w-5xl px-4">
+			<div class="w-full max-w-5xl mx-auto px-4">
 				<div class="flex flex-wrap items-center gap-2 pb-4">
 					<button
 						onclick={() => (source = 'embed')}

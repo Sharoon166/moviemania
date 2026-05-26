@@ -34,10 +34,10 @@
 			/>
 		</div>
 		<div
-			class="absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/70 to-surface-950/30"
+			class="absolute inset-0 bg-linear-to-t from-surface-950 via-surface-950/70 to-surface-950/30"
 		></div>
 		<div
-			class="absolute inset-0 bg-gradient-to-r from-surface-950/90 via-transparent to-transparent"
+			class="absolute inset-0 bg-linear-to-r from-surface-950/90 via-transparent to-transparent"
 		></div>
 
 		<div

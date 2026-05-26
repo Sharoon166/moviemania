@@ -27,7 +27,7 @@
 				<circle cx="100" cy="100" r="45" stroke="#333" stroke-width="2" />
 
 				<!-- Sprocket holes -->
-				{#each Array(8) as _, i}
+				{#each Array(8) as _, i (i)}
 					{@const angle = (i * 45 * Math.PI) / 180}
 					{@const x = 100 + Math.cos(angle) * 52.5}
 					{@const y = 100 + Math.sin(angle) * 52.5}

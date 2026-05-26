@@ -3,9 +3,7 @@
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbMovie, TmdbTvShow, TmdbVideo } from '$lib/types/tmdb.d';
 	import {
-		PlayCircle,
-		ArrowUp,
-		ArrowDown,
+		PlayCircleIcon,
 		SpeakerSlashIcon,
 		SpeakerHighIcon
 	} from 'phosphor-svelte';
@@ -257,7 +255,7 @@
 						<div
 							class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm"
 						>
-							<PlayCircle size={28} weight="fill" class="text-black" />
+							<PlayCircleIcon size={28} weight="fill" class="text-black" />
 						</div>
 						<span class="text-xs font-medium text-white drop-shadow">Watch</span>
 					</a>
@@ -282,15 +280,6 @@
 						</span>
 					</button>
 				</div>
-
-				<!-- Navigation hints -->
-				{#if index === 0}
-					<div class="absolute top-24 left-1/2 z-20 -translate-x-1/2 animate-bounce">
-						<div class="rounded-full bg-black/40 p-2 backdrop-blur-sm">
-							<ArrowDown size={24} class="text-white" weight="bold" />
-						</div>
-					</div>
-				{/if}
 
 				{#if !hasMore && index === clips.length - 1}
 					<div
@@ -333,7 +322,7 @@
 </div>
 
 <style>
-	:global(body) {
+	body {
 		overflow: hidden;
 		background: black;
 	}

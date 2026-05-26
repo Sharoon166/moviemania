@@ -31,7 +31,7 @@
 		hovered = false;
 	}}
 >
-	<div class="aspect-[2/3] w-full overflow-hidden">
+	<div class="aspect-2/3 w-full overflow-hidden">
 		{#if media.poster_path}
 			<img
 				src={tmdb.image.poster(media.poster_path, 'w342')}
@@ -60,12 +60,12 @@
 			hovered ? 'opacity-100' : 'opacity-0'
 		)}
 	>
-		<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+		<div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
 		<div class="absolute inset-0 rounded-xl ring-1 ring-white/10 ring-inset"></div>
 	</div>
 
 	<div
-		class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
+		class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
 	>
 		<p class="truncate text-sm font-semibold text-white">{title}</p>
 		<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">
@@ -85,7 +85,7 @@
 
 	{#if hovered}
 		<div
-			class="pointer-events-none absolute -inset-px rounded-xl bg-gradient-to-b from-gold-500/20 to-transparent opacity-0 opacity-100 transition-opacity duration-500"
+			class="pointer-events-none absolute -inset-px rounded-xl bg-linear-to-b from-gold-500/20 to-transparent opacity-100 transition-opacity duration-500"
 		></div>
 	{/if}
 </a>

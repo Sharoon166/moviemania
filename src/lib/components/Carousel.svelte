@@ -50,7 +50,7 @@
 	</div>
 	<div class="relative">
 		<div
-			class="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-surface-950 to-transparent md:w-16"
+			class="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-linear-to-r from-surface-950 to-transparent md:w-16"
 		></div>
 		<div
 			bind:this={scrollRef}
@@ -65,7 +65,7 @@
 			<div class="w-4 shrink-0"></div>
 		</div>
 		<div
-			class="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-surface-950 to-transparent md:w-16"
+			class="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-linear-to-l from-surface-950 to-transparent md:w-16"
 		></div>
 	</div>
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { MagnifyingGlass, FilmSlate, Shuffle, Newspaper, Play, Info } from 'phosphor-svelte';
+	import { MagnifyingGlassIcon, ShuffleIcon, Play, Info } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
 
@@ -44,20 +44,8 @@
 					page.url.pathname === '/browse' && 'bg-white/5 text-white'
 				)}
 			>
-				<MagnifyingGlass class="h-4 w-4" />
+				<MagnifyingGlassIcon class="h-4 w-4" />
 				<span class="hidden sm:inline">Search</span>
-			</a>
-
-			<a
-				href="/news"
-				class={cn(
-					'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-neutral-300 transition-all duration-300 hover:bg-white/5 hover:text-white active:scale-95',
-					page.url.pathname === '/news' && 'bg-white/5 text-white'
-				)}
-			>
-				<Newspaper class="h-4 w-4" />
-
-				<span class="hidden sm:inline">News</span>
 			</a>
 			
 			<a
@@ -94,7 +82,7 @@
 				}}
 				class="flex items-center gap-2 rounded-xl bg-gold-500/20 px-4 py-2 text-sm font-medium text-gold-400 transition-all duration-300 hover:bg-gold-500/30 hover:text-gold-300 active:scale-95"
 			>
-				<Shuffle class="h-4.5 w-4.5 text-white" weight="fill" />
+				<ShuffleIcon class="h-4.5 w-4.5 text-white" weight="fill" />
 				<span class="hidden sm:inline">Random</span>
 			</button>
 		</div>

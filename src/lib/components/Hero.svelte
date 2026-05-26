@@ -47,10 +47,10 @@
 	{/if}
 
 	<div
-		class="animate-fade-in absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/50 via-60% to-transparent"
+		class="animate-fade-in absolute inset-0 bg-linear-to-t from-surface-950 via-surface-950/50 via-60% to-transparent"
 	></div>
 	<div
-		class="animate-fade-in absolute inset-0 bg-gradient-to-r from-surface-950/80 via-transparent to-transparent"
+		class="animate-fade-in absolute inset-0 bg-linear-to-r from-surface-950/80 via-transparent to-transparent"
 	></div>
 
 	<div
@@ -64,10 +64,10 @@
 				<img
 					src={poster}
 					alt={title}
-					class="h-[28rem] w-auto rounded-2xl object-cover shadow-2xl shadow-black/50"
+					class="h-112 w-auto rounded-2xl object-cover shadow-2xl shadow-black/50"
 				/>
 				<div
-					class="absolute -right-2 -bottom-2 rounded-xl bg-gold-500/20 px-3 py-1.5 backdrop-blur-md"
+					class="absolute -right-4 -top-3 rounded-xl bg-gold-500/20 px-3 py-1.5 backdrop-blur-md"
 				>
 					<div class="flex items-center gap-1.5 text-sm font-semibold text-gold-400">
 						<Star class="h-4 w-4" weight="fill" />

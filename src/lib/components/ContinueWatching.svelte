@@ -32,7 +32,7 @@
 					</div>
 
 					<div
-						class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
+						class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
 					>
 						<p class="truncate text-sm font-semibold text-white">{item.title}</p>
 						<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">

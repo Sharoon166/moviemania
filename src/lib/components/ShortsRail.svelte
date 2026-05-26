@@ -35,10 +35,10 @@
 
 <div class="relative">
 	<div
-		class="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-surface-950 to-transparent"
+		class="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-linear-to-r from-surface-950 to-transparent"
 	></div>
 	<div
-		class="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-surface-950 to-transparent"
+		class="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-linear-to-l from-surface-950 to-transparent"
 	></div>
 
 	<div
@@ -72,7 +72,7 @@
 						{/if}
 
 						<div
-							class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"
+							class="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-transparent"
 						></div>
 						<div class="absolute right-2 bottom-2 left-2">
 							<p class="line-clamp-2 text-xs font-semibold text-white">{clip.name || clip.title}</p>
