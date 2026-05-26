@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
-	import { Star, PlayCircle, Calendar, Television, Download } from 'phosphor-svelte';
+	import {
+		Star,
+		PlayCircleIcon,
+		CalendarIcon,
+		TelevisionIcon,
+		DownloadIcon
+	} from 'phosphor-svelte';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
-	import RatingMap from '$lib/components/RatingMap.svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -38,10 +43,10 @@
 			/>
 		</div>
 		<div
-			class="absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/70 to-surface-950/30"
+			class="absolute inset-0 bg-linear-to-t from-surface-950 via-surface-950/70 to-surface-950/30"
 		></div>
 		<div
-			class="absolute inset-0 bg-gradient-to-r from-surface-950/90 via-transparent to-transparent"
+			class="absolute inset-0 bg-linear-to-r from-surface-950/90 via-transparent to-transparent"
 		></div>
 
 		<div
@@ -51,7 +56,7 @@
 				<img
 					src={tmdb.image.poster(show.data.poster_path ?? '', 'w342')}
 					alt={show.data.name}
-					class="h-[22rem] w-auto rounded-xl object-cover shadow-2xl shadow-black/50"
+					class="h-88 w-auto rounded-xl object-cover shadow-2xl shadow-black/50"
 				/>
 			</div>
 			<div class="flex max-w-3xl flex-col gap-5">
@@ -66,11 +71,11 @@
 						<span class="text-neutral-500">/ 10</span>
 					</span>
 					<span class="flex items-center gap-1.5">
-						<Calendar class="h-4 w-4" />
+						<CalendarIcon class="h-4 w-4" />
 						{show.data.first_air_date?.slice(0, 4)}
 					</span>
 					<span class="flex items-center gap-1.5">
-						<Television class="h-4 w-4" />
+						<TelevisionIcon class="h-4 w-4" />
 						{totalSeasons} season{totalSeasons !== 1 ? 's' : ''} &middot; {totalEpisodes} episode{totalEpisodes !==
 						1
 							? 's'
@@ -94,7 +99,7 @@
 						href={`/watch/tv/${show.data.id}`}
 						class="flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
 					>
-						<PlayCircle class="h-5 w-5" weight="fill" />
+						<PlayCircleIcon class="h-5 w-5" weight="fill" />
 						Watch Now
 					</a>
 					{#if video}
@@ -104,7 +109,7 @@
 							}}
 							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
 						>
-							<PlayCircle class="h-5 w-5" />
+							<PlayCircleIcon class="h-5 w-5" />
 							Trailer
 						</button>
 					{/if}
@@ -114,17 +119,11 @@
 						rel="noopener noreferrer"
 						class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
 					>
-						<Download class="h-5 w-5" />
+						<DownloadIcon class="h-5 w-5" />
 						Download
 					</a>
 				</div>
 			</div>
-		</div>
-	</section>
-
-	<section class="mx-auto w-full max-w-7xl px-4 pb-12 md:px-8">
-		<div class="max-w-md">
-			<RatingMap voteAverage={show.data.vote_average} voteCount={show.data.vote_count} />
 		</div>
 	</section>
 
@@ -135,20 +134,20 @@
 			style="scrollbar-width: none;"
 		>
 			{#each show.data.seasons as season (season.id)}
-				<div class="flex w-[160px] shrink-0 snap-start flex-col gap-2.5">
+				<div class="flex w-40 shrink-0 snap-start flex-col gap-2.5">
 					<div class="overflow-hidden rounded-xl">
 						{#if season.poster_path}
 							<img
 								src={tmdb.image.poster(season.poster_path, 'w342')}
 								alt={season.name}
-								class="aspect-[2/3] w-full rounded-xl object-cover transition-transform duration-500 hover:scale-110"
+								class="aspect-2/3 w-full rounded-xl object-cover transition-transform duration-500 hover:scale-110"
 								loading="lazy"
 							/>
 						{:else}
 							<div
-								class="flex aspect-[2/3] w-full items-center justify-center rounded-xl bg-surface-800"
+								class="flex aspect-2/3 w-full items-center justify-center rounded-xl bg-surface-800"
 							>
-								<Television class="h-10 w-10 text-surface-600" />
+								<TelevisionIcon class="h-10 w-10 text-surface-600" />
 							</div>
 						{/if}
 					</div>

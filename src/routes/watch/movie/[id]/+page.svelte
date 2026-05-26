@@ -40,16 +40,6 @@
 </svelte:head>
 {#if movie.data}
 	<div class="relative flex min-h-screen flex-col bg-black">
-		<div class="absolute top-20 left-4 z-30 md:left-8">
-			<a
-				href={`/movie/${movie.data.id}`}
-				class="flex items-center gap-2 rounded-xl border border-white/10 bg-black/50 px-4 py-2 text-sm font-medium text-neutral-300 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:text-white"
-			>
-				<ArrowLeft class="h-4 w-4" />
-				Back
-			</a>
-		</div>
-
 		<div class="flex flex-col items-center pt-20 pb-8">
 			<div class="w-full max-w-5xl px-4">
 				<div class="flex flex-wrap items-center gap-2 pb-4">

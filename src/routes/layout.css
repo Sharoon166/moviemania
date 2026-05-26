@@ -36,6 +36,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+button {
+	cursor: pointer;
+}
+
 ::selection {
 	background-color: rgb(250 204 21 / 0.3);
 }

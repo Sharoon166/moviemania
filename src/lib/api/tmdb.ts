@@ -109,10 +109,10 @@ export const tmdb = {
 			(source ?? embedSources[0]).tv(id, season, episode)
 	},
 	trending: {
-		movies: (t: 'day' | 'week' = 'week') =>
-			fetchJson<TmdbPaginatedResponse<TmdbMovie>>(`/trending/movie/${t}`),
-		tv: (t: 'day' | 'week' = 'week') =>
-			fetchJson<TmdbPaginatedResponse<TmdbTvShow>>(`/trending/tv/${t}`),
+		movies: (t: 'day' | 'week' = 'week', page = 1) =>
+			fetchJson<TmdbPaginatedResponse<TmdbMovie>>(`/trending/movie/${t}?page=${page}`),
+		tv: (t: 'day' | 'week' = 'week', page = 1) =>
+			fetchJson<TmdbPaginatedResponse<TmdbTvShow>>(`/trending/tv/${t}?page=${page}`),
 		all: (t: 'day' | 'week' = 'week') =>
 			fetchJson<TmdbPaginatedResponse<TmdbMovie | TmdbTvShow>>(`/trending/all/${t}`)
 	},
@@ -150,27 +150,27 @@ export const tmdb = {
 	genre: {
 		movie: () => fetchJson<{ genres: TmdbGenre[] }>('/genre/movie/list'),
 		tv: () => fetchJson<{ genres: TmdbGenre[] }>('/genre/tv/list')
-  },
-  discover: {
-      movies: (params: { query?: string; genreIds?: number[]; page?: number }) =>
-          fetchMediaList<TmdbMovie>(
-              `/discover/movie?${new URLSearchParams({
-                  ...(params.query ? { with_text_query: params.query } : {}),
-                  ...(params.genreIds?.length ? { with_genres: params.genreIds.join(',') } : {}),
-                  page: String(params.page ?? 1),
-                  sort_by: 'popularity.desc'
-              })}`,
-              'movie'
-          ),
-      tv: (params: { query?: string; genreIds?: number[]; page?: number }) =>
-          fetchMediaList<TmdbTvShow>(
-              `/discover/tv?${new URLSearchParams({
-                  ...(params.query ? { with_text_query: params.query } : {}),
-                  ...(params.genreIds?.length ? { with_genres: params.genreIds.join(',') } : {}),
-                  page: String(params.page ?? 1),
-                  sort_by: 'popularity.desc'
-              })}`,
-              'tv'
-          )
-  }
+	},
+	discover: {
+		movies: (params: { query?: string; genreIds?: number[]; page?: number }) =>
+			fetchMediaList<TmdbMovie>(
+				`/discover/movie?${new URLSearchParams({
+					...(params.query ? { with_text_query: params.query } : {}),
+					...(params.genreIds?.length ? { with_genres: params.genreIds.join(',') } : {}),
+					page: String(params.page ?? 1),
+					sort_by: 'popularity.desc'
+				})}`,
+				'movie'
+			),
+		tv: (params: { query?: string; genreIds?: number[]; page?: number }) =>
+			fetchMediaList<TmdbTvShow>(
+				`/discover/tv?${new URLSearchParams({
+					...(params.query ? { with_text_query: params.query } : {}),
+					...(params.genreIds?.length ? { with_genres: params.genreIds.join(',') } : {}),
+					page: String(params.page ?? 1),
+					sort_by: 'popularity.desc'
+				})}`,
+				'tv'
+			)
+	}
 };

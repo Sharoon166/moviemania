@@ -78,7 +78,7 @@
 		>
 			<div class="flex items-center gap-2 border-b border-white/10 px-4 py-3">
 				<span class="text-xs font-medium text-neutral-500">Season</span>
-				<div class="flex gap-1">
+				<div class="flex gap-1 overflow-auto">
 					{#each Array(totalSeasons) as _, i (i)}
 						<button
 							onclick={() => {

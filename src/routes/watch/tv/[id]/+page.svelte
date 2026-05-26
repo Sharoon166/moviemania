@@ -5,7 +5,7 @@
 	import { cn } from '$lib/cn';
 	import { upsertContinueWatching } from '$lib/stores/continue-watching';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
-	import EpisodePicker from '$lib/components/EpisodePicker.svelte';
+	import EpisodeSidebar from '$lib/components/EpisodeSidebar.svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -53,16 +53,6 @@
 
 {#if show.data}
 	<div class="relative flex min-h-screen flex-col bg-black">
-		<div class="absolute top-20 left-4 z-30 md:left-8">
-			<a
-				href={`/tv/${show.data.id}`}
-				class="flex items-center gap-2 rounded-xl border border-white/10 bg-black/50 px-4 py-2 text-sm font-medium text-neutral-300 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:text-white"
-			>
-				<ArrowLeft class="h-4 w-4" />
-				Back
-			</a>
-		</div>
-
 		<div class="flex flex-col items-center pt-20 pb-8">
 			<div class="w-full max-w-5xl px-4">
 				<div class="flex flex-wrap items-center gap-2 pb-4">
@@ -91,17 +81,6 @@
 							<Play class="h-4 w-4" />
 							Trailer
 						</button>
-					{/if}
-					{#if source === 'embed' && totalSeasons > 0}
-						<div class="ml-auto">
-							<EpisodePicker
-								tvId={show.data.id}
-								{totalSeasons}
-								{season}
-								{episode}
-								onchange={handleEpisodeChange}
-							/>
-						</div>
 					{/if}
 				</div>
 
@@ -185,6 +164,7 @@
 								{/if}
 							</div>
 						</div>
+
 						<a
 							href={tmdb.embed.tv(show.data.id, season, episode, server)}
 							target="_blank"
@@ -194,6 +174,20 @@
 							<Download class="h-3.5 w-3.5" />
 							Download
 						</a>
+					</div>
+				{/if}
+
+				<!-- Episode Sidebar Below Player -->
+				{#if source === 'embed' && totalSeasons > 0}
+					<div class="mt-6">
+						<EpisodeSidebar
+							tvId={show.data.id}
+							showName={show.data.name}
+							{totalSeasons}
+							{season}
+							{episode}
+							onchange={handleEpisodeChange}
+						/>
 					</div>
 				{/if}
 			</div>

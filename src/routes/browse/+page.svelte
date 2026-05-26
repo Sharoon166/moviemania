@@ -55,65 +55,81 @@
 	// 	return () => clearTimeout(timer);
 	// });
 	$effect(() => {
-    const term = q;
-    const genres = selectedGenres;
-    const filter = mediaFilter;
+		const term = q;
+		const genres = selectedGenres;
+		const filter = mediaFilter;
 
-    loading = true;
-    error = '';
-    results = [];
-    totalPages = 0;
+		loading = true;
+		error = '';
+		results = [];
+		totalPages = 0;
 
-    const timer = setTimeout(async () => {
-        try {
-            if (genres.length > 0) {
-                // genres selected — use discover which supports genre filtering
-                const fetchMovie = filter === 'tv' ? null :
-                    tmdb.discover.movies({ query: term.length >= 2 ? term : undefined, genreIds: genres });
-                const fetchTv = filter === 'movie' ? null :
-                    tmdb.discover.tv({ query: term.length >= 2 ? term : undefined, genreIds: genres });
+		const timer = setTimeout(
+			async () => {
+				try {
+					if (genres.length > 0) {
+						// genres selected — use discover which supports genre filtering
+						const fetchMovie =
+							filter === 'tv'
+								? null
+								: tmdb.discover.movies({
+										query: term.length >= 2 ? term : undefined,
+										genreIds: genres
+									});
+						const fetchTv =
+							filter === 'movie'
+								? null
+								: tmdb.discover.tv({
+										query: term.length >= 2 ? term : undefined,
+										genreIds: genres
+									});
 
-                const [movies, tv] = await Promise.all([
-                    fetchMovie ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 }),
-                    fetchTv   ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 })
-                ]);
+						const [movies, tv] = await Promise.all([
+							fetchMovie ??
+								Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 }),
+							fetchTv ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 })
+						]);
 
-                results = [...movies.results, ...tv.results]
-                    .sort((a, b) => b.popularity - a.popularity);
-                totalPages = Math.max(movies.total_pages, tv.total_pages);
+						results = [...movies.results, ...tv.results].sort(
+							(a, b) => b.popularity - a.popularity
+						);
+						totalPages = Math.max(movies.total_pages, tv.total_pages);
+					} else if (term.length >= 2) {
+						// no genres, just search
+						const res = await tmdb.search.multi(term);
+						if (filter !== 'all') {
+							res.results = res.results.filter((r) => r.media_type === filter);
+						}
+						results = res.results;
+						totalPages = res.total_pages;
+					} else {
+						// no genres, no query — trending
+						if (filter === 'movie') {
+							const res = await tmdb.trending.movies('week');
+							results = res.results;
+							totalPages = res.total_pages;
+						} else if (filter === 'tv') {
+							const res = await tmdb.trending.tv('week');
+							results = res.results;
+							totalPages = res.total_pages;
+						} else {
+							const res = await tmdb.trending.all('week');
+							results = res.results;
+							totalPages = res.total_pages;
+						}
+					}
+				} catch (e) {
+					error = e instanceof Error ? e.message : 'Search failed';
+				} finally {
+					loading = false;
+				}
+			},
+			term.length >= 2 ? 300 : 0
+		);
 
-            } else if (term.length >= 2) {
-                // no genres, just search
-                const res = await tmdb.search.multi(term);
-                if (filter !== 'all') {
-                    res.results = res.results.filter(r => r.media_type === filter);
-                }
-                results = res.results;
-                totalPages = res.total_pages;
+		return () => clearTimeout(timer);
+	});
 
-            } else {
-                // no genres, no query — trending
-                if (filter === 'movie') {
-                    const res = await tmdb.trending.movies('week');
-                    results = res.results; totalPages = res.total_pages;
-                } else if (filter === 'tv') {
-                    const res = await tmdb.trending.tv('week');
-                    results = res.results; totalPages = res.total_pages;
-                } else {
-                    const res = await tmdb.trending.all('week');
-                    results = res.results; totalPages = res.total_pages;
-                }
-            }
-        } catch (e) {
-            error = e instanceof Error ? e.message : 'Search failed';
-        } finally {
-            loading = false;
-        }
-    }, term.length >= 2 ? 300 : 0);
-
-    return () => clearTimeout(timer);
-});
-	
 	let filtered = $derived.by(() => {
 		let items = results;
 		if (selectedGenres.length > 0) {
@@ -144,30 +160,46 @@
 	// }
 
 	async function loadMore() {
-    if (loadingMore || totalPages === 0 || results.length === 0) return;
-    loadingMore = true;
-    try {
-        const nextPage = Math.ceil(results.length / 20) + 1;
-        if (nextPage > totalPages) return;
+		if (loadingMore || totalPages === 0 || results.length === 0) return;
+		loadingMore = true;
+		try {
+			const nextPage = Math.ceil(results.length / 20) + 1;
+			if (nextPage > totalPages) return;
 
-        if (selectedGenres.length > 0) {
-            const [movies, tv] = await Promise.all([
-                mediaFilter === 'tv'    ? null : tmdb.discover.movies({ query: q.length >= 2 ? q : undefined, genreIds: selectedGenres, page: nextPage }),
-                mediaFilter === 'movie' ? null : tmdb.discover.tv({ query: q.length >= 2 ? q : undefined, genreIds: selectedGenres, page: nextPage })
-            ].map(p => p ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 })));
-            results = [...results, ...(movies as any).results, ...(tv as any).results]
-                .sort((a, b) => b.popularity - a.popularity);
-        } else {
-            const res = q.length >= 2
-                ? await tmdb.search.multi(q, nextPage)
-                : await tmdb.trending.all('week');
-            results = [...results, ...res.results];
-            totalPages = res.total_pages;
-        }
-    } finally {
-        loadingMore = false;
-    }
-}
+			if (selectedGenres.length > 0) {
+				const [movies, tv] = await Promise.all(
+					[
+						mediaFilter === 'tv'
+							? null
+							: tmdb.discover.movies({
+									query: q.length >= 2 ? q : undefined,
+									genreIds: selectedGenres,
+									page: nextPage
+								}),
+						mediaFilter === 'movie'
+							? null
+							: tmdb.discover.tv({
+									query: q.length >= 2 ? q : undefined,
+									genreIds: selectedGenres,
+									page: nextPage
+								})
+					].map(
+						(p) => p ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 })
+					)
+				);
+				results = [...results, ...(movies as any).results, ...(tv as any).results].sort(
+					(a, b) => b.popularity - a.popularity
+				);
+			} else {
+				const res =
+					q.length >= 2 ? await tmdb.search.multi(q, nextPage) : await tmdb.trending.all('week');
+				results = [...results, ...res.results];
+				totalPages = res.total_pages;
+			}
+		} finally {
+			loadingMore = false;
+		}
+	}
 
 	function toggleGenre(id: number) {
 		selectedGenres = selectedGenres.includes(id)
