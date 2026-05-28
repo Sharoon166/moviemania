@@ -1,16 +1,9 @@
 <script lang="ts">
-	import { getContinueWatching, removeContinueWatching } from '$lib/stores/continue-watching';
+	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { tmdb } from '$lib/api/tmdb';
 	import { XIcon, PlayIcon, ClockIcon } from 'phosphor-svelte';
 
-	let items = $state(getContinueWatching());
-
-	$effect(() => {
-		const interval = setInterval(() => {
-			items = getContinueWatching();
-		}, 1000);
-		return () => clearInterval(interval);
-	});
+	let items = $derived(continueWatching.items);
 </script>
 
 {#if items.length > 0}
@@ -20,9 +13,9 @@
 			{#each items as item (item.id)}
 				<a
 					href={item.mediaType === 'movie' ? `/watch/movie/${item.id}` : `/watch/tv/${item.id}?season=${item.season ?? 1}&episode=${item.episode ?? 1}`}
-					class="group relative w-[180px] shrink-0 overflow-hidden rounded-xl bg-surface-800 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/50"
+					class="group relative w-45 shrink-0 overflow-hidden rounded-xl bg-surface-800 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/50"
 				>
-					<div class="aspect-[2/3] w-full overflow-hidden">
+					<div class="aspect-2/3 w-full overflow-hidden">
 						<img
 							src={tmdb.image.poster(item.posterPath ?? '', 'w342')}
 							alt={item.title}
@@ -62,8 +55,7 @@
 						onclick={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
-							removeContinueWatching(item.id, item.mediaType);
-							items = getContinueWatching();
+							continueWatching.remove(item.id, item.mediaType);
 						}}
 						class="absolute top-2 right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100 hover:bg-white/20"
 					>

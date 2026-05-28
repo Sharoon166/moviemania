@@ -3,7 +3,7 @@
 	import { tmdb, embedSources } from '$lib/api/tmdb';
 	import { PlayIcon, FilmSlateIcon, DownloadIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
-	import { upsertContinueWatching } from '$lib/stores/continue-watching';
+	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
 
 	let { params } = $props();
@@ -25,7 +25,7 @@
 
 	$effect(() => {
 		if (!movie.data) return;
-		upsertContinueWatching({
+		continueWatching.upsert({
 			id: movie.data.id,
 			mediaType: 'movie',
 			title: movie.data.title,

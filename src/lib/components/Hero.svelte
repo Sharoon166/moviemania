@@ -30,6 +30,37 @@
 
 	const backdrop = $derived(tmdb.image.backdrop(current.backdrop_path ?? '', 'original'));
 
+	let filmstripEl = $state<HTMLDivElement | null>(null);
+	let hoveredIndex = $state<number | null>(null);
+
+	function getScale(index: number): number {
+		const focus = hoveredIndex ?? activeIndex;
+		const dist = Math.abs(index - focus);
+		if (dist === 0) return 1;
+		if (dist === 1) return 0.8;
+		if (dist === 2) return 0.65;
+		return 0.5;
+	}
+
+	function getOpacity(index: number): number {
+		const focus = hoveredIndex ?? activeIndex;
+		const dist = Math.abs(index - focus);
+		if (dist === 0) return 1;
+		if (dist === 1) return 0.7;
+		if (dist === 2) return 0.45;
+		return 0.3;
+	}
+
+	$effect(() => {
+		const el = filmstripEl;
+		if (!el) return;
+		const activeBtn = el.children[activeIndex] as HTMLElement;
+		if (!activeBtn) return;
+		const elCenter = el.offsetWidth / 2;
+		const btnCenter = activeBtn.offsetLeft + activeBtn.offsetWidth / 2;
+		el.scrollTo({ left: btnCenter - elCenter, behavior: 'smooth' });
+	});
+
 	const poster = $derived(tmdb.image.poster(current.poster_path ?? '', 'w500'));
 
 	function next() {
@@ -66,7 +97,14 @@
 	$effect(() => {
 		startAutoplay();
 	});
+
+	function handleKeydown(e: KeyboardEvent) {
+    if (e.key === 'ArrowLeft') { prev(); }
+    else if (e.key === 'ArrowRight') { next(); }
+}
 </script>
+
+<svelte:window onkeydown={handleKeydown} />
 
 <section class="group relative flex min-h-[94dvh] items-end overflow-hidden bg-black">
 	<!-- BACKDROP STACK -->
@@ -113,10 +151,7 @@
 		class="relative z-20 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pt-40 pb-16 md:flex-row md:items-end md:px-8 md:pb-20"
 	>
 		<!-- POSTER -->
-		<div
-			class="hidden shrink-0 md:block"
-			style="animation: fade-up 0.7s cubic-bezier(0.16,1,0.3,1)"
-		>
+		<div class="hidden shrink-0" style="animation: fade-up 0.7s cubic-bezier(0.16,1,0.3,1)">
 			<div class="relative">
 				<img
 					src={poster}
@@ -200,18 +235,69 @@
 			</div>
 
 			<!-- PROGRESS -->
-			<div class="absolute right-0 bottom-[3%] mt-8 flex items-center gap-3 self-end">
-				{#each items as _, index (index)}
+			<div class="hidden lg:flex absolute right-4 bottom-6 z-30 items-end md:right-8 md:bottom-10">
+				<div class="relative">
+					<div
+						bind:this={filmstripEl}
+						class="flex max-w-[min(460px,65vw)] items-end overflow-x-hidden px-4 py-2"
+						style="scrollbar-width: none;"
+					>
+						{#each items as item, index (item.id)}
+							{@const scale = getScale(index)}
+							{@const opacity = getOpacity(index)}
+							{@const isActive = index === activeIndex}
+							<button
+								onclick={() => goTo(index)}
+								onmouseenter={() => (hoveredIndex = index)}
+								onmouseleave={() => (hoveredIndex = null)}
+								class="relative mx-1 shrink-0 origin-bottom overflow-hidden rounded-lg focus:outline-none"
+								style="
+                        width: {82 * scale}px;
+                        height: {120 * scale}px;
+                        opacity: {opacity};
+                        transform: scale(1);
+                        transition: width 400ms cubic-bezier(0.34,1.56,0.64,1),
+                                    height 400ms cubic-bezier(0.34,1.56,0.64,1),
+                                    opacity 400ms ease;
+                        {isActive
+									? 'box-shadow: 0 0 0 2px #f59e0b, 0 0 0 3px rgba(0,0,0,0.5);'
+									: ''}
+                    "
+							>
+								<img
+									src={tmdb.image.poster(item.poster_path ?? '', 'w154')}
+									alt=""
+									class="h-full w-full object-cover"
+									loading="lazy"
+								/>
+								{#if isActive}
+									<div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent"></div>
+									<div class="absolute right-0 bottom-1.5 left-0 flex justify-center">
+										<span class="h-0.5 w-5 rounded-full bg-gold-400"></span>
+									</div>
+								{/if}
+							</button>
+						{/each}
+					</div>
+				</div>
+
+				<div class="flex gap-1.5 pb-0.5">
 					<button
-						onclick={() => goTo(index)}
-						class={cn(
-							'h-1.5 rounded-full transition-all duration-500',
-							index === activeIndex ? 'w-12 bg-gold-400' : 'w-3 bg-white/20 hover:bg-white/40'
-						)}
-						aria-label={`Go to featured-item ${index}`}
-					></button>
-				{/each}
-				<div class="flex gap-2">
+						onclick={prev}
+						class="rounded-full border border-white/10 bg-black/40 p-2 text-white/70 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:text-white"
+					>
+						<CaretLeftIcon size={16} weight="bold" />
+					</button>
+					<button
+						onclick={next}
+						class="rounded-full border border-white/10 bg-black/40 p-2 text-white/70 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:text-white"
+					>
+						<CaretRight size={16} weight="bold" />
+					</button>
+				</div>
+			</div>
+			<div class="absolute right-4 bottom-[3%] mt-8 flex items-center gap-3 self-end">
+				<div class="hidden md:flex lg:hidden gap-2">
 					<button
 						onclick={prev}
 						class="rounded-full border border-white/10 bg-black/30 p-2 text-white/70 opacity-100 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/50 hover:text-white md:block"

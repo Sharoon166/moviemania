@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb } from '$lib/api/tmdb';
+	import type { TmdbEpisode } from '$lib/types/tmdb.d';
 	import { cn } from '$lib/cn';
 	import {
 		CaretUpIcon,
@@ -43,7 +44,7 @@
 		seasonDetail.data?.episodes.find((ep) => ep.episode_number === episode)
 	);
 
-	let nextEpisode = $derived(() => {
+	let nextEpisode = $derived.by(() => {
 		if (!seasonDetail.data) return null;
 		const currentIndex = seasonDetail.data.episodes.findIndex(
 			(ep) => ep.episode_number === episode
@@ -51,14 +52,20 @@
 		if (currentIndex < seasonDetail.data.episodes.length - 1) {
 			return seasonDetail.data.episodes[currentIndex + 1];
 		}
+		if (season < totalSeasons) {
+			return {
+				season_number: season + 1,
+				episode_number: 1,
+				name: 'Season Premiere'
+			} as TmdbEpisode;
+		}
 		return null;
 	});
 
-	let filteredEpisodes = $derived(() => {
+	let filteredEpisodes = $derived.by(() => {
 		if (!seasonDetail.data) return [];
 		let episodes = [...seasonDetail.data.episodes];
 
-		// Filter by search
 		if (searchQuery.trim()) {
 			episodes = episodes.filter(
 				(ep) =>
@@ -67,7 +74,6 @@
 			);
 		}
 
-		// Sort
 		if (sortOrder === 'desc') {
 			episodes.reverse();
 		}
@@ -98,7 +104,7 @@
 	function handleKeyNavigation(e: KeyboardEvent) {
 		if (!seasonDetail.data || !isExpanded) return;
 
-		const episodes = filteredEpisodes();
+		const episodes = filteredEpisodes;
 		const currentIndex = episodes.findIndex((ep) => ep.episode_number === episode);
 
 		if (e.key === 'ArrowDown' && currentIndex < episodes.length - 1) {
@@ -129,7 +135,13 @@
 	>
 		<div class="flex-1">
 			<div class="flex items-center gap-2">
-				<h3 class="font-display text-base font-bold text-white">Up Next - Episode {episode}</h3>
+				<h3 class="font-display text-base font-bold text-white">
+					{#if nextEpisode}
+						Up Next - {nextEpisode.name}
+					{:else}
+						Episode {episode}
+					{/if}
+				</h3>
 			</div>
 			{#if currentEpisode}
 				<p class="mt-0.5 truncate text-xs text-neutral-400">
@@ -202,10 +214,10 @@
 			</div>
 
 			<!-- Episode List -->
-			<div class="max-h-[500px] overflow-y-auto overscroll-contain">
+			<div class="max-h-125 overflow-y-auto overscroll-contain">
 				{#if seasonDetail.data}
 					<div class="space-y-0">
-						{#each filteredEpisodes() as ep (ep.id)}
+						{#each filteredEpisodes as ep (ep.id)}
 							{@const isActive = episode === ep.episode_number}
 							<button
 								onclick={() => select(season, ep.episode_number)}
@@ -285,7 +297,7 @@
 							</button>
 						{/each}
 
-						{#if filteredEpisodes().length === 0}
+						{#if filteredEpisodes.length === 0}
 							<div class="flex flex-col items-center justify-center gap-2 px-4 py-12 text-center">
 								<MagnifyingGlassIcon class="h-8 w-8 text-neutral-600" />
 								<p class="text-sm text-neutral-400">No episodes found</p>
@@ -321,7 +333,7 @@
 			<div class="border-t border-white/10 bg-surface-950/50 px-4 py-3">
 				<div class="flex items-center justify-between text-xs">
 					<span class="text-neutral-500">
-						{filteredEpisodes().length} of {seasonDetail.data?.episodes.length ?? 0} episodes
+						{filteredEpisodes.length} of {seasonDetail.data?.episodes.length ?? 0} episodes
 					</span>
 					<span class="font-medium text-neutral-400">Season {season}</span>
 				</div>

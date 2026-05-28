@@ -5,7 +5,10 @@ import type {
 	TmdbTvDetail,
 	TmdbSeasonDetail,
 	TmdbPaginatedResponse,
-	TmdbGenre
+	TmdbGenre,
+	TmdbImage,
+	TmdbCollection,
+  TmdbCollectionSummary
 } from '$lib/types/tmdb.d';
 
 export type { TmdbGenre };
@@ -101,7 +104,8 @@ export const tmdb = {
 		) => `${IMG_BASE}/${s}${p}`,
 		backdrop: (p: string, s: 'w300' | 'w780' | 'w1280' | 'original' = 'w1280') =>
 			`${IMG_BASE}/${s}${p}`,
-		profile: (p: string, s: 'w45' | 'w185' | 'h632' | 'original' = 'h632') => `${IMG_BASE}/${s}${p}`
+		profile: (p: string, s: 'w45' | 'w185' | 'h632' | 'original' = 'h632') =>
+			`${IMG_BASE}/${s}${p}`
 	},
 	embed: {
 		movie: (id: number, source?: EmbedSource) => (source ?? embedSources[0]).movie(id),
@@ -130,47 +134,80 @@ export const tmdb = {
 		topRated: () => fetchMediaList<TmdbMovie>('/movie/top_rated', 'movie'),
 		nowPlaying: () => fetchMediaList<TmdbMovie>('/movie/now_playing', 'movie'),
 		detail: (id: number) =>
-			fetchJson<TmdbMovieDetail>(`/movie/${id}`, 'credits,videos,recommendations,similar'),
+			fetchJson<TmdbMovieDetail>(
+				`/movie/${id}`,
+				'credits,videos,recommendations,similar,images'
+			),
+		images: (id: number) =>
+			fetchJson<{ backdrops: TmdbImage[]; posters: TmdbImage[] }>(`/movie/${id}/images`),
+		collection: (id: number) => fetchJson<TmdbCollection>(`/collection/${id}`),
 		search: (q: string, p = 1) =>
-			fetchMediaList<TmdbMovie>(`/search/movie?query=${encodeURIComponent(q)}&page=${p}`, 'movie')
+			fetchMediaList<TmdbMovie>(
+				`/search/movie?query=${encodeURIComponent(q)}&page=${p}`,
+				'movie'
+			)
 	},
 	tv: {
 		popular: () => fetchMediaList<TmdbTvShow>('/tv/popular', 'tv'),
 		topRated: () => fetchMediaList<TmdbTvShow>('/tv/top_rated', 'tv'),
 		airingToday: () => fetchMediaList<TmdbTvShow>('/tv/airing_today', 'tv'),
 		detail: (id: number) =>
-			fetchJson<TmdbTvDetail>(`/tv/${id}`, 'credits,videos,recommendations,similar'),
+			fetchJson<TmdbTvDetail>(`/tv/${id}`, 'credits,videos,recommendations,similar,images'),
+		images: (id: number) =>
+			fetchJson<{ backdrops: TmdbImage[]; posters: TmdbImage[] }>(`/tv/${id}/images`),
 		search: (q: string, p = 1) =>
 			fetchMediaList<TmdbTvShow>(`/search/tv?query=${encodeURIComponent(q)}&page=${p}`, 'tv')
-	},
+  },
+  collection: {
+	search: (q: string) =>
+		fetchJson<{ results: TmdbCollectionSummary[] }>(
+			`/search/collection?query=${encodeURIComponent(q)}`
+		)
+  },
 	season: {
 		detail: (tvId: number, seasonNumber: number) =>
 			fetchJson<TmdbSeasonDetail>(`/tv/${tvId}/season/${seasonNumber}`)
 	},
 	genre: {
-		movie: () => fetchJson<{ genres: TmdbGenre[] }>('/genre/movie/list'),
-		tv: () => fetchJson<{ genres: TmdbGenre[] }>('/genre/tv/list')
+		movie: () => fetchJson<{ genres: TmdbGenre[] }>(`/genre/movie/list`),
+		tv: () => fetchJson<{ genres: TmdbGenre[] }>(`/genre/tv/list`)
 	},
 	discover: {
-		movies: (params: { query?: string; genreIds?: number[]; page?: number }) =>
-			fetchMediaList<TmdbMovie>(
-				`/discover/movie?${new URLSearchParams({
-					...(params.query ? { with_text_query: params.query } : {}),
-					...(params.genreIds?.length ? { with_genres: params.genreIds.join(',') } : {}),
-					page: String(params.page ?? 1),
-					sort_by: 'popularity.desc'
-				})}`,
-				'movie'
-			),
-		tv: (params: { query?: string; genreIds?: number[]; page?: number }) =>
-			fetchMediaList<TmdbTvShow>(
-				`/discover/tv?${new URLSearchParams({
-					...(params.query ? { with_text_query: params.query } : {}),
-					...(params.genreIds?.length ? { with_genres: params.genreIds.join(',') } : {}),
-					page: String(params.page ?? 1),
-					sort_by: 'popularity.desc'
-				})}`,
-				'tv'
-			)
+		movies: (params: {
+			query?: string;
+			genreIds?: number[];
+			page?: number;
+			year?: number;
+			rating?: number;
+			sortBy?: string;
+		}) => {
+			const sp = new URLSearchParams({
+				page: String(params.page ?? 1),
+				sort_by: params.sortBy ?? 'popularity.desc'
+			});
+			if (params.query) sp.set('with_text_query', params.query);
+			if (params.genreIds?.length) sp.set('with_genres', params.genreIds.join(','));
+			if (params.year) sp.set('primary_release_year', String(params.year));
+			if (params.rating) sp.set('vote_average.gte', String(params.rating));
+			return fetchMediaList<TmdbMovie>(`/discover/movie?${sp}`, 'movie');
+		},
+		tv: (params: {
+			query?: string;
+			genreIds?: number[];
+			page?: number;
+			year?: number;
+			rating?: number;
+			sortBy?: string;
+		}) => {
+			const sp = new URLSearchParams({
+				page: String(params.page ?? 1),
+				sort_by: params.sortBy ?? 'popularity.desc'
+			});
+			if (params.query) sp.set('with_text_query', params.query);
+			if (params.genreIds?.length) sp.set('with_genres', params.genreIds.join(','));
+			if (params.year) sp.set('first_air_date_year', String(params.year));
+			if (params.rating) sp.set('vote_average.gte', String(params.rating));
+			return fetchMediaList<TmdbTvShow>(`/discover/tv?${sp}`, 'tv');
+		}
 	}
 };

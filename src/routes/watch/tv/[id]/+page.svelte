@@ -2,11 +2,12 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
 	import { browser } from '$app/environment';
-	import { PlayIcon, FilmSlateIcon, DownloadIcon } from 'phosphor-svelte';
+	import { PlayIcon, FilmSlateIcon, DownloadIcon, SkipForwardIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
-	import { upsertContinueWatching } from '$lib/stores/continue-watching';
+	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
 	import EpisodeSidebar from '$lib/components/EpisodeSidebar.svelte';
+	import { untrack } from 'svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -29,6 +30,29 @@
 
 	let totalSeasons = $derived(show.data?.number_of_seasons ?? 0);
 
+	let seasonDetail = createQuery(() => ({
+		queryKey: ['tv', Number(id), 'season', season],
+		queryFn: () => tmdb.season.detail(Number(id), season)
+	}));
+
+	let nextEpisode = $derived.by(() => {
+		if (!seasonDetail.data) return null;
+		const currentIndex = seasonDetail.data.episodes.findIndex(
+			(ep) => ep.episode_number === episode
+		);
+		if (currentIndex < seasonDetail.data.episodes.length - 1) {
+			return seasonDetail.data.episodes[currentIndex + 1];
+		}
+		return null;
+	});
+
+	let hasNextEpisode = $derived(!!nextEpisode);
+
+	function goToNextEpisode() {
+		if (!nextEpisode) return;
+		handleEpisodeChange(season, nextEpisode.episode_number);
+	}
+
 	function handleEpisodeChange(s: number, e: number) {
 		season = s;
 		episode = e;
@@ -48,17 +72,25 @@
 	});
 
 	$effect(() => {
-		if (!show.data) return;
-		upsertContinueWatching({
-			id: show.data.id,
-			mediaType: 'tv',
-			title: show.data.name,
-			posterPath: show.data.poster_path,
-			season,
-			episode,
-			progress: Math.round((season / totalSeasons) * 100)
-		});
-	});
+    if (!show.data) return;
+    // track these explicitly
+    const s = season;
+    const e = episode;
+    const data = show.data;
+    const total = totalSeasons;
+
+    untrack(() => {
+        continueWatching.upsert({
+            id: data.id,
+            mediaType: 'tv',
+            title: data.name,
+            posterPath: data.poster_path,
+            season: s,
+            episode: e,
+            progress: Math.round((s / total) * 100)
+        });
+    });
+});
 </script>
 
 <svelte:head>
@@ -121,6 +153,32 @@
 				</div>
 
 				{#if source === 'embed'}
+					<!-- Next Episode Prompt -->
+					{#if hasNextEpisode && nextEpisode}
+						<div class="mt-3">
+							<button
+								onclick={goToNextEpisode}
+								class="group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface-800/60 px-4 py-3 text-left backdrop-blur-sm transition-all duration-300 hover:bg-surface-700/80 hover:border-white/20"
+							>
+								<div
+									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold-500/20 text-gold-400 transition-all group-hover:bg-gold-500/30"
+								>
+									<SkipForwardIcon class="h-5 w-5" weight="fill" />
+								</div>
+								<div class="min-w-0 flex-1">
+									<p class="text-xs font-medium text-neutral-500">Up Next</p>
+									<p class="truncate text-sm font-semibold text-white">
+										{nextEpisode.name}
+									</p>
+									<p class="text-xs text-neutral-400">
+										Season {season} Episode {nextEpisode.episode_number}
+									</p>
+								</div>
+								<PlayIcon class="h-6 w-6 shrink-0 text-gold-400 transition-all group-hover:scale-110" weight="fill" />
+							</button>
+						</div>
+					{/if}
+
 					<div class="flex flex-wrap items-center justify-between gap-3 pt-4">
 						<div class="flex items-center gap-2">
 							<span class="text-xs font-medium text-neutral-500">Server:</span>

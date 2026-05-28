@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { MagnifyingGlassIcon, ShuffleIcon, PlayIcon, InfoIcon, HouseIcon } from 'phosphor-svelte';
+	import { MagnifyingGlassIcon, ShuffleIcon, PlayIcon, InfoIcon, HouseIcon, CardsThreeIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
 
@@ -25,7 +25,8 @@
 	const navLinks = [
 		{ href: '/browse', label: 'Search', Icon: MagnifyingGlassIcon },
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
-		{ href: '/about', label: 'About', Icon: InfoIcon}
+		{href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
+		{ href: '/about', label: 'About', Icon: InfoIcon }
 	];
 </script>
 
@@ -69,7 +70,7 @@
 				onclick={goRandom}
 				class="flex items-center gap-2 rounded-xl bg-gold-500/20 px-4 py-2 text-sm font-medium text-gold-400 transition-all duration-300 hover:bg-gold-500/30 hover:text-gold-300 active:scale-95"
 			>
-				<ShuffleIcon class="h-4.5 w-4.5 text-white" weight="fill" />
+				<ShuffleIcon class="h-4.5 w-4.5" weight="fill" />
 				<span>Random</span>
 			</button>
 		</div>
@@ -88,7 +89,7 @@
 <!-- ─── Mobile bottom tab bar ─── -->
 <nav class="fixed inset-x-0 bottom-0 z-50 md:hidden">
 	<!-- Frosted glass bar -->
-	<div class="border-t border-white/[0.06] bg-surface-950/90 backdrop-blur-xl">
+	<div class="border-t border-white/6 bg-surface-950/90 backdrop-blur-xl">
 		<div
 			class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]"
 		>
@@ -121,4 +122,4 @@
 </nav>
 
 <!-- Spacer so content isn't hidden behind bottom bar on mobile -->
-<div class="h-16 md:hidden" aria-hidden="true" />
+<div class="h-16 md:hidden" aria-hidden="true"></div>

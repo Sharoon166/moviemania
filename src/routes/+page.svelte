@@ -36,6 +36,8 @@
 
 {#if heroItems.length > 0 && browser}
 	<Hero items={heroItems} />
+{:else}
+	<div class="bg-background min-h-[94dvh] animate-pulse"></div>
 {/if}
 
 <div class="mx-auto max-w-7xl space-y-10 pt-8 pb-12">

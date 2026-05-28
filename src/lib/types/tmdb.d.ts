@@ -14,7 +14,6 @@ export interface TmdbMovie {
 	adult: boolean;
 	video: boolean;
 }
-
 export interface TmdbTvShow {
 	id: number;
 	name: string;
@@ -30,7 +29,6 @@ export interface TmdbTvShow {
 	media_type: 'tv';
 	adult: boolean;
 }
-
 export interface TmdbPerson {
 	id: number;
 	name: string;
@@ -39,21 +37,17 @@ export interface TmdbPerson {
 	popularity: number;
 	media_type: 'person';
 }
-
 export type TmdbMedia = TmdbMovie | TmdbTvShow | TmdbPerson;
-
 export interface TmdbPaginatedResponse<T> {
 	page: number;
 	results: T[];
 	total_pages: number;
 	total_results: number;
 }
-
 export interface TmdbGenre {
 	id: number;
 	name: string;
 }
-
 export interface TmdbVideo {
 	id: string;
 	key: string;
@@ -62,13 +56,11 @@ export interface TmdbVideo {
 	type: string;
 	official: boolean;
 }
-
 export interface TmdbCredit {
 	id: number;
 	cast: TmdbCastMember[];
 	crew: TmdbCrewMember[];
 }
-
 export interface TmdbCastMember {
 	id: number;
 	name: string;
@@ -76,7 +68,6 @@ export interface TmdbCastMember {
 	profile_path: string | null;
 	order: number;
 }
-
 export interface TmdbCrewMember {
 	id: number;
 	name: string;
@@ -84,7 +75,6 @@ export interface TmdbCrewMember {
 	department: string;
 	profile_path: string | null;
 }
-
 export interface TmdbSeason {
 	id: number;
 	name: string;
@@ -94,7 +84,6 @@ export interface TmdbSeason {
 	air_date: string | null;
 	overview: string;
 }
-
 export interface TmdbEpisode {
 	id: number;
 	name: string;
@@ -105,7 +94,6 @@ export interface TmdbEpisode {
 	season_number: number;
 	vote_average: number;
 }
-
 export interface TmdbSeasonDetail {
 	id: number;
 	name: string;
@@ -116,18 +104,47 @@ export interface TmdbSeasonDetail {
 	episodes: TmdbEpisode[];
 }
 
+export interface TmdbImage {
+	file_path: string;
+	width: number;
+	height: number;
+	vote_average: number;
+	aspect_ratio: number;
+}
+
+export interface TmdbCollectionPart extends Omit<TmdbMovie, 'genre_ids'> {
+	genre_ids?: number[];
+}
+
+export interface TmdbCollection {
+	id: number;
+	name: string;
+	overview: string;
+	poster_path: string | null;
+	backdrop_path: string | null;
+	parts: TmdbCollectionPart[];
+}
+
+export interface TmdbBelongsToCollection {
+	id: number;
+	name: string;
+	poster_path: string | null;
+	backdrop_path: string | null;
+}
+
 export interface TmdbMovieDetail extends Omit<TmdbMovie, 'genre_ids'> {
 	genres: TmdbGenre[];
 	runtime: number;
 	tagline: string;
 	budget: number;
 	revenue: number;
+	belongs_to_collection: TmdbBelongsToCollection | null;
 	credits: TmdbCredit;
 	videos: { results: TmdbVideo[] };
+	images: { backdrops: TmdbImage[]; posters: TmdbImage[] };
 	recommendations: TmdbPaginatedResponse<TmdbMovie>;
 	similar: TmdbPaginatedResponse<TmdbMovie>;
 }
-
 export interface TmdbTvDetail extends Omit<TmdbTvShow, 'genre_ids'> {
 	genres: TmdbGenre[];
 	seasons: TmdbSeason[];
@@ -136,6 +153,16 @@ export interface TmdbTvDetail extends Omit<TmdbTvShow, 'genre_ids'> {
 	number_of_episodes: number;
 	credits: TmdbCredit;
 	videos: { results: TmdbVideo[] };
+	images: { backdrops: TmdbImage[]; posters: TmdbImage[] };
 	recommendations: TmdbPaginatedResponse<TmdbMovie>;
 	similar: TmdbPaginatedResponse<TmdbMovie>;
+}
+
+export interface TmdbCollectionSummary {
+	id: number;
+	name: string;
+	poster_path: string | null;
+	backdrop_path: string | null;
+	overview: string;
+	parts_count?: number;
 }
