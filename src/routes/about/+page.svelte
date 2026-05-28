@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GithubLogo, Globe } from 'phosphor-svelte';
+	import { GithubLogoIcon, GlobeIcon } from 'phosphor-svelte';
 </script>
 
 <svelte:head>
@@ -14,19 +14,19 @@
 
 		<div class="space-y-12 text-neutral-400">
 			<p class="text-lg leading-relaxed">
-				A personal streaming platform for movies and TV shows. Built for myself to watch content
-				in a clean, distraction-free environment.
+				A personal streaming platform for movies and TV shows. Built for myself to watch content in
+				a clean, distraction-free environment.
 			</p>
 
 			<div class="space-y-4">
-				<h2 class="text-sm font-medium uppercase tracking-wider text-neutral-500">Stack</h2>
+				<h2 class="text-sm font-medium tracking-wider text-neutral-500 uppercase">Stack</h2>
 				<p class="leading-relaxed">
 					SvelteKit, TypeScript, TailwindCSS. Content metadata from TMDB.
 				</p>
 			</div>
 
 			<div class="space-y-4">
-				<h2 class="text-sm font-medium uppercase tracking-wider text-neutral-500">Developer</h2>
+				<h2 class="text-sm font-medium tracking-wider text-neutral-500 uppercase">Developer</h2>
 				<p class="leading-relaxed">Sharoon Shaleem</p>
 				<div class="flex gap-4">
 					<a
@@ -35,16 +35,16 @@
 						rel="noopener noreferrer"
 						class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white"
 					>
-						<Globe class="h-4 w-4" />
+						<GlobeIcon class="h-4 w-4" />
 						Portfolio
 					</a>
 					<a
-						href="https://github.com/sharoon"
+						href="https://github.com/sharoon166"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white"
 					>
-						<GithubLogo class="h-4 w-4" />
+						<GithubLogoIcon class="h-4 w-4" />
 						GitHub
 					</a>
 				</div>

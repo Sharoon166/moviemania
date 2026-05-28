@@ -30,8 +30,12 @@
 	let heroItems = $derived(trending.data?.results ?? []);
 </script>
 
+<svelte:head>
+	<title>Moviemania</title>
+</svelte:head>
+
 {#if heroItems.length > 0 && browser}
-	<Hero item={heroItems[0]} />
+	<Hero items={heroItems} />
 {/if}
 
 <div class="mx-auto max-w-7xl space-y-10 pt-8 pb-12">

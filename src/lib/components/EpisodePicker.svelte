@@ -2,7 +2,7 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb } from '$lib/api/tmdb';
 	import { cn } from '$lib/cn';
-	import { CaretDown, Play } from 'phosphor-svelte';
+	import { CaretDownIcon, PlayIcon } from 'phosphor-svelte';
 
 	let {
 		tvId,
@@ -58,7 +58,7 @@
 		<span class="text-neutral-400">S</span><span class="font-medium">{season}</span>
 		<span class="text-neutral-500">/</span>
 		<span class="text-neutral-400">E</span><span class="font-medium">{episode}</span>
-		<CaretDown
+		<CaretDownIcon
 			class={cn('h-4 w-4 text-neutral-500 transition-transform duration-300', open && 'rotate-180')}
 			weight="bold"
 		/>
@@ -115,7 +115,7 @@
 								)}
 							>
 								{#if episode === ep.episode_number}
-									<Play class="h-3.5 w-3.5" weight="fill" />
+									<PlayIcon class="h-3.5 w-3.5" weight="fill" />
 								{:else}
 									{ep.episode_number}
 								{/if}

@@ -2,11 +2,7 @@
 	import { onMount } from 'svelte';
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbMovie, TmdbTvShow, TmdbVideo } from '$lib/types/tmdb.d';
-	import {
-		PlayCircleIcon,
-		SpeakerSlashIcon,
-		SpeakerHighIcon
-	} from 'phosphor-svelte';
+	import { PlayCircleIcon, SpeakerSlashIcon, SpeakerHighIcon } from 'phosphor-svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 
 	const EXPAND_BASE_ITEMS = 10;

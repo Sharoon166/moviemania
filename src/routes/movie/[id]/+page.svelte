@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
-	import { Star, PlayCircle, Clock, Calendar, TrendUp, Download } from 'phosphor-svelte';
+	import { StarIcon, PlayCircleIcon, ClockIcon, CalendarIcon, TrendUpIcon, DownloadIcon } from 'phosphor-svelte';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
 
@@ -57,22 +57,22 @@
 
 				<div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-neutral-400">
 					<span class="flex items-center gap-1.5">
-						<Star class="h-4 w-4 text-gold-400" weight="fill" />
+						<StarIcon class="h-4 w-4 text-gold-400" weight="fill" />
 						<span class="font-semibold text-gold-400">{movie.data.vote_average.toFixed(1)}</span>
 						<span class="text-neutral-500">/ 10</span>
 					</span>
 					<span class="flex items-center gap-1.5">
-						<Calendar class="h-4 w-4" />
+						<CalendarIcon class="h-4 w-4" />
 						{movie.data.release_date?.slice(0, 4)}
 					</span>
 					{#if movie.data.runtime}
 						<span class="flex items-center gap-1.5">
-							<Clock class="h-4 w-4" />
+							<ClockIcon class="h-4 w-4" />
 							{movie.data.runtime} min
 						</span>
 					{/if}
 					<span class="flex items-center gap-1.5">
-						<TrendUp class="h-4 w-4" />
+						<TrendUpIcon class="h-4 w-4" />
 						{movie.data.popularity.toFixed(0)}
 					</span>
 				</div>
@@ -97,7 +97,7 @@
 						href={`/watch/movie/${movie.data.id}`}
 						class="flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
 					>
-						<PlayCircle class="h-5 w-5" weight="fill" />
+						<PlayCircleIcon class="h-5 w-5" weight="fill" />
 						Watch Now
 					</a>
 					{#if video}
@@ -107,7 +107,7 @@
 							}}
 							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
 						>
-							<PlayCircle class="h-5 w-5" />
+							<PlayCircleIcon class="h-5 w-5" />
 							Trailer
 						</button>
 					{/if}
@@ -117,7 +117,7 @@
 						rel="noopener noreferrer"
 						class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
 					>
-						<Download class="h-5 w-5" />
+						<DownloadIcon class="h-5 w-5" />
 						Download
 					</a>
 				</div>

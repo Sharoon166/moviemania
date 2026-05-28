@@ -3,7 +3,7 @@
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbGenre, TmdbMovie, TmdbTvShow } from '$lib/types/tmdb.d';
 	import Tile from '$lib/components/Tile.svelte';
-	import { MagnifyingGlass, X, Spinner } from 'phosphor-svelte';
+	import { MagnifyingGlassIcon, XIcon, SpinnerIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 
 	let q = $state('');
@@ -26,34 +26,6 @@
 		}
 	}));
 
-	// $effect(() => {
-	// 	const term = q; // track q directly — Svelte 5 sees this as a dependency
-
-	// 	loading = true;
-	// 	error = '';
-	// 	results = [];
-	// 	totalPages = 0;
-
-	// 	const timer = setTimeout(
-	// 		async () => {
-	// 			try {
-	// 				const searchTerm = term.length >= 2 ? term : '';
-	// 				const res = searchTerm
-	// 					? await tmdb.search.multi(searchTerm)
-	// 					: await tmdb.trending.all('week');
-	// 				results = res.results;
-	// 				totalPages = res.total_pages;
-	// 			} catch (e) {
-	// 				error = e instanceof Error ? e.message : 'Search failed';
-	// 			} finally {
-	// 				loading = false;
-	// 			}
-	// 		},
-	// 		term.length >= 2 ? 300 : 0
-	// 	);
-
-	// 	return () => clearTimeout(timer);
-	// });
 	$effect(() => {
 		const term = q;
 		const genres = selectedGenres;
@@ -209,78 +181,80 @@
 </script>
 
 <div class="mx-auto max-w-7xl space-y-6 pt-24 pb-12">
-	<div class="sticky top-16 z-40 bg-surface-950 px-4 pb-4 md:px-8">
-		<div class="relative flex-1">
-			<MagnifyingGlass
-				class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-neutral-500"
-			/>
-			<input
-				bind:value={q}
-				placeholder="Search movies & TV..."
-				class="w-full rounded-2xl border border-white/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-white placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
-			/>
-		</div>
-	</div>
-
-	<div class="sticky top-32 z-40 bg-surface-950 px-4 pb-2 md:px-8">
-		<div class="flex items-center gap-2 overflow-x-auto pb-2" style="scrollbar-width: none;">
-			<div class="flex rounded-xl border border-white/10 bg-surface-800 p-0.5">
-				<button
-					onclick={() => (mediaFilter = 'all')}
-					class={cn(
-						'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
-						mediaFilter === 'all'
-							? 'bg-gold-500/20 text-gold-400'
-							: 'text-neutral-400 hover:text-white'
-					)}>All</button
-				>
-				<button
-					onclick={() => (mediaFilter = 'movie')}
-					class={cn(
-						'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
-						mediaFilter === 'movie'
-							? 'bg-gold-500/20 text-gold-400'
-							: 'text-neutral-400 hover:text-white'
-					)}>Movies</button
-				>
-				<button
-					onclick={() => (mediaFilter = 'tv')}
-					class={cn(
-						'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
-						mediaFilter === 'tv'
-							? 'bg-gold-500/20 text-gold-400'
-							: 'text-neutral-400 hover:text-white'
-					)}>TV</button
-				>
+	<div class="sticky top-16 z-40 space-y-4 bg-surface-950 px-4 py-8">
+		<div>
+			<div class="relative flex-1">
+				<MagnifyingGlassIcon
+					class="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-neutral-500"
+				/>
+				<input
+					bind:value={q}
+					placeholder="Search movies & TV..."
+					class="w-full rounded-2xl border border-white/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-white placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
+				/>
 			</div>
+		</div>
 
-			<div class="h-5 w-px bg-white/10"></div>
-
-			{#if genres.data}
-				{#each genres.data as genre (genre.id)}
+		<div>
+			<div class="flex items-center gap-2 overflow-x-auto pb-2" style="scrollbar-width: none;">
+				<div class="flex rounded-xl border border-white/10 bg-surface-800 p-0.5">
 					<button
-						onclick={() => toggleGenre(genre.id)}
+						onclick={() => (mediaFilter = 'all')}
 						class={cn(
-							'rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
-							selectedGenres.includes(genre.id)
-								? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-								: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
-						)}
+							'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
+							mediaFilter === 'all'
+								? 'bg-gold-500/20 text-gold-400'
+								: 'text-neutral-400 hover:text-white'
+						)}>All</button
 					>
-						{genre.name}
-					</button>
-				{/each}
-			{/if}
+					<button
+						onclick={() => (mediaFilter = 'movie')}
+						class={cn(
+							'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
+							mediaFilter === 'movie'
+								? 'bg-gold-500/20 text-gold-400'
+								: 'text-neutral-400 hover:text-white'
+						)}>Movies</button
+					>
+					<button
+						onclick={() => (mediaFilter = 'tv')}
+						class={cn(
+							'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
+							mediaFilter === 'tv'
+								? 'bg-gold-500/20 text-gold-400'
+								: 'text-neutral-400 hover:text-white'
+						)}>TV</button
+					>
+				</div>
 
-			{#if selectedGenres.length > 0}
-				<button
-					onclick={() => (selectedGenres = [])}
-					class="flex items-center gap-1 rounded-lg bg-surface-800 px-3 py-1.5 text-xs text-neutral-500 transition-all hover:text-white"
-				>
-					<X class="h-3 w-3" />
-					Clear
-				</button>
-			{/if}
+				<div class="h-5 w-px bg-white/10"></div>
+
+				{#if genres.data}
+					{#each genres.data as genre (genre.id)}
+						<button
+							onclick={() => toggleGenre(genre.id)}
+							class={cn(
+								'rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
+								selectedGenres.includes(genre.id)
+									? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
+									: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
+							)}
+						>
+							{genre.name}
+						</button>
+					{/each}
+				{/if}
+
+				{#if selectedGenres.length > 0}
+					<button
+						onclick={() => (selectedGenres = [])}
+						class="flex items-center gap-1 rounded-lg bg-surface-800 px-3 py-1.5 text-xs text-neutral-500 transition-all hover:text-white"
+					>
+						<XIcon class="h-3 w-3" />
+						Clear
+					</button>
+				{/if}
+			</div>
 		</div>
 	</div>
 
@@ -290,7 +264,7 @@
 		</div>
 	{:else if loading}
 		<div class="flex items-center justify-center px-4 py-16">
-			<Spinner class="h-6 w-6 animate-spin text-neutral-500" />
+			<SpinnerIcon class="h-6 w-6 animate-spin text-neutral-500" />
 		</div>
 	{:else if filtered.length > 0}
 		<div class="space-y-4 px-4 md:px-8">
@@ -306,7 +280,7 @@
 		</div>
 
 		{#if totalPages > 1}
-			<div class="flex justify-center px-4">
+			<div class="flex justify-center px-4 max-md:pb-8">
 				<button
 					onclick={loadMore}
 					disabled={loadingMore}

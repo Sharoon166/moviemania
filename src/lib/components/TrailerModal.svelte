@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { X } from 'phosphor-svelte';
+	import { XIcon } from 'phosphor-svelte';
 
 	let {
 		videoKey,
@@ -63,7 +63,7 @@
 				onclick={close}
 				class="absolute top-3 right-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 active:scale-90"
 			>
-				<X class="h-5 w-5" weight="bold" />
+				<XIcon class="h-5 w-5" weight="bold" />
 			</button>
 			<iframe
 				src={`https://www.youtube.com/embed/${videoKey}?autoplay=1&rel=0`}

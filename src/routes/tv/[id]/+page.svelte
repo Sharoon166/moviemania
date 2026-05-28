@@ -2,7 +2,7 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
 	import {
-		Star,
+		StarIcon,
 		PlayCircleIcon,
 		CalendarIcon,
 		TelevisionIcon,
@@ -66,7 +66,7 @@
 
 				<div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-neutral-400">
 					<span class="flex items-center gap-1.5">
-						<Star class="h-4 w-4 text-gold-400" weight="fill" />
+						<StarIcon class="h-4 w-4 text-gold-400" weight="fill" />
 						<span class="font-semibold text-gold-400">{show.data.vote_average.toFixed(1)}</span>
 						<span class="text-neutral-500">/ 10</span>
 					</span>
@@ -96,7 +96,7 @@
 
 				<div class="flex flex-wrap gap-3 pt-2">
 					<a
-						href={`/watch/tv/${show.data.id}`}
+						href={`/watch/tv/${show.data.id}?season=1&episode=1`}
 						class="flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
 					>
 						<PlayCircleIcon class="h-5 w-5" weight="fill" />

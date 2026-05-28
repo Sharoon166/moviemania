@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContinueWatching, removeContinueWatching } from '$lib/stores/continue-watching';
 	import { tmdb } from '$lib/api/tmdb';
-	import { X, Play, Clock } from 'phosphor-svelte';
+	import { XIcon, PlayIcon, ClockIcon } from 'phosphor-svelte';
 
 	let items = $state(getContinueWatching());
 
@@ -19,7 +19,7 @@
 		<div class="flex gap-3 overflow-x-auto pb-4" style="scrollbar-width: none;">
 			{#each items as item (item.id)}
 				<a
-					href={item.mediaType === 'movie' ? `/watch/movie/${item.id}` : `/watch/tv/${item.id}`}
+					href={item.mediaType === 'movie' ? `/watch/movie/${item.id}` : `/watch/tv/${item.id}?season=${item.season ?? 1}&episode=${item.episode ?? 1}`}
 					class="group relative w-[180px] shrink-0 overflow-hidden rounded-xl bg-surface-800 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/50"
 				>
 					<div class="aspect-[2/3] w-full overflow-hidden">
@@ -36,7 +36,7 @@
 					>
 						<p class="truncate text-sm font-semibold text-white">{item.title}</p>
 						<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">
-							<Clock class="h-3 w-3" />
+							<ClockIcon class="h-3 w-3" />
 							<span>{Math.round(item.progress)}%</span>
 							{#if item.season}
 								<span class="text-surface-600">&middot;</span>
@@ -48,7 +48,7 @@
 					<div
 						class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 					>
-						<Play class="h-10 w-10 text-white" weight="fill" />
+						<PlayIcon class="h-10 w-10 text-white" weight="fill" />
 					</div>
 
 					<div class="absolute inset-x-0 bottom-0 h-1 bg-surface-700">
@@ -67,7 +67,7 @@
 						}}
 						class="absolute top-2 right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100 hover:bg-white/20"
 					>
-						<X class="h-3 w-3" weight="bold" />
+						<XIcon class="h-3 w-3" weight="bold" />
 					</button>
 				</a>
 			{/each}

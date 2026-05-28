@@ -3,13 +3,13 @@
 	import { tmdb } from '$lib/api/tmdb';
 	import { cn } from '$lib/cn';
 	import {
-		CaretUp,
-		CaretDown,
-		Play,
-		List,
-		ArrowsDownUp,
-		MagnifyingGlass,
-		Star
+		CaretUpIcon,
+		CaretDownIcon,
+		ListIcon,
+		ArrowsDownUpIcon,
+		MagnifyingGlassIcon,
+		StarIcon,
+		PlayIcon
 	} from 'phosphor-svelte';
 
 	let {
@@ -139,9 +139,9 @@
 		</div>
 		<div class="ml-4">
 			{#if isExpanded}
-				<CaretUp class="h-5 w-5 text-neutral-400" weight="bold" />
+				<CaretUpIcon class="h-5 w-5 text-neutral-400" weight="bold" />
 			{:else}
-				<CaretDown class="h-5 w-5 text-neutral-400" weight="bold" />
+				<CaretDownIcon class="h-5 w-5 text-neutral-400" weight="bold" />
 			{/if}
 		</div>
 	</button>
@@ -153,7 +153,7 @@
 			<div class="space-y-3 border-b border-white/10 px-4 py-3">
 				<!-- Search Bar -->
 				<div class="relative">
-					<MagnifyingGlass
+					<MagnifyingGlassIcon
 						class="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-500"
 						weight="bold"
 					/>
@@ -161,7 +161,7 @@
 						type="text"
 						bind:value={searchQuery}
 						placeholder="Search Episode"
-						class="w-full rounded-lg border border-white/10 bg-surface-800 py-2.5 pr-3 pl-10 text-sm text-white placeholder-neutral-500 transition-all focus:border-gold-500/30 focus:outline-none focus:ring-1 focus:ring-gold-500/30"
+						class="w-full rounded-lg border border-white/10 bg-surface-800 py-2.5 pr-3 pl-10 text-sm text-white placeholder-neutral-500 transition-all focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30 focus:outline-none"
 					/>
 				</div>
 
@@ -172,11 +172,13 @@
 						class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-surface-700"
 						title={sortOrder === 'asc' ? 'Sort descending' : 'Sort ascending'}
 					>
-						<ArrowsDownUp class="h-3.5 w-3.5" weight="bold" />
+						<ArrowsDownUpIcon class="h-3.5 w-3.5" weight="bold" />
 					</button>
 
-					<div class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2">
-						<List class="h-3.5 w-3.5 text-neutral-500" weight="bold" />
+					<div
+						class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2"
+					>
+						<ListIcon class="h-3.5 w-3.5 text-neutral-500" weight="bold" />
 						<span class="text-xs font-medium text-neutral-400">Season</span>
 					</div>
 
@@ -226,7 +228,7 @@
 												<div
 													class="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-[1px]"
 												>
-													<Play class="h-5 w-5 text-white" weight="fill" />
+													<PlayIcon class="h-5 w-5 text-white" weight="fill" />
 												</div>
 											{/if}
 										</div>
@@ -254,7 +256,7 @@
 								<div class="min-w-0 flex-1">
 									<h4
 										class={cn(
-											'line-clamp-2 text-sm font-medium leading-snug',
+											'line-clamp-2 text-sm leading-snug font-medium',
 											isActive ? 'text-white' : 'text-neutral-200 group-hover:text-white'
 										)}
 									>
@@ -264,7 +266,7 @@
 									<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">
 										{#if ep.vote_average > 0}
 											<div class="flex items-center gap-1">
-												<Star class="h-3 w-3 text-gold-500" weight="fill" />
+												<StarIcon class="h-3 w-3 text-gold-500" weight="fill" />
 												<span>{ep.vote_average.toFixed(1)}</span>
 											</div>
 											<span>•</span>
@@ -284,8 +286,8 @@
 						{/each}
 
 						{#if filteredEpisodes().length === 0}
-							<div class="flex flex-col items-center justify-center gap-2 py-12 px-4 text-center">
-								<MagnifyingGlass class="h-8 w-8 text-neutral-600" />
+							<div class="flex flex-col items-center justify-center gap-2 px-4 py-12 text-center">
+								<MagnifyingGlassIcon class="h-8 w-8 text-neutral-600" />
 								<p class="text-sm text-neutral-400">No episodes found</p>
 								<button
 									onclick={() => (searchQuery = '')}
@@ -303,7 +305,7 @@
 						></div>
 					</div>
 				{:else if seasonDetail.isError}
-					<div class="flex flex-col items-center justify-center gap-2 py-12 px-4 text-center">
+					<div class="flex flex-col items-center justify-center gap-2 px-4 py-12 text-center">
 						<p class="text-sm text-neutral-400">Failed to load episodes</p>
 						<button
 							onclick={() => seasonDetail.refetch()}

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
-	import { ArrowLeft, Play, FilmSlate, Download } from 'phosphor-svelte';
+	import { browser } from '$app/environment';
+	import { PlayIcon, FilmSlateIcon, DownloadIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { upsertContinueWatching } from '$lib/stores/continue-watching';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
@@ -31,7 +32,20 @@
 	function handleEpisodeChange(s: number, e: number) {
 		season = s;
 		episode = e;
+		if (browser) {
+			const url = new URL(window.location.href);
+			url.searchParams.set('season', String(s));
+			url.searchParams.set('episode', String(e));
+			window.history.replaceState({}, '', url.toString());
+		}
 	}
+
+	$effect(() => {
+		if (!browser) return;
+		const sp = new URL(window.location.href).searchParams;
+		season = Number(sp.get('season')) || 1;
+		episode = Number(sp.get('episode')) || 1;
+	});
 
 	$effect(() => {
 		if (!show.data) return;
@@ -54,7 +68,7 @@
 {#if show.data}
 	<div class="relative flex min-h-screen flex-col bg-black">
 		<div class="flex flex-col items-center pt-20 pb-8">
-			<div class="w-full max-w-5xl mx-auto px-4">
+			<div class="mx-auto w-full max-w-5xl px-4">
 				<div class="flex flex-wrap items-center gap-2 pb-4">
 					<button
 						onclick={() => (source = 'embed')}
@@ -65,7 +79,7 @@
 								: 'text-neutral-400 hover:text-white'
 						)}
 					>
-						<FilmSlate class="h-4 w-4" />
+						<FilmSlateIcon class="h-4 w-4" />
 						Watch Now
 					</button>
 					{#if video}
@@ -78,7 +92,7 @@
 									: 'text-neutral-400 hover:text-white'
 							)}
 						>
-							<Play class="h-4 w-4" />
+							<PlayIcon class="h-4 w-4" />
 							Trailer
 						</button>
 					{/if}
@@ -171,7 +185,7 @@
 							rel="noopener noreferrer"
 							class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
 						>
-							<Download class="h-3.5 w-3.5" />
+							<DownloadIcon class="h-3.5 w-3.5" />
 							Download
 						</a>
 					</div>

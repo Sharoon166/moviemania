@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TmdbMovie, TmdbTvShow } from '$lib/types/tmdb.d';
-	import { CaretLeft, CaretRight } from 'phosphor-svelte';
+	import { CaretLeftIcon, CaretRightIcon } from 'phosphor-svelte';
 	import Tile from './Tile.svelte';
 
 	let { items, title }: { items: (TmdbMovie | TmdbTvShow)[]; title: string } = $props();
@@ -37,14 +37,14 @@
 				class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-neutral-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-90 disabled:cursor-not-allowed disabled:opacity-20"
 				disabled={!canScrollLeft}
 			>
-				<CaretLeft class="h-4 w-4" weight="bold" />
+				<CaretLeftIcon class="h-4 w-4" weight="bold" />
 			</button>
 			<button
 				onclick={() => scroll(400)}
 				class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-neutral-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-90 disabled:cursor-not-allowed disabled:opacity-20"
 				disabled={!canScrollRight}
 			>
-				<CaretRight class="h-4 w-4" weight="bold" />
+				<CaretRightIcon class="h-4 w-4" weight="bold" />
 			</button>
 		</div>
 	</div>
