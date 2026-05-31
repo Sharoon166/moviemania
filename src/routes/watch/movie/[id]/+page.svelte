@@ -5,6 +5,9 @@
 	import { cn } from '$lib/cn';
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
+	import { untrack } from 'svelte';
+	import WatchlistButton from '$lib/components/WatchlistButton.svelte';
+	import ServerPicker from '$lib/components/ServerPicker.svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -16,7 +19,6 @@
 
 	let source = $state<'embed' | 'trailer'>('embed');
 	let server = $state(getPreferredServer());
-	let serverOpen = $state(false);
 
 	let video = $derived(
 		movie.data?.videos.results.findLast((v) => v.site === 'YouTube' && v.type === 'Trailer') ??
@@ -25,12 +27,15 @@
 
 	$effect(() => {
 		if (!movie.data) return;
-		continueWatching.upsert({
-			id: movie.data.id,
-			mediaType: 'movie',
-			title: movie.data.title,
-			posterPath: movie.data.poster_path,
-			progress: 50
+		const data = movie.data;
+		untrack(() => {
+			continueWatching.upsert({
+				id: data.id,
+				mediaType: 'movie',
+				title: data.title,
+				posterPath: data.poster_path,
+				progress: 50
+			});
 		});
 	});
 </script>
@@ -97,59 +102,13 @@
 					<div class="flex flex-wrap items-center justify-between gap-3 pt-4">
 						<div class="flex items-center gap-2">
 							<span class="text-xs font-medium text-neutral-500">Server:</span>
-							<div class="relative">
-								<button
-									onclick={() => (serverOpen = !serverOpen)}
-									class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-3 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
-								>
-									{server.name}
-									<svg
-										class={cn(
-											'h-3.5 w-3.5 transition-transform duration-200',
-											serverOpen && 'rotate-180'
-										)}
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-									>
-										<path d="m6 9 6 6 6-6" />
-									</svg>
-								</button>
-								{#if serverOpen}
-									<div
-										class="fixed inset-0 z-40"
-										onclick={() => (serverOpen = false)}
-										onkeydown={(e) => e.key === 'Escape' && (serverOpen = false)}
-										role="presentation"
-									></div>
-									<div
-										class="absolute top-full left-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
-									>
-										{#each embedSources as src (src.id)}
-											<button
-												onclick={() => {
-													server = src;
-													setPreferredServer(src.id);
-													serverOpen = false;
-												}}
-												class={cn(
-													'flex w-full items-center gap-2 px-4 py-2.5 text-left text-xs font-medium transition-all duration-200 hover:bg-white/5',
-													src.id === server.id ? 'bg-gold-500/10 text-gold-400' : 'text-neutral-400'
-												)}
-											>
-												<span
-													class={cn(
-														'h-1.5 w-1.5 rounded-full',
-														src.id === server.id ? 'bg-gold-500' : 'bg-neutral-600'
-													)}
-												></span>
-												{src.name}
-											</button>
-										{/each}
-									</div>
-								{/if}
-							</div>
+							<ServerPicker
+								{server}
+								onselect={(src) => {
+									server = src;
+									setPreferredServer(src.id);
+								}}
+							/>
 						</div>
 						<a
 							href={tmdb.embed.movie(movie.data.id, server)}
@@ -167,7 +126,22 @@
 
 		<div class="mx-auto w-full max-w-5xl px-4 pb-16">
 			<div class="flex flex-col gap-3">
-				<h1 class="font-display text-2xl font-bold text-white">{movie.data.title}</h1>
+				<div class="flex items-center gap-3">
+					<h1 class="font-display text-2xl font-bold text-white">{movie.data.title}</h1>
+					<WatchlistButton
+						id={movie.data.id}
+						mediaType="movie"
+						title={movie.data.title}
+						posterPath={movie.data.poster_path}
+						genres={movie.data.genres}
+						tmdbRating={movie.data.vote_average}
+						releaseYear={movie.data.release_date
+							? Number(movie.data.release_date.slice(0, 4))
+							: null}
+						runtime={movie.data.runtime}
+						variant="icon"
+					/>
+				</div>
 				<p class="max-w-3xl text-sm leading-relaxed text-neutral-400">{movie.data.overview}</p>
 			</div>
 		</div>

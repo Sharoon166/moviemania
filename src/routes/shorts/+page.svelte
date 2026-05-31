@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbMovie, TmdbTvShow, TmdbVideo } from '$lib/types/tmdb.d';
 	import { PlayCircleIcon, SpeakerSlashIcon, SpeakerHighIcon } from 'phosphor-svelte';
@@ -188,11 +188,16 @@
 		setupIntersectionObserver();
 		loadFeed(true);
 		window.addEventListener('keydown', handleKeyboard);
+		document.querySelector('nav').style.position = 'static';
 
 		return () => {
 			observer?.disconnect();
 			window.removeEventListener('keydown', handleKeyboard);
 		};
+	});
+
+	onDestroy(() => {
+		document.querySelector('nav').style.position = 'fixed';
 	});
 </script>
 
@@ -202,7 +207,7 @@
 
 <div
 	bind:this={container}
-	class="h-screen snap-y snap-mandatory scrollbar-none overflow-x-hidden overflow-y-auto bg-black"
+	class="h-screen snap-y snap-mandatory scrollbar-none overflow-x-hidden overflow-y-auto "
 	style="-webkit-overflow-scrolling: touch"
 >
 	{#if loading && clips.length === 0}
@@ -220,7 +225,7 @@
 			<section
 				data-reel
 				data-index={index}
-				class="relative mx-auto h-screen snap-start overflow-hidden bg-black md:aspect-9/16"
+				class="relative mx-auto h-[calc(100dvh-128px)] md:h-[calc(100dvh-64px)] snap-start overflow-hidden bg-black md:aspect-9/16"
 			>
 				<!-- Video iframe - render for active and next 2 videos -->
 				{#if Math.abs(index - activeIndex) <= 2}
@@ -302,7 +307,7 @@
 
 		<!-- Keyboard shortcuts hint -->
 		<div
-			class="fixed top-20 left-4 z-30 rounded-lg bg-black/40 px-3 py-2 text-xs text-white/60 backdrop-blur-sm"
+			class="fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-white/60 backdrop-blur-sm"
 		>
 			<div>↑↓ Navigate</div>
 			<div>M Mute</div>
@@ -310,7 +315,7 @@
 
 		<!-- Attribution -->
 		<div class="fixed bottom-4 left-4 z-30">
-			<div class="rounded-xl bg-black/40 px-3 py-2 text-[11px] text-neutral-300 backdrop-blur-md">
+			<div class="rounded-xl bg-black/80 px-3 py-2 text-[11px] text-neutral-300 backdrop-blur-md">
 				Content via YouTube/TMDB
 			</div>
 		</div>

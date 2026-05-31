@@ -14,6 +14,7 @@
 	} from 'phosphor-svelte';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
+	import WatchlistButton from '$lib/components/WatchlistButton.svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -77,7 +78,9 @@
 
 {#if show.data}
 	<!-- HERO -->
-	<section class="relative flex min-h-[60vh] flex-col items-start justify-end overflow-hidden pt-32 pb-8">
+	<section
+		class="relative flex min-h-[60vh] flex-col items-start justify-end overflow-hidden pt-32 pb-8"
+	>
 		<div class="absolute inset-0">
 			<img
 				src={tmdb.image.backdrop(show.data.backdrop_path ?? '', 'original')}
@@ -86,10 +89,16 @@
 				style="filter: brightness(0.5) saturate(0.8)"
 			/>
 		</div>
-		<div class="absolute inset-0 bg-linear-to-t from-surface-950 via-surface-950/70 to-surface-950/30"></div>
-		<div class="absolute inset-0 bg-linear-to-r from-surface-950/90 via-transparent to-transparent"></div>
+		<div
+			class="absolute inset-0 bg-linear-to-t from-surface-950 via-surface-950/70 to-surface-950/30"
+		></div>
+		<div
+			class="absolute inset-0 bg-linear-to-r from-surface-950/90 via-transparent to-transparent"
+		></div>
 
-		<div class="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 md:flex-row md:px-8">
+		<div
+			class="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 md:flex-row md:px-8"
+		>
 			<div class="hidden shrink-0 md:block">
 				<img
 					src={tmdb.image.poster(show.data.poster_path ?? '', 'w342')}
@@ -114,7 +123,10 @@
 					</span>
 					<span class="flex items-center gap-1.5">
 						<TelevisionIcon class="h-4 w-4" />
-						{totalSeasons} season{totalSeasons !== 1 ? 's' : ''} &middot; {totalEpisodes} episode{totalEpisodes !== 1 ? 's' : ''}
+						{totalSeasons} season{totalSeasons !== 1 ? 's' : ''} &middot; {totalEpisodes} episode{totalEpisodes !==
+						1
+							? 's'
+							: ''}
 					</span>
 				</div>
 
@@ -122,7 +134,9 @@
 
 				<div class="flex flex-wrap gap-2">
 					{#each show.data.genres as genre (genre.id)}
-						<span class="rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-xs font-medium text-neutral-300 backdrop-blur-sm">
+						<span
+							class="rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-xs font-medium text-neutral-300 backdrop-blur-sm"
+						>
 							{genre.name}
 						</span>
 					{/each}
@@ -136,6 +150,18 @@
 						<PlayCircleIcon class="h-5 w-5" weight="fill" />
 						Watch Now
 					</a>
+					<WatchlistButton
+						id={show.data.id}
+						mediaType="tv"
+						title={show.data.name}
+						posterPath={show.data.poster_path}
+						genres={show.data.genres}
+						tmdbRating={show.data.vote_average}
+						releaseYear={show.data.first_air_date
+							? Number(show.data.first_air_date.slice(0, 4))
+							: null}
+						runtime={show.data.episode_run_time[0] ?? null}
+					/>
 					{#if video}
 						<button
 							onclick={() => (showTrailer = true)}
@@ -179,7 +205,9 @@
 							class="h-32 w-auto object-cover"
 							loading="lazy"
 						/>
-						<div class="absolute inset-0 bg-black/0 transition-all duration-300 hover:bg-black/20"></div>
+						<div
+							class="absolute inset-0 bg-black/0 transition-all duration-300 hover:bg-black/20"
+						></div>
 					</button>
 				{/each}
 			</div>
@@ -189,7 +217,10 @@
 	<!-- CAST -->
 	<section class="mx-auto max-w-7xl px-4 pb-12 md:px-8">
 		<h2 class="mb-5 font-display text-2xl font-bold text-white">Cast</h2>
-		<div class="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2" style="scrollbar-width: none;">
+		<div
+			class="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2"
+			style="scrollbar-width: none;"
+		>
 			{#each show.data.credits?.cast?.slice(0, 15) ?? [] as cast (cast.id)}
 				<div class="flex w-30 shrink-0 snap-start flex-col items-center gap-2.5 text-center">
 					<div class="overflow-hidden rounded-full ring-2 ring-white/10">
@@ -216,7 +247,10 @@
 	<!-- SEASONS -->
 	<section class="mx-auto max-w-7xl px-4 pb-12 md:px-8">
 		<h2 class="mb-5 font-display text-2xl font-bold text-white">Seasons</h2>
-		<div class="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2" style="scrollbar-width: none;">
+		<div
+			class="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2"
+			style="scrollbar-width: none;"
+		>
 			{#each show.data.seasons as season (season.id)}
 				<a
 					href={`/watch/tv/${show.data.id}?season=${season.season_number}&episode=1`}
@@ -231,12 +265,16 @@
 								loading="lazy"
 							/>
 						{:else}
-							<div class="flex aspect-2/3 w-full items-center justify-center rounded-xl bg-surface-800">
+							<div
+								class="flex aspect-2/3 w-full items-center justify-center rounded-xl bg-surface-800"
+							>
 								<TelevisionIcon class="h-10 w-10 text-surface-600" />
 							</div>
 						{/if}
 					</div>
-					<p class="text-sm font-semibold text-white group-hover:text-gold-400 transition-colors">{season.name}</p>
+					<p class="text-sm font-semibold text-white transition-colors group-hover:text-gold-400">
+						{season.name}
+					</p>
 					<p class="text-xs text-neutral-500">
 						{season.episode_count} episode{season.episode_count !== 1 ? 's' : ''}
 					</p>
@@ -278,7 +316,10 @@
 			</button>
 
 			<button
-				onclick={(e) => { e.stopPropagation(); lightboxPrev(); }}
+				onclick={(e) => {
+					e.stopPropagation();
+					lightboxPrev();
+				}}
 				class="absolute left-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-xl transition-all hover:bg-black/80"
 			>
 				<CaretLeftIcon size={20} weight="bold" />
@@ -292,19 +333,26 @@
 			/>
 
 			<button
-				onclick={(e) => { e.stopPropagation(); lightboxNext(); }}
+				onclick={(e) => {
+					e.stopPropagation();
+					lightboxNext();
+				}}
 				class="absolute right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-xl transition-all hover:bg-black/80"
 			>
 				<CaretRightIcon size={20} weight="bold" />
 			</button>
 
-			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-black/60 px-4 py-1.5 text-sm text-neutral-400 backdrop-blur-sm">
+			<div
+				class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-black/60 px-4 py-1.5 text-sm text-neutral-400 backdrop-blur-sm"
+			>
 				{lightboxIndex + 1} / {images.length}
 			</div>
 		</div>
 	{/if}
 {:else if show.isPending}
 	<div class="flex min-h-screen items-center justify-center">
-		<div class="h-10 w-10 animate-spin rounded-full border-2 border-gold-500/30 border-t-gold-500"></div>
+		<div
+			class="h-10 w-10 animate-spin rounded-full border-2 border-gold-500/30 border-t-gold-500"
+		></div>
 	</div>
 {/if}

@@ -30,18 +30,6 @@ export const embedSources: EmbedSource[] = [
 		tv: (id, s, e) => `https://vidsrc.me/embed/tv/${id}/${s}/${e}`
 	},
 	{
-		id: 'embedsu',
-		name: 'Embed.su',
-		movie: (id) => `https://embed.su/embed/movie/${id}`,
-		tv: (id, s, e) => `https://embed.su/embed/tv/${id}/${s}/${e}`
-	},
-	{
-		id: 'superembed',
-		name: 'SuperEmbed',
-		movie: (id) => `https://superembed.stream/embed/${id}`,
-		tv: (id, s, e) => `https://superembed.stream/embed/tv/${id}/${s}/${e}`
-	},
-	{
 		id: 'multiembed',
 		name: 'MultiEmbed',
 		movie: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
