@@ -8,6 +8,7 @@ export interface ContinueWatchingItem {
 	season?: number;
 	episode?: number;
 	progress: number;
+	runtime: number;
 	updatedAt?: number;
 }
 
@@ -41,6 +42,11 @@ class ContinueWatching {
 	clear() {
 		this.items = [];
 		storage.save(this.items);
+	}
+
+	reload() {
+		const data = storage.load();
+		if (data) this.items = data;
 	}
 }
 

@@ -72,15 +72,27 @@
 		episode = Number(sp.get('episode')) || 1;
 	});
 
+	let progressTimer: ReturnType<typeof setInterval> | undefined;
+
 	$effect(() => {
 		if (!show.data) return;
-		// track these explicitly
 		const s = season;
 		const e = episode;
 		const data = show.data;
 		const total = totalSeasons;
 
+		const runtime = data.episode_run_time?.[0] ?? 45;
+
 		untrack(() => {
+			continueWatching.reload();
+			const existing = continueWatching.items.find(
+				(i) => i.id === data.id && i.mediaType === 'tv'
+			);
+			const prevSeason = existing?.season;
+			const prevEpisode = existing?.episode;
+			const isNewEpisode = prevSeason !== s || prevEpisode !== e;
+			const baseProgress = isNewEpisode ? 1 : (existing?.progress ?? 1);
+
 			continueWatching.upsert({
 				id: data.id,
 				mediaType: 'tv',
@@ -88,9 +100,35 @@
 				posterPath: data.poster_path,
 				season: s,
 				episode: e,
-				progress: Math.round((s / total) * 100)
+				progress: baseProgress,
+				runtime
 			});
 		});
+
+		const intervalMs = 10_000;
+		const pctPerTick = runtime > 0 ? (intervalMs / (runtime * 60_000)) * 100 : 0.35;
+
+		progressTimer = setInterval(() => {
+			untrack(() => {
+				const current = continueWatching.items.find(
+					(i) => i.id === data.id && i.mediaType === 'tv'
+				);
+				if (!current) return;
+				const next = Math.min(current.progress + pctPerTick, 90);
+				continueWatching.upsert({
+					id: data.id,
+					mediaType: 'tv',
+					title: data.name,
+					posterPath: data.poster_path,
+					season: s,
+					episode: e,
+					progress: next,
+					runtime
+				});
+			});
+		}, intervalMs);
+
+		return () => clearInterval(progressTimer);
 	});
 </script>
 

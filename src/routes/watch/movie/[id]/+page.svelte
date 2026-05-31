@@ -25,18 +25,50 @@
 			movie.data?.videos.results[0]
 	);
 
+	let progressTimer: ReturnType<typeof setInterval> | undefined;
+
 	$effect(() => {
 		if (!movie.data) return;
 		const data = movie.data;
+
 		untrack(() => {
+			continueWatching.reload();
+			const existing = continueWatching.items.find(
+				(i) => i.id === data.id && i.mediaType === 'movie'
+			);
 			continueWatching.upsert({
 				id: data.id,
 				mediaType: 'movie',
 				title: data.title,
 				posterPath: data.poster_path,
-				progress: 50
+				progress: existing?.progress ?? 1,
+				runtime: data.runtime ?? 120
 			});
 		});
+
+		const runtime = data.runtime ?? 120;
+		const intervalMs = 10_000;
+		const pctPerTick = runtime > 0 ? (intervalMs / (runtime * 60_000)) * 100 : 0.15;
+
+		progressTimer = setInterval(() => {
+			untrack(() => {
+				const current = continueWatching.items.find(
+					(i) => i.id === data.id && i.mediaType === 'movie'
+				);
+				if (!current) return;
+				const next = Math.min(current.progress + pctPerTick, 90);
+				continueWatching.upsert({
+					id: data.id,
+					mediaType: 'movie',
+					title: data.title,
+					posterPath: data.poster_path,
+					progress: next,
+					runtime
+				});
+			});
+		}, intervalMs);
+
+		return () => clearInterval(progressTimer);
 	});
 </script>
 

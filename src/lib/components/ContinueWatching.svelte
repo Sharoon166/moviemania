@@ -1,9 +1,16 @@
 <script lang="ts">
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { tmdb } from '$lib/api/tmdb';
-	import { XIcon, PlayIcon, ClockIcon } from 'phosphor-svelte';
+	import { XIcon, PlayIcon } from 'phosphor-svelte';
+	import { browser } from '$app/environment';
 
 	let items = $derived(continueWatching.items);
+
+	$effect(() => {
+		if (!browser) return;
+		continueWatching.reload();
+	});
+
 </script>
 
 {#if items.length > 0}
@@ -28,27 +35,15 @@
 						class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
 					>
 						<p class="truncate text-sm font-semibold text-white">{item.title}</p>
-						<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">
-							<ClockIcon class="h-3 w-3" />
-							<span>{Math.round(item.progress)}%</span>
-							{#if item.season}
-								<span class="text-surface-600">&middot;</span>
-								<span>S{item.season}:E{item.episode}</span>
-							{/if}
-						</div>
+						{#if item.season}
+							<p class="mt-1 text-xs text-neutral-500">S{item.season}:E{item.episode}</p>
+						{/if}
 					</div>
 
 					<div
 						class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
 					>
 						<PlayIcon class="h-10 w-10 text-white" weight="fill" />
-					</div>
-
-					<div class="absolute inset-x-0 bottom-0 h-1 bg-surface-700">
-						<div
-							class="h-full bg-gold-500 transition-all duration-300"
-							style="width: {item.progress}%"
-						></div>
 					</div>
 
 					<button

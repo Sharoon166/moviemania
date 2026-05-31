@@ -45,7 +45,8 @@
 		{ href: '/browse', label: 'Search', Icon: MagnifyingGlassIcon },
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
 		{ href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
-		{ href: '/watchlist', label: 'Watchlist', Icon: BookmarkIcon }
+		{ href: '/about', label: 'About', Icon: InfoIcon }
+		
 	];
 </script>
 
