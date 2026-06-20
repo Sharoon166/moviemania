@@ -22,6 +22,7 @@
 
 	let showHistory = $state(false);
 	let searchFocused = $state(false);
+	let hasHistory = $derived(searchHistory.items.length > 0);
 	let sentinel = $state<HTMLElement | null>(null);
 
 	let sortOptions = [
@@ -177,14 +178,19 @@
 				/>
 				<input
 					bind:value={q}
-					onfocus={() => (searchFocused = true)}
-					onblur={() => setTimeout(() => (searchFocused = false), 200)}
-					oninput={() => (showHistory = true)}
+					onfocus={() => {
+						searchFocused = true;
+						showHistory = true;
+					}}
+					onblur={() => setTimeout(() => {
+						searchFocused = false;
+						showHistory = false;
+					}, 200)}
 					placeholder="Search movies & TV..."
 					class="w-full rounded-2xl border border-white/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-white placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
 				/>
 
-				{#if searchFocused && showHistory && searchHistory.items.length > 0 && q.length < 2}
+				{#if searchFocused && showHistory && hasHistory}
 					<div
 						class="absolute top-full left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
 					>
