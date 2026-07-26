@@ -5,6 +5,7 @@
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import Nav from '$lib/components/Nav.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import { themeStore } from '$lib/services/theme.svelte';
 	import { appSettings } from '$lib/services/app-settings.svelte';
 
@@ -33,8 +34,11 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-	<Nav />
-	<main>
-		{@render children()}
-	</main>
+	<div class="flex min-h-dvh flex-col">
+		<Nav />
+		<main class="flex-1">
+			{@render children()}
+		</main>
+		<Footer />
+	</div>
 </QueryClientProvider>

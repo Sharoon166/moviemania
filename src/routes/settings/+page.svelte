@@ -41,7 +41,7 @@
 	<title>Settings - Moviemania</title>
 </svelte:head>
 
-<main class="mx-auto max-w-2xl px-4 py-8 pb-24 md:py-16">
+<main class="mx-auto max-w-2xl px-4 pt-16 pb-8 md:pt-24 md:pb-16">
 	<h1 class="font-display text-2xl font-bold text-white mb-1">Settings</h1>
 	<p class="text-sm text-neutral-500 mb-10">Customize the look and feel of Moviemania.</p>
 
