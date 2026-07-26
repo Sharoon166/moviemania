@@ -47,7 +47,7 @@
 	class="group flex w-full flex-col gap-3 text-left"
 >
 	<div
-		class="relative aspect-2/3 overflow-hidden rounded-2xl border border-white/5 bg-surface-800 transition-all duration-300 group-hover:border-white/10 group-hover:shadow-2xl group-hover:shadow-black/40"
+		class="relative aspect-2/3 overflow- rounded-2xl border border-white/5 bg-surface-800 transition-all duration-300 group-hover:border-white/10 group-hover:shadow-2xl group-hover:shadow-black/40"
 	>
 		<!-- Background Glow -->
 		<div
@@ -61,12 +61,12 @@
 					{#each posters as poster, i (poster)}
 						<div
 							class={cn(
-								'absolute inset-0 overflow-hidden rounded-2xl border border-white/10 bg-surface-700 shadow-2xl transition-all duration-500 ease-out',
+								'absolute inset-0 overflow-hidden rounded-2xl border border-white/10 bg-surface-700 shadow-2xl transition-all duration-500 ease-out hover:z-100',
 								i === 0 && 'z-30 rotate-0 group-hover:-translate-y-1 group-hover:scale-[1.03]',
 								i === 1 &&
-									'z-20 translate-x-10 rotate-8 group-hover:translate-x-13 group-hover:-translate-y-1',
+									'z-20 translatex-10 rotate-8 group-hover:translate-x-13 group-hover:-translate-y-1',
 								i === 2 &&
-									'z-10 -translate-x-10 -rotate-8 group-hover:-translate-x-13 group-hover:-translate-y-1'
+									'z-10 -translatex-10 -rotate-8 group-hover:-translate-x-13 group-hover:-translate-y-1'
 							)}
 						>
 							<img
@@ -106,15 +106,6 @@
 			class="absolute bottom-3 left-3 z-40 rounded-full border border-white/10 bg-black/70 px-2.5 py-1 text-[11px] font-medium text-gold-400 backdrop-blur-md"
 		>
 			{filmCount} film{filmCount !== 1 ? 's' : ''}
-		</div>
-
-		<!-- Hover Content -->
-		<div
-			class="absolute top-3 right-3 left-3 z-40 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
-		>
-			<p class="truncate text-sm font-semibold text-white">
-				{collection.name}
-			</p>
 		</div>
 	</div>
 

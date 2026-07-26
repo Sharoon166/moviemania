@@ -6,7 +6,7 @@
 	<title>About - Moviemania</title>
 </svelte:head>
 
-<div class="min-h-screen bg-black pt-32 pb-24">
+<div class="min-h-screen pt-32 pb-24">
 	<div class="mx-auto max-w-2xl px-6">
 		<div class="mb-16 flex items-center gap-4">
 			<h1 class="font-display text-4xl font-bold tracking-tight text-white">About</h1>

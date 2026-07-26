@@ -105,8 +105,8 @@ export const tmdb = {
 			fetchJson<TmdbPaginatedResponse<TmdbMovie>>(`/trending/movie/${t}?page=${page}`),
 		tv: (t: 'day' | 'week' = 'week', page = 1) =>
 			fetchJson<TmdbPaginatedResponse<TmdbTvShow>>(`/trending/tv/${t}?page=${page}`),
-		all: (t: 'day' | 'week' = 'week') =>
-			fetchJson<TmdbPaginatedResponse<TmdbMovie | TmdbTvShow>>(`/trending/all/${t}`)
+		all: (t: 'day' | 'week' = 'week', page = 1) =>
+			fetchJson<TmdbPaginatedResponse<TmdbMovie | TmdbTvShow>>(`/trending/all/${t}?page=${page}`)
 	},
 	search: {
 		multi: async (q: string, p = 1) => {

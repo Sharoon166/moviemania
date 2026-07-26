@@ -133,9 +133,9 @@
 		onclick={toggleExpanded}
 		class="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-white/5"
 	>
-		<div class="flex-1">
+		<div class="max-w-full">
 			<div class="flex items-center gap-2">
-				<h3 class="font-display text-base font-bold text-white">
+				<h3 class="font-display text-base font-bold line-clamp-2 text-white">
 					{#if nextEpisode}
 						Up Next - {nextEpisode.name}
 					{:else}
@@ -158,6 +158,34 @@
 		</div>
 	</button>
 
+	<!-- Season Info Card -->
+	{#if isExpanded && seasonDetail.data}
+		{#if seasonDetail.data.poster_path || seasonDetail.data.overview}
+			<div class="border-b border-white/10 px-4 py-3">
+				<div class="flex gap-3">
+					{#if seasonDetail.data.poster_path}
+						<img
+							src={`https://image.tmdb.org/t/p/w185${seasonDetail.data.poster_path}`}
+							alt={seasonDetail.data.name}
+							class="h-28 w-20 shrink-0 rounded-lg object-cover shadow-lg ring-1 ring-white/10"
+							loading="lazy"
+						/>
+					{/if}
+					<div class="min-w-0 flex-1">
+						<h4 class="text-sm font-semibold text-white line-clamp-1">{seasonDetail.data.name}</h4>
+						{#if seasonDetail.data.overview}
+							<p class="mt-1 text-xs leading-relaxed text-neutral-400 line-clamp-4">
+								{seasonDetail.data.overview}
+							</p>
+						{:else}
+							<p class="mt-1 text-xs text-neutral-500">No description available</p>
+						{/if}
+					</div>
+				</div>
+			</div>
+		{/if}
+	{/if}
+
 	<!-- Collapsible Content -->
 	{#if isExpanded}
 		<div class="border-t border-white/10">
@@ -178,7 +206,9 @@
 				</div>
 
 				<!-- Season Selector & Sort -->
+				<div class="flex flex-col  gap-2">
 				<div class="flex items-center gap-2">
+				
 					<button
 						onclick={toggleSort}
 						class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-surface-700"
@@ -193,8 +223,9 @@
 						<ListIcon class="h-3.5 w-3.5 text-neutral-500" weight="bold" />
 						<span class="text-xs font-medium text-neutral-400">Season</span>
 					</div>
+				</div>
 
-					<div class="flex flex-1 flex-wrap gap-1.5">
+					<div class="flex flex-1 overflow-x-auto gap-1.5">
 						{#each Array(totalSeasons) as _, i (i)}
 							<button
 								onclick={() => {
@@ -202,11 +233,11 @@
 									episode = 1;
 								}}
 								class={cn(
-									'rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200',
+									'rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200 text-nowrap',
 									season === i + 1
 										? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
 										: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
-								)}>{i + 1}</button
+								)}>S {i + 1}</button
 							>
 						{/each}
 					</div>
@@ -335,7 +366,6 @@
 					<span class="text-neutral-500">
 						{filteredEpisodes.length} of {seasonDetail.data?.episodes.length ?? 0} episodes
 					</span>
-					<span class="font-medium text-neutral-400">Season {season}</span>
 				</div>
 			</div>
 		</div>

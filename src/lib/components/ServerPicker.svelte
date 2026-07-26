@@ -11,7 +11,7 @@
 	} = $props();
 </script>
 
-<div class="flex gap-1.5 overflow-x-auto" style="scrollbar-width: none;">
+<div class="flex flex-wrap gap-1.5 overflow-x-auto" style="scrollbar-width: none;">
 	{#each embedSources as src (src.id)}
 		<button
 			onclick={() => onselect(src)}

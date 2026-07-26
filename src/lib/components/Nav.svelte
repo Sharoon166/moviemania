@@ -7,7 +7,8 @@
 		InfoIcon,
 		HouseIcon,
 		CardsThreeIcon,
-		BookmarkIcon
+		BookmarkIcon,
+		GearSixIcon
 	} from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
@@ -38,6 +39,7 @@
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
 		{ href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
 		{ href: '/watchlist', label: 'Watchlist', Icon: BookmarkIcon },
+		{ href: '/settings', label: 'Settings', Icon: GearSixIcon },
 		{ href: '/about', label: 'About', Icon: InfoIcon }
 	];
 
@@ -98,7 +100,7 @@
 			</button>
 		</div>
 
-		<!-- Mobile: Watchlist icon + Random button -->
+		<!-- Mobile: Watchlist icon + Settings + Random button -->
 		<div class="flex items-center gap-2 md:hidden">
 			<a
 				href="/watchlist"
@@ -113,6 +115,16 @@
 						{watchlistCount > 99 ? '99+' : watchlistCount}
 					</span>
 				{/if}
+			</a>
+
+			<a
+				href="/settings"
+				class="flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-white/5 hover:text-white active:scale-90"
+			>
+				<GearSixIcon
+					class="h-5 w-5"
+					weight={page.url.pathname === '/settings' ? 'fill' : 'regular'}
+				/>
 			</a>
 
 			<button

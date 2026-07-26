@@ -3,12 +3,18 @@
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { queryClient } from '$lib/stores/query-client';
 	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import Nav from '$lib/components/Nav.svelte';
+	import { themeStore } from '$lib/services/theme.svelte';
 
 	let { children } = $props();
 
 	$effect(() => {
 		if (browser) import('@tanstack/svelte-query-devtools');
+	});
+
+	onMount(() => {
+		if (browser) themeStore.restoreState();
 	});
 </script>
 
@@ -16,7 +22,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@400;500;600;700;800&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Inter:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Oxanium:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Source+Code+Pro:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap"
 		rel="stylesheet"
 	/>
 	<link rel="icon" type="image/svg+xml" href="/logo.svg" />
