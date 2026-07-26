@@ -59,7 +59,7 @@
 
 <div class="mx-auto max-w-7xl px-4 pt-24 pb-16 md:px-8">
 	<!-- Header -->
-	<div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+	<div class="mb-8 flex flex-col justify-between gap-4">
 		<div class="flex items-center gap-3">
 			<BookmarkIcon class="h-6 w-6 text-gold-400" weight="fill" />
 			<h1 class="font-display text-3xl font-bold text-white">Watchlist</h1>
@@ -67,6 +67,7 @@
 				>({itemCount} {itemCount === 1 ? 'item' : 'items'})</span
 			>
 		</div>
+		<p>Everything you save is kept locally in your browser. We don't sync or store any of it on our servers.</p>
 		<div class="flex items-center gap-2">
 			<button
 				onclick={() => {

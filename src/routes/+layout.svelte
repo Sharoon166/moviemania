@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import Nav from '$lib/components/Nav.svelte';
 	import { themeStore } from '$lib/services/theme.svelte';
+	import { appSettings } from '$lib/services/app-settings.svelte';
 
 	let { children } = $props();
 
@@ -14,7 +15,10 @@
 	});
 
 	onMount(() => {
-		if (browser) themeStore.restoreState();
+		if (browser) {
+			themeStore.restoreState();
+			appSettings.load();
+		}
 	});
 </script>
 

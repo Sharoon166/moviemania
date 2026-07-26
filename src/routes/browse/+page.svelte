@@ -7,14 +7,16 @@
 	import { MagnifyingGlassIcon, XIcon, CaretDownIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { searchHistory } from '$lib/services/search-history.svelte';
+	import { appSettings } from '$lib/services/app-settings.svelte';
+	import { onMount } from 'svelte';
 
 	let q = $state('');
 	let submittedQuery = $state('');
 	let selectedGenres = $state<number[]>([]);
-	let mediaFilter = $state<'all' | 'movie' | 'tv'>('all');
+	let mediaFilter = $state<'all' | 'movie' | 'tv'>(appSettings.defaultMediaFilter);
 	let year = $state<number | ''>('');
 	let minRating = $state<number | ''>('');
-	let sortBy = $state('popularity.desc');
+	let sortBy = $state(appSettings.defaultSortBy);
 
 	let results = $state<(TmdbMovie | TmdbTvShow)[]>([]);
 	let totalPages = $state(0);
@@ -227,6 +229,12 @@
 		observer.observe(sentinel);
 		return () => observer.disconnect();
 	});
+
+	onMount(() => {
+		appSettings.load();
+		mediaFilter = appSettings.defaultMediaFilter;
+		sortBy = appSettings.defaultSortBy;
+	});
 </script>
 
 <div class="mx-auto max-w-7xl space-y-6 pt-24 pb-12">
@@ -413,7 +421,7 @@
 			<div
 				class="grid grid-cols-2 gap-3 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
 			>
-				<SkeletonTile count={18} />
+				<SkeletonTile count={appSettings.itemsPerPage} />
 			</div>
 		</div>
 	{:else if filtered.length > 0}
