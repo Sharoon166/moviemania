@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
-	import { PlayIcon, FilmSlateIcon, DownloadIcon } from 'phosphor-svelte';
+	import { browser } from '$app/environment';
+	import { PlayIcon, FilmSlateIcon, DownloadIcon, CornersOutIcon, ArrowsInIcon } from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
@@ -19,11 +20,23 @@
 
 	let source = $state<'embed' | 'trailer'>('embed');
 	let server = $state(getPreferredServer());
+	let cinemaMode = $state(false);
+	let playerWrapper = $state<HTMLElement | null>(null);
 
 	let video = $derived(
 		movie.data?.videos.results.findLast((v) => v.site === 'YouTube' && v.type === 'Trailer') ??
 			movie.data?.videos.results[0]
 	);
+
+	$effect(() => {
+		if (!browser) return;
+		if (cinemaMode) {
+			document.body.style.overflow = 'hidden';
+		}
+		return () => {
+			document.body.style.overflow = '';
+		};
+	});
 
 	let progressTimer: ReturnType<typeof setInterval> | undefined;
 
@@ -108,29 +121,58 @@
 					{/if}
 				</div>
 
+				<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<div
-					class="relative overflow-hidden rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-white/10"
+					bind:this={playerWrapper}
+					onclick={() => { if (cinemaMode) { cinemaMode = false; } }}
+					class={cn(
+						'overflow-hidden',
+						cinemaMode
+							? '!fixed !inset-0 !z-[100] !rounded-none bg-black flex flex-col items-center justify-center'
+							: 'relative rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-white/10'
+					)}
 				>
-					{#if source === 'embed'}
-						<iframe
-							src={tmdb.embed.movie(movie.data.id, server)}
-							title={movie.data.title}
-							class="aspect-video w-full"
-							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-							allowfullscreen
-						></iframe>
-					{:else if video}
-						<iframe
-							src={`https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0`}
-							title={video.name}
-							class="aspect-video w-full"
-							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-							allowfullscreen
-						></iframe>
+					<div class={cn(cinemaMode ? 'w-full max-w-[90vw] max-h-[85dvh]' : '')}>
+						<div class="relative h-full aspect-video overflow-hidden rounded-xl mx-auto">
+							{#if source === 'embed'}
+								<iframe
+									src={tmdb.embed.movie(movie.data.id, server)}
+									title={movie.data.title}
+									class="aspect-video w-full"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowfullscreen
+								></iframe>
+							{:else if video}
+								<iframe
+									src={`https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0`}
+									title={video.name}
+									class="aspect-video w-full"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowfullscreen
+								></iframe>
+							{/if}
+						</div>
+					</div>
+
+					{#if cinemaMode}
+						<div
+							class="mt-4"
+							onclick={(e) => e.stopPropagation()}
+							onkeydown={(e) => e.stopPropagation()}
+						>
+							<button
+								onclick={() => { cinemaMode = false; }}
+								class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
+							>
+								<ArrowsInIcon class="h-4 w-4" />
+								Exit Cinema
+							</button>
+						</div>
 					{/if}
 				</div>
 
-				{#if source === 'embed'}
+				{#if source === 'embed' && !cinemaMode}
 					<div class="flex flex-wrap items-center justify-between gap-3 pt-4">
 						<div class="flex items-center gap-2">
 							<span class="text-xs font-medium text-neutral-500">Server:</span>
@@ -142,20 +184,30 @@
 								}}
 							/>
 						</div>
-						<a
-							href={tmdb.embed.movie(movie.data.id, server)}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
-						>
-							<DownloadIcon class="h-3.5 w-3.5" />
-							Download
-						</a>
+						<div class="flex items-center gap-2">
+							<button
+								onclick={() => (cinemaMode = true)}
+								class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+							>
+								<CornersOutIcon class="h-3.5 w-3.5" />
+								Cinema
+							</button>
+							<a
+								href={tmdb.embed.movie(movie.data.id, server)}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+							>
+								<DownloadIcon class="h-3.5 w-3.5" />
+								Download
+							</a>
+						</div>
 					</div>
 				{/if}
 			</div>
 		</div>
 
+		{#if !cinemaMode}
 		<div class="mx-auto w-full max-w-5xl px-4 pb-16">
 			<div class="flex flex-col gap-3">
 				<div class="flex items-center gap-3">
@@ -177,6 +229,7 @@
 				<p class="max-w-3xl text-sm leading-relaxed text-neutral-400">{movie.data.overview}</p>
 			</div>
 		</div>
+		{/if}
 	</div>
 {:else if movie.isPending}
 	<div class="flex min-h-screen items-center justify-center bg-black">

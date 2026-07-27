@@ -9,13 +9,15 @@ interface AppSettingsData {
 	defaultSortBy: string;
 	itemsPerPage: number;
 	defaultServerId: string;
+	showHeatmap: boolean;
 }
 
 const defaults: AppSettingsData = {
 	defaultMediaFilter: 'all',
 	defaultSortBy: 'popularity.desc',
 	itemsPerPage: 20,
-	defaultServerId: embedSources[0].id
+	defaultServerId: embedSources[0].id,
+	showHeatmap: true
 };
 
 class AppSettings {
@@ -23,6 +25,7 @@ class AppSettings {
 	defaultSortBy = $state(defaults.defaultSortBy);
 	itemsPerPage = $state(defaults.itemsPerPage);
 	defaultServerId = $state(defaults.defaultServerId);
+	showHeatmap = $state(defaults.showHeatmap);
 
 	get defaultServer(): EmbedSource {
 		return embedSources.find((s) => s.id === this.defaultServerId) ?? embedSources[0];
@@ -38,6 +41,7 @@ class AppSettings {
 			if (data.defaultSortBy) this.defaultSortBy = data.defaultSortBy;
 			if (data.itemsPerPage) this.itemsPerPage = data.itemsPerPage;
 			if (data.defaultServerId) this.defaultServerId = data.defaultServerId;
+			if (data.showHeatmap !== undefined) this.showHeatmap = data.showHeatmap;
 		} catch {}
 	}
 
@@ -48,7 +52,8 @@ class AppSettings {
 				defaultMediaFilter: this.defaultMediaFilter,
 				defaultSortBy: this.defaultSortBy,
 				itemsPerPage: this.itemsPerPage,
-				defaultServerId: this.defaultServerId
+				defaultServerId: this.defaultServerId,
+				showHeatmap: this.showHeatmap
 			};
 			localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 		} catch {}
@@ -74,11 +79,17 @@ class AppSettings {
 		this.save();
 	}
 
+	toggleHeatmap() {
+		this.showHeatmap = !this.showHeatmap;
+		this.save();
+	}
+
 	reset() {
 		this.defaultMediaFilter = defaults.defaultMediaFilter;
 		this.defaultSortBy = defaults.defaultSortBy;
 		this.itemsPerPage = defaults.itemsPerPage;
 		this.defaultServerId = defaults.defaultServerId;
+		this.showHeatmap = defaults.showHeatmap;
 		this.save();
 	}
 }

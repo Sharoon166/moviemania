@@ -9,6 +9,7 @@
 	import { searchHistory } from '$lib/services/search-history.svelte';
 	import { appSettings } from '$lib/services/app-settings.svelte';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	let q = $state('');
 	let submittedQuery = $state('');
@@ -30,6 +31,12 @@
 	let hasHistory = $derived(searchHistory.items.length > 0);
 	let sentinel = $state<HTMLElement | null>(null);
 	let searchInput = $state<HTMLInputElement | null>(null);
+
+	type AutocompleteItem = { id: number; media_type: 'movie' | 'tv'; title: string; year: string; poster: string | null; rating: number };
+	let suggestions = $state<AutocompleteItem[]>([]);
+	let suggestionsLoading = $state(false);
+	let showSuggestions = $derived(suggestions.length > 0 || suggestionsLoading);
+	let showDropdown = $derived(searchFocused && (showHistory || showSuggestions));
 
 	let sortOptions = [
 		{ value: 'popularity.desc', label: 'Popularity' },
@@ -206,7 +213,19 @@
 		q = term;
 		submittedQuery = term;
 		showHistory = false;
+		suggestions = [];
 		searchInput?.blur();
+	}
+
+	function navigateToSuggestion(item: AutocompleteItem) {
+		suggestions = [];
+		showHistory = false;
+		searchInput?.blur();
+		if (item.media_type === 'movie') {
+			goto(`/movie/${item.id}`);
+		} else {
+			goto(`/tv/${item.id}`);
+		}
 	}
 
 	function clearAllFilters() {
@@ -235,6 +254,38 @@
 		mediaFilter = appSettings.defaultMediaFilter;
 		sortBy = appSettings.defaultSortBy;
 	});
+
+	let autocompleteTimer: ReturnType<typeof setTimeout> | null = null;
+
+	function fetchSuggestions() {
+		const query = q.trim();
+		if (autocompleteTimer) clearTimeout(autocompleteTimer);
+
+		if (query.length < 2) {
+			suggestions = [];
+			suggestionsLoading = false;
+			return;
+		}
+
+		suggestionsLoading = true;
+		autocompleteTimer = setTimeout(async () => {
+			try {
+				const res = await tmdb.search.multi(query, 1);
+				suggestions = res.results.slice(0, 6).map((item) => ({
+					id: item.id,
+					media_type: item.media_type as 'movie' | 'tv',
+					title: item.media_type === 'movie' ? (item as any).title : (item as any).name,
+					year: (item.media_type === 'movie' ? (item as any).release_date : (item as any).first_air_date)?.slice(0, 4) ?? '',
+					poster: item.poster_path,
+					rating: item.vote_average
+				}));
+			} catch {
+				suggestions = [];
+			} finally {
+				suggestionsLoading = false;
+			}
+		}, 300);
+	}
 </script>
 
 <div class="mx-auto max-w-7xl space-y-6 pt-24 pb-12">
@@ -248,14 +299,17 @@
 				<input
 					bind:this={searchInput}
 					bind:value={q}
-					onfocus={() => {
-						searchFocused = true;
-						showHistory = true;
-					}}
-					onblur={() => setTimeout(() => {
-						searchFocused = false;
-						showHistory = false;
-					}, 200)}
+					oninput={fetchSuggestions}
+				onfocus={() => {
+					searchFocused = true;
+					showHistory = true;
+					if (q.trim().length >= 2) fetchSuggestions();
+				}}
+				onblur={() => setTimeout(() => {
+					searchFocused = false;
+					showHistory = false;
+					suggestions = [];
+				}, 200)}
 					onkeydown={(e) => {
 						if (e.key === 'Enter') {
 							submittedQuery = q;
@@ -267,40 +321,89 @@
 					class="w-full rounded-2xl border border-white/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-white placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
 				/>
 
-				{#if searchFocused && showHistory && hasHistory}
+				{#if showDropdown}
 					<div
 						class="absolute top-full left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
 					>
-						<div class="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
-							<span class="text-xs font-medium text-neutral-500">Recent Searches</span>
-							<button
-								onmousedown={(e) => e.preventDefault()}
-								onclick={() => { searchHistory.clear(); showHistory = false; }}
-								class="text-xs text-gold-400 hover:text-gold-300"
-							>
-								Clear
-							</button>
-						</div>
-						{#each searchHistory.items as item (item.query + item.timestamp)}
-							<div
-								onmousedown={(e) => e.preventDefault()}
-								onclick={() => submitSearch(item.query)}
-								onkeydown={(e) => e.key === 'Enter' && submitSearch(item.query)}
-								role="button"
-								tabindex="0"
-								class="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm text-neutral-300 transition-all hover:bg-white/5 hover:text-white"
-							>
-								<MagnifyingGlassIcon class="h-3.5 w-3.5 shrink-0 text-neutral-500" />
-								<span class="truncate">{item.query}</span>
+						<!-- Recent Searches -->
+						{#if hasHistory && !q.trim()}
+							<div class="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
+								<span class="text-xs font-medium text-neutral-500">Recent Searches</span>
 								<button
 									onmousedown={(e) => e.preventDefault()}
-									onclick={(e) => { e.stopPropagation(); searchHistory.remove(item.query); }}
-									class="ml-auto shrink-0 rounded-md p-1.5 text-neutral-500 hover:bg-white/10 hover:text-white"
+									onclick={() => { searchHistory.clear(); showHistory = false; }}
+									class="text-xs text-gold-400 hover:text-gold-300"
 								>
-									<XIcon class="h-3.5 w-3.5" />
+									Clear
 								</button>
 							</div>
-						{/each}
+							{#each searchHistory.items as item (item.query + item.timestamp)}
+								<div
+									onmousedown={(e) => e.preventDefault()}
+									onclick={() => submitSearch(item.query)}
+									onkeydown={(e) => e.key === 'Enter' && submitSearch(item.query)}
+									role="button"
+									tabindex="0"
+									class="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm text-neutral-300 transition-all hover:bg-white/5 hover:text-white"
+								>
+									<MagnifyingGlassIcon class="h-3.5 w-3.5 shrink-0 text-neutral-500" />
+									<span class="truncate">{item.query}</span>
+									<button
+										onmousedown={(e) => e.preventDefault()}
+										onclick={(e) => { e.stopPropagation(); searchHistory.remove(item.query); }}
+										class="ml-auto shrink-0 rounded-md p-1.5 text-neutral-500 hover:bg-white/10 hover:text-white"
+									>
+										<XIcon class="h-3.5 w-3.5" />
+									</button>
+								</div>
+							{/each}
+						{/if}
+
+						<!-- TMDB Suggestions -->
+						{#if suggestionsLoading}
+							<div class="flex items-center gap-3 px-4 py-3">
+								<div class="h-3.5 w-3.5 animate-spin rounded-full border-2 border-gold-500/30 border-t-gold-500"></div>
+								<span class="text-xs text-neutral-500">Searching...</span>
+							</div>
+						{:else if suggestions.length > 0}
+							<div class="border-t border-white/5 px-4 py-2.5">
+								<span class="text-xs font-medium text-neutral-500">
+									{q.trim() ? 'Suggestions' : 'Popular'}
+								</span>
+							</div>
+							{#each suggestions as item (item.media_type + '-' + item.id)}
+								<button
+									onmousedown={(e) => e.preventDefault()}
+									onclick={() => navigateToSuggestion(item)}
+									class="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-all hover:bg-white/5"
+								>
+									{#if item.poster}
+										<img
+											src={tmdb.image.poster(item.poster, 'w92')}
+											alt=""
+											class="h-11 w-8 shrink-0 rounded-md object-cover"
+											loading="lazy"
+										/>
+									{:else}
+										<div class="h-11 w-8 shrink-0 rounded-md bg-surface-700"></div>
+									{/if}
+									<div class="min-w-0 flex-1">
+										<p class="truncate text-sm font-medium text-white">{item.title}</p>
+										<div class="flex items-center gap-2">
+											<span class="text-[11px] text-neutral-500">
+												{item.media_type === 'movie' ? 'Movie' : 'TV'}
+												{#if item.year}
+													&middot; {item.year}
+												{/if}
+											</span>
+											{#if item.rating > 0}
+												<span class="text-[11px] text-gold-400">{item.rating.toFixed(1)}</span>
+											{/if}
+										</div>
+									</div>
+								</button>
+							{/each}
+						{/if}
 					</div>
 				{/if}
 			</div>

@@ -14,6 +14,8 @@
 	} from 'phosphor-svelte';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
+	import EpisodeRatingsHeatmap from '$lib/components/EpisodeRatingsHeatmap.svelte';
+	import { appSettings } from '$lib/services/app-settings.svelte';
 	import WatchlistButton from '$lib/components/WatchlistButton.svelte';
 
 	let { params } = $props();
@@ -282,6 +284,11 @@
 			{/each}
 		</div>
 	</section>
+
+	<!-- RATINGS HEATMAP -->
+	{#if appSettings.showHeatmap}
+		<EpisodeRatingsHeatmap showId={show.data.id} />
+	{/if}
 
 	<!-- RECOMMENDATIONS -->
 	<section class="mx-auto max-w-7xl px-4 pb-16 md:px-8">

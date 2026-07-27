@@ -92,6 +92,16 @@
 		episode = Number(sp.get('episode')) || 1;
 	});
 
+	$effect(() => {
+		if (!browser) return;
+		if (cinemaMode) {
+			document.body.style.overflow = 'hidden';
+		}
+		return () => {
+			document.body.style.overflow = '';
+		};
+	});
+
 	let progressTimer: ReturnType<typeof setInterval> | undefined;
 
 	$effect(() => {

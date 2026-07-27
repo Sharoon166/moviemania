@@ -35,6 +35,11 @@
 	let searchQuery = $state('');
 	let sortOrder = $state<'asc' | 'desc'>('asc');
 
+	$effect(() => {
+		season = initialSeason;
+		episode = initialEpisode;
+	});
+
 	let seasonDetail = createQuery(() => ({
 		queryKey: ['tv', tvId, 'season', season],
 		queryFn: () => tmdb.season.detail(tvId, season)
