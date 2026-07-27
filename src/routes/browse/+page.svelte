@@ -21,6 +21,7 @@
 
 	let results = $state<(TmdbMovie | TmdbTvShow)[]>([]);
 	let totalPages = $state(0);
+	let totalResults = $state(0);
 	let loading = $state(false);
 	let error = $state('');
 	let loadingMore = $state(false);
@@ -32,7 +33,14 @@
 	let sentinel = $state<HTMLElement | null>(null);
 	let searchInput = $state<HTMLInputElement | null>(null);
 
-	type AutocompleteItem = { id: number; media_type: 'movie' | 'tv'; title: string; year: string; poster: string | null; rating: number };
+	type AutocompleteItem = {
+		id: number;
+		media_type: 'movie' | 'tv';
+		title: string;
+		year: string;
+		poster: string | null;
+		rating: number;
+	};
 	let suggestions = $state<AutocompleteItem[]>([]);
 	let suggestionsLoading = $state(false);
 	let showSuggestions = $derived(suggestions.length > 0 || suggestionsLoading);
@@ -98,29 +106,33 @@
 			rating: minRating || undefined,
 			sortBy: hasFilters ? sortBy : undefined
 		};
-	
+
 		const useDiscover = hasFilters || mediaFilter !== 'all' || q.length >= 2;
 		if (useDiscover) {
 			const fetchMovie = mediaFilter === 'tv' ? null : tmdb.discover.movies(opts);
 			const fetchTv = mediaFilter === 'movie' ? null : tmdb.discover.tv(opts);
-	
+
 			const [movies, tvShows] = await Promise.all([
 				fetchMovie ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 }),
 				fetchTv ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 })
 			]);
-	
+
 			// Stamp media_type explicitly — discover endpoints don't include it
 			const taggedMovies = (movies as any).results.map((m: any) => ({ ...m, media_type: 'movie' }));
 			const taggedTv = (tvShows as any).results.map((t: any) => ({ ...t, media_type: 'tv' }));
-	
+
 			const combined = [...taggedMovies, ...taggedTv].sort(
 				(a: any, b: any) => b.popularity - a.popularity
 			);
-			return { results: combined, total_pages: Math.max(movies.total_pages, tvShows.total_pages) };
+			return {
+				results: combined,
+				total_pages: Math.max(movies.total_pages, tvShows.total_pages),
+				total_results: (movies as any).total_results + (tvShows as any).total_results
+			};
 		}
-	
+
 		const res = await tmdb.trending.all('week', page);
-		return { results: res.results, total_pages: res.total_pages };
+		return { results: res.results, total_pages: res.total_pages, total_results: res.total_results };
 	}
 
 	$effect(() => {
@@ -135,6 +147,7 @@
 		error = '';
 		results = [];
 		totalPages = 0;
+		totalResults = 0;
 		currentPage = 0;
 
 		const timer = setTimeout(async () => {
@@ -145,6 +158,7 @@
 				const res = await fetchPage(1);
 				results = res.results;
 				totalPages = res.total_pages;
+				totalResults = res.total_results;
 				currentPage = 1;
 			} catch (e) {
 				error = e instanceof Error ? e.message : 'Search failed';
@@ -191,10 +205,10 @@
 		loadingMore = true;
 		try {
 			const res = await fetchPage(nextPage);
-	
+
 			const seen = new Set(results.map((r: any) => `${r.media_type}-${r.id}`));
 			const deduped = res.results.filter((r: any) => !seen.has(`${r.media_type}-${r.id}`));
-	
+
 			results = [...results, ...deduped];
 			totalPages = res.total_pages;
 			currentPage = nextPage;
@@ -202,7 +216,7 @@
 			loadingMore = false;
 		}
 	}
-	
+
 	function toggleGenre(id: number) {
 		selectedGenres = selectedGenres.includes(id)
 			? selectedGenres.filter((g) => g !== id)
@@ -275,7 +289,11 @@
 					id: item.id,
 					media_type: item.media_type as 'movie' | 'tv',
 					title: item.media_type === 'movie' ? (item as any).title : (item as any).name,
-					year: (item.media_type === 'movie' ? (item as any).release_date : (item as any).first_air_date)?.slice(0, 4) ?? '',
+					year:
+						(item.media_type === 'movie'
+							? (item as any).release_date
+							: (item as any).first_air_date
+						)?.slice(0, 4) ?? '',
 					poster: item.poster_path,
 					rating: item.vote_average
 				}));
@@ -300,16 +318,17 @@
 					bind:this={searchInput}
 					bind:value={q}
 					oninput={fetchSuggestions}
-				onfocus={() => {
-					searchFocused = true;
-					showHistory = true;
-					if (q.trim().length >= 2) fetchSuggestions();
-				}}
-				onblur={() => setTimeout(() => {
-					searchFocused = false;
-					showHistory = false;
-					suggestions = [];
-				}, 200)}
+					onfocus={() => {
+						searchFocused = true;
+						showHistory = true;
+						if (q.trim().length >= 2) fetchSuggestions();
+					}}
+					onblur={() =>
+						setTimeout(() => {
+							searchFocused = false;
+							showHistory = false;
+							suggestions = [];
+						}, 200)}
 					onkeydown={(e) => {
 						if (e.key === 'Enter') {
 							submittedQuery = q;
@@ -323,7 +342,7 @@
 
 				{#if showDropdown}
 					<div
-						class="absolute top-full left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
+						class="absolute top-full right-0 left-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
 					>
 						<!-- Recent Searches -->
 						{#if hasHistory && !q.trim()}
@@ -331,7 +350,10 @@
 								<span class="text-xs font-medium text-neutral-500">Recent Searches</span>
 								<button
 									onmousedown={(e) => e.preventDefault()}
-									onclick={() => { searchHistory.clear(); showHistory = false; }}
+									onclick={() => {
+										searchHistory.clear();
+										showHistory = false;
+									}}
 									class="text-xs text-gold-400 hover:text-gold-300"
 								>
 									Clear
@@ -350,7 +372,10 @@
 									<span class="truncate">{item.query}</span>
 									<button
 										onmousedown={(e) => e.preventDefault()}
-										onclick={(e) => { e.stopPropagation(); searchHistory.remove(item.query); }}
+										onclick={(e) => {
+											e.stopPropagation();
+											searchHistory.remove(item.query);
+										}}
 										class="ml-auto shrink-0 rounded-md p-1.5 text-neutral-500 hover:bg-white/10 hover:text-white"
 									>
 										<XIcon class="h-3.5 w-3.5" />
@@ -362,7 +387,9 @@
 						<!-- TMDB Suggestions -->
 						{#if suggestionsLoading}
 							<div class="flex items-center gap-3 px-4 py-3">
-								<div class="h-3.5 w-3.5 animate-spin rounded-full border-2 border-gold-500/30 border-t-gold-500"></div>
+								<div
+									class="h-3.5 w-3.5 animate-spin rounded-full border-2 border-gold-500/30 border-t-gold-500"
+								></div>
 								<span class="text-xs text-neutral-500">Searching...</span>
 							</div>
 						{:else if suggestions.length > 0}
@@ -458,7 +485,7 @@
 				<!-- Rating Filter -->
 				<select
 					bind:value={minRating}
-					class="shrink-0 rounded-lg border border-white/10 bg-surface-800 px-3 py-1.5 text-xs text-white outline-none transition-all focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
+					class="shrink-0 rounded-lg border border-white/10 bg-surface-800 px-3 py-1.5 text-xs text-white transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
 				>
 					<option value="" class="bg-surface-900">Min Rating</option>
 					<option value="7" class="bg-surface-900">7+</option>
@@ -470,7 +497,7 @@
 				<div class="relative shrink-0">
 					<select
 						bind:value={sortBy}
-						class="appearance-none rounded-lg border border-white/10 bg-surface-800 py-1.5 pr-7 pl-3 text-xs text-white outline-none transition-all focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
+						class="appearance-none rounded-lg border border-white/10 bg-surface-800 py-1.5 pr-7 pl-3 text-xs text-white transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
 					>
 						{#each sortOptions as opt}
 							<option value={opt.value} class="bg-surface-900">{opt.label}</option>
@@ -513,6 +540,11 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Results Count -->
+	{#if !loading && totalResults > 0}
+		<p class="px-4 text-xs text-neutral-500 md:px-8">{totalResults.toLocaleString()} results</p>
+	{/if}
 
 	<!-- Results -->
 	{#if error}

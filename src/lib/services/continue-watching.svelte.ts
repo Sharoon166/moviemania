@@ -20,9 +20,7 @@ class ContinueWatching {
 
 	upsert(item: Omit<ContinueWatchingItem, 'updatedAt'>) {
 		const existing = [...this.items];
-		const idx = existing.findIndex(
-			(i) => i.id === item.id && i.mediaType === item.mediaType
-		);
+		const idx = existing.findIndex((i) => i.id === item.id && i.mediaType === item.mediaType);
 		const entry = { ...item, updatedAt: Date.now() };
 		if (idx >= 0) {
 			existing[idx] = { ...existing[idx], ...entry };

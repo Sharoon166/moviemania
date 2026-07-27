@@ -67,7 +67,10 @@
 				>({itemCount} {itemCount === 1 ? 'item' : 'items'})</span
 			>
 		</div>
-		<p>Everything you save is kept locally in your browser. We don't sync or store any of it on our servers.</p>
+		<p>
+			Everything you save is kept locally in your browser. We don't sync or store any of it on our
+			servers.
+		</p>
 		<div class="flex items-center gap-2">
 			<button
 				onclick={() => {
@@ -127,7 +130,7 @@
 	<div class="mb-6 flex flex-col gap-3">
 		<div class="relative w-full max-w-sm">
 			<MagnifyingGlassIcon
-				class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-white-500"
+				class="text-white-500 pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
 			/>
 			<input
 				type="text"
@@ -137,10 +140,7 @@
 			/>
 		</div>
 
-		<div
-			class="flex items-center gap-2 overflow-x-auto pb-2 px-2"
-			style="scrollbar-width: none;"
-		>
+		<div class="flex items-center gap-2 overflow-x-auto px-2 pb-2" style="scrollbar-width: none;">
 			<button
 				onclick={() => (mediaType = 'all')}
 				class={cn(
@@ -183,7 +183,7 @@
 			<button
 				onclick={() => (showWatched = 'unwatched')}
 				class={cn(
-					'shrink-0 flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
+					'flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					showWatched === 'unwatched'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
 						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
@@ -195,7 +195,7 @@
 			<button
 				onclick={() => (showWatched = 'watched')}
 				class={cn(
-					'shrink-0 flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
+					'flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					showWatched === 'watched'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
 						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
@@ -222,7 +222,9 @@
 						<option value={opt.value}>{opt.label}</option>
 					{/each}
 				</select>
-				<CaretDownIcon class="pointer-events-none absolute top-1/2 right-2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-500" />
+				<CaretDownIcon
+					class="pointer-events-none absolute top-1/2 right-2 h-3.5 w-3.5 -translate-y-1/2 text-neutral-500"
+				/>
 			</div>
 		</div>
 	</div>

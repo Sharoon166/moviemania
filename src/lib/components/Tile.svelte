@@ -70,7 +70,9 @@
 		<p class="truncate text-sm font-semibold text-white">{title}</p>
 		<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">
 			<StarIcon class="h-3.5 w-3.5 text-gold-400" weight="fill" />
-			<span class="font-medium text-neutral-200">{media.vote_average.toFixed(1)}</span>
+			<span class="font-medium text-neutral-200"
+				>{media.vote_average > 0 ? media.vote_average.toFixed(1) : 'TBD'}</span
+			>
 			<span class="text-surface-600">&middot;</span>
 			<span>{year ?? ''}</span>
 			<PlayCircleIcon

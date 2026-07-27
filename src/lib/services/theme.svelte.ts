@@ -16,7 +16,20 @@ const themes: Theme[] = [
 	{
 		id: 'obsidian-gold',
 		name: 'Obsidian Gold',
-		surface: ['#fafafa', '#f0f0f0', '#d9d9d9', '#b3b3b3', '#808080', '#5c5c5c', '#404040', '#2a2a2a', '#1a1a1a', '#121212', '#0a0a0a', '#050505'],
+		surface: [
+			'#fafafa',
+			'#f0f0f0',
+			'#d9d9d9',
+			'#b3b3b3',
+			'#808080',
+			'#5c5c5c',
+			'#404040',
+			'#2a2a2a',
+			'#1a1a1a',
+			'#121212',
+			'#0a0a0a',
+			'#050505'
+		],
 		accent: ['#fffbeb', '#fef3c7', '#fde68a', '#fcd34d', '#fbbf24', '#f59e0b', '#d97706'],
 		crimson: ['#dc2626', '#b91c1c'],
 		text: '#ffffff',
@@ -26,7 +39,20 @@ const themes: Theme[] = [
 	{
 		id: 'netflix',
 		name: 'Netflix',
-		surface: ['#f5f5f5', '#e8e8e8', '#d1d1d1', '#a3a3a3', '#737373', '#525252', '#3b3b3b', '#262626', '#1a1a1a', '#141414', '#0d0d0d', '#080808'],
+		surface: [
+			'#f5f5f5',
+			'#e8e8e8',
+			'#d1d1d1',
+			'#a3a3a3',
+			'#737373',
+			'#525252',
+			'#3b3b3b',
+			'#262626',
+			'#1a1a1a',
+			'#141414',
+			'#0d0d0d',
+			'#080808'
+		],
 		accent: ['#fef2f2', '#fecaca', '#fca5a5', '#f87171', '#e50914', '#b20710', '#8b0008'],
 		crimson: ['#ff1744', '#d50000'],
 		text: '#ffffff',
@@ -36,7 +62,20 @@ const themes: Theme[] = [
 	{
 		id: 'discord',
 		name: 'Discord',
-		surface: ['#f0eef5', '#ddd8ec', '#c2b8db', '#9a8cc0', '#7269a3', '#585187', '#433d6b', '#312d50', '#23203b', '#1c1930', '#151224', '#0e0c19'],
+		surface: [
+			'#f0eef5',
+			'#ddd8ec',
+			'#c2b8db',
+			'#9a8cc0',
+			'#7269a3',
+			'#585187',
+			'#433d6b',
+			'#312d50',
+			'#23203b',
+			'#1c1930',
+			'#151224',
+			'#0e0c19'
+		],
 		accent: ['#eef0ff', '#d8dcff', '#b0b8ff', '#8894ff', '#7289da', '#5865f2', '#4752c4'],
 		crimson: ['#ed4245', '#c03537'],
 		text: '#ffffff',
@@ -46,7 +85,20 @@ const themes: Theme[] = [
 	{
 		id: 'doom',
 		name: 'Doom',
-		surface: ['#f0ece8', '#ddd5cd', '#c4b8ab', '#9f9186', '#7d6e64', '#625550', '#4d4340', '#3c3433', '#312a29', '#272221', '#1e1a19', '#161312'],
+		surface: [
+			'#f0ece8',
+			'#ddd5cd',
+			'#c4b8ab',
+			'#9f9186',
+			'#7d6e64',
+			'#625550',
+			'#4d4340',
+			'#3c3433',
+			'#312a29',
+			'#272221',
+			'#1e1a19',
+			'#161312'
+		],
 		accent: ['#fff5ed', '#ffe4cc', '#ffc799', '#f0a060', '#e07828', '#c45a1a', '#9c4614'],
 		crimson: ['#c4381a', '#9c2c14'],
 		text: '#e7e7e7',
@@ -56,7 +108,20 @@ const themes: Theme[] = [
 	{
 		id: 'youtube',
 		name: 'YouTube',
-		surface: ['#fafafa', '#f0f0f0', '#dcdcdc', '#b0b0b0', '#808080', '#5a5a5a', '#424242', '#2c2c2c', '#1c1c1c', '#151515', '#0f0f0f', '#0a0a0a'],
+		surface: [
+			'#fafafa',
+			'#f0f0f0',
+			'#dcdcdc',
+			'#b0b0b0',
+			'#808080',
+			'#5a5a5a',
+			'#424242',
+			'#2c2c2c',
+			'#1c1c1c',
+			'#151515',
+			'#0f0f0f',
+			'#0a0a0a'
+		],
 		accent: ['#fef2f2', '#fecaca', '#fca5a5', '#ff5252', '#ff0000', '#cc0000', '#990000'],
 		crimson: ['#ff1744', '#d50000'],
 		text: '#ffffff',
@@ -66,7 +131,20 @@ const themes: Theme[] = [
 	{
 		id: 'mono',
 		name: 'Mono',
-		surface: ['#fafafa', '#f4f4f5', '#e4e4e7', '#d4d4d8', '#a1a1aa', '#71717a', '#52525b', '#3f3f46', '#27272a', '#1f1f22', '#18181b', '#09090b'],
+		surface: [
+			'#fafafa',
+			'#f4f4f5',
+			'#e4e4e7',
+			'#d4d4d8',
+			'#a1a1aa',
+			'#71717a',
+			'#52525b',
+			'#3f3f46',
+			'#27272a',
+			'#1f1f22',
+			'#18181b',
+			'#09090b'
+		],
 		accent: ['#fafafa', '#f4f4f5', '#e4e4e7', '#d4d4d8', '#a1a1aa', '#71717a', '#52525b'],
 		crimson: ['#ef4444', '#dc2626'],
 		text: '#fafafa',
@@ -103,17 +181,22 @@ const bodyFontOptions = [
 
 const FONT_URLS: Record<string, string> = {
 	syne: 'https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap',
-	'dm-sans': 'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap',
-	'space-grotesk': 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap',
+	'dm-sans':
+		'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap',
+	'space-grotesk':
+		'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap',
 	inter: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
-	playfair: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap',
+	playfair:
+		'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap',
 	lora: 'https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap',
 	outfit: 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap',
 	oxanium: 'https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700&display=swap',
-	montserrat: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap',
+	montserrat:
+		'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap',
 	raleway: 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap',
 	'bebas-neue': 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap',
-	'source-code-pro': 'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap',
+	'source-code-pro':
+		'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap',
 	nunito: 'https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap',
 	roboto: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'
 };

@@ -4,8 +4,10 @@
 	const currentYear = new Date().getFullYear();
 </script>
 
-<footer class="border-t border-white/5">
-	<div class="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-8 md:flex-row md:justify-between md:px-8">
+<footer class="border-t border-white/5 max-md:pb-12">
+	<div
+		class="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-8 md:flex-row md:justify-between md:px-8"
+	>
 		<div class="flex items-center gap-2">
 			<img src="/logo.svg" alt="" class="h-5 w-5 opacity-40" />
 			<span class="text-xs text-neutral-600">&copy; {currentYear} Moviemania</span>

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
+	import { browser } from '$app/environment';
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbMovie, TmdbTvShow, TmdbVideo } from '$lib/types/tmdb.d';
 	import { PlayCircleIcon, SpeakerSlashIcon, SpeakerHighIcon } from 'phosphor-svelte';
@@ -31,10 +32,37 @@
 	let currentPage = $state(1);
 	let loadingMore = $state(false);
 	let hasMore = $state(true);
-	let muted = $state(true);
+	let muted = $state(false);
 	let isPageVisible = $state(true);
 
 	const seen = new SvelteSet<string>();
+
+	// Iframe refs and command helpers
+	let iframeRefs = $state<Map<number, HTMLIFrameElement>>(new Map());
+
+	function sendCommand(iframe: HTMLIFrameElement | undefined, func: string, args: unknown[] = []) {
+		iframe?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+	}
+
+	function getIframe(index: number): HTMLIFrameElement | undefined {
+		return iframeRefs.get(index);
+	}
+
+	function playVideo(index: number) {
+		sendCommand(getIframe(index), 'playVideo');
+	}
+
+	function pauseVideo(index: number) {
+		sendCommand(getIframe(index), 'pauseVideo');
+	}
+
+	function muteActive() {
+		sendCommand(getIframe(activeIndex), 'mute');
+	}
+
+	function unMuteActive() {
+		sendCommand(getIframe(activeIndex), 'unMute');
+	}
 
 	function navigateToIndex(index: number) {
 		if (index < 0 || index >= clips.length) return;
@@ -56,9 +84,58 @@
 			navigateToIndex(activeIndex - 1);
 		} else if (e.key === 'm' || e.key === 'M') {
 			e.preventDefault();
-			muted = !muted;
+			toggleMute();
 		}
 	}
+
+	function toggleMute() {
+		muted = !muted;
+		if (muted) {
+			muteActive();
+		} else {
+			unMuteActive();
+		}
+	}
+
+	function handleVisibility() {
+		isPageVisible = document.visibilityState === 'visible';
+		if (isPageVisible) {
+			playVideo(activeIndex);
+		} else {
+			pauseVideo(activeIndex);
+		}
+	}
+
+	function handleYTMessage(e: MessageEvent) {
+		if (!e.data || typeof e.data !== 'string') return;
+		try {
+			const data = JSON.parse(e.data);
+			if (data.event === 'infoDelivery' && data.info?.playerState === 0) {
+				if (activeIndex < clips.length - 1) {
+					navigateToIndex(activeIndex + 1);
+				}
+			}
+		} catch {}
+	}
+
+	// React to activeIndex changes — play/pause via postMessage
+	$effect(() => {
+		const idx = activeIndex;
+		// Pause all, play active
+		for (let i = Math.max(0, idx - 1); i <= Math.min(clips.length - 1, idx + 1); i++) {
+			if (i === idx && isPageVisible) {
+				playVideo(i);
+			} else {
+				pauseVideo(i);
+			}
+		}
+		// Apply mute state to newly active
+		if (muted) {
+			muteActive();
+		} else {
+			unMuteActive();
+		}
+	});
 
 	let observer: IntersectionObserver;
 
@@ -184,20 +261,39 @@
 		}
 	}
 
+	function onIframeLoad(index: number, el: HTMLIFrameElement) {
+		iframeRefs.set(index, el);
+		// Apply initial mute state
+		if (muted) {
+			sendCommand(el, 'mute');
+		}
+		// Play if this is the active clip and page is visible
+		if (index === activeIndex && isPageVisible) {
+			// Small delay to ensure YouTube API is ready
+			setTimeout(() => sendCommand(el, 'playVideo'), 500);
+		} else {
+			setTimeout(() => sendCommand(el, 'pauseVideo'), 500);
+		}
+	}
+
 	onMount(() => {
 		setupIntersectionObserver();
 		loadFeed(true);
 		window.addEventListener('keydown', handleKeyboard);
-		document.querySelector('nav').style.position = 'static';
+		window.addEventListener('message', handleYTMessage);
+		document.addEventListener('visibilitychange', handleVisibility);
+		document.querySelector('nav')?.style.setProperty('position', 'static');
 
 		return () => {
 			observer?.disconnect();
 			window.removeEventListener('keydown', handleKeyboard);
+			window.removeEventListener('message', handleYTMessage);
+			document.removeEventListener('visibilitychange', handleVisibility);
 		};
 	});
 
 	onDestroy(() => {
-		document.querySelector('nav').style.position = 'fixed';
+		if (browser) document.querySelector('nav')?.style.setProperty('position', 'fixed');
 	});
 </script>
 
@@ -207,7 +303,7 @@
 
 <div
 	bind:this={container}
-	class="h-screen snap-y snap-mandatory scrollbar-none overflow-x-hidden overflow-y-auto "
+	class="h-screen snap-y snap-mandatory scrollbar-none overflow-x-hidden overflow-y-auto"
 	style="-webkit-overflow-scrolling: touch"
 >
 	{#if loading && clips.length === 0}
@@ -225,22 +321,39 @@
 			<section
 				data-reel
 				data-index={index}
-				class="relative mx-auto h-[calc(100dvh-128px)] md:h-[calc(100dvh-64px)] snap-start overflow-hidden bg-black md:aspect-9/16"
+				class="relative mx-auto h-[calc(100dvh-128px)] snap-start overflow-hidden bg-black md:aspect-9/16 md:h-[calc(100dvh-64px)]"
 			>
-				<!-- Video iframe - render for active and next 2 videos -->
-				{#if Math.abs(index - activeIndex) <= 2}
+				{#if Math.abs(index - activeIndex) <= 1}
+					<!-- Poster thumbnail behind iframe -->
 					<div class="absolute inset-0 z-0">
+						<img
+							src={`https://img.youtube.com/vi/${clip.key}/hqdefault.jpg`}
+							alt=""
+							class="h-full w-full object-cover"
+							loading="lazy"
+						/>
+					</div>
+					<!-- Video iframe - only active ±1 -->
+					<div class="absolute inset-0 z-[1]">
 						<iframe
 							class="h-full w-full"
 							title={clip.title}
-							src={`https://www.youtube.com/embed/${clip.key}?autoplay=${index === activeIndex && isPageVisible ? 1 : 0}&mute=${muted ? 1 : 0}&controls=1&playsinline=1&loop=1&playlist=${clip.key}&rel=0&modestbranding=1&enablejsapi=1`}
+							src={`https://www.youtube.com/embed/${clip.key}?enablejsapi=1&controls=1&playsinline=1&rel=0&modestbranding=1&autoplay=0`}
 							allow="autoplay; encrypted-media"
 							allowfullscreen={false}
+							onload={(e) => onIframeLoad(index, e.currentTarget as HTMLIFrameElement)}
 						></iframe>
 					</div>
 				{:else}
-					<!-- Placeholder for non-loaded videos -->
-					<div class="absolute inset-0 z-0 bg-neutral-900"></div>
+					<!-- Poster thumbnail for non-loaded videos -->
+					<div class="absolute inset-0 z-0">
+						<img
+							src={`https://img.youtube.com/vi/${clip.key}/hqdefault.jpg`}
+							alt=""
+							class="h-full w-full object-cover"
+							loading="lazy"
+						/>
+					</div>
 				{/if}
 				<!-- Overlay gradient -->
 				<div
@@ -262,9 +375,7 @@
 					</a>
 
 					<button
-						onclick={() => {
-							muted = !muted;
-						}}
+						onclick={toggleMute}
 						class="flex flex-col items-center gap-1.5 transition-transform hover:scale-110 active:scale-95"
 					>
 						<div
@@ -307,7 +418,7 @@
 
 		<!-- Keyboard shortcuts hint -->
 		<div
-			class="fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-white/60 backdrop-blur-sm"
+			class="max-sm:hidden fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-white/60 backdrop-blur-sm"
 		>
 			<div>↑↓ Navigate</div>
 			<div>M Mute</div>

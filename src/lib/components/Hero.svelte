@@ -99,9 +99,12 @@
 	});
 
 	function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'ArrowLeft') { prev(); }
-    else if (e.key === 'ArrowRight') { next(); }
-}
+		if (e.key === 'ArrowLeft') {
+			prev();
+		} else if (e.key === 'ArrowRight') {
+			next();
+		}
+	}
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -164,7 +167,7 @@
 				>
 					<div class="flex items-center gap-2 text-sm font-bold text-gold-400">
 						<StarIcon class="h-4 w-4" weight="fill" />
-						{current.vote_average.toFixed(1)}
+						{current.vote_average > 0 ? current.vote_average.toFixed(1) : 'TBD'}
 					</div>
 				</div>
 			</div>
@@ -196,7 +199,7 @@
 				<div class="flex items-center gap-1.5 text-gold-400 md:hidden">
 					<StarIcon class="h-4 w-4" weight="fill" />
 					<span class="font-semibold">
-						{current.vote_average.toFixed(1)}
+						{current.vote_average > 0 ? current.vote_average.toFixed(1) : 'TBD'}
 					</span>
 				</div>
 
@@ -235,7 +238,7 @@
 			</div>
 
 			<!-- PROGRESS -->
-			<div class="hidden lg:flex absolute right-4 bottom-6 z-30 items-end md:right-8 md:bottom-10">
+			<div class="absolute right-4 bottom-6 z-30 hidden items-end md:right-8 md:bottom-10 lg:flex">
 				<div class="relative">
 					<div
 						bind:this={filmstripEl}
@@ -297,7 +300,7 @@
 				</div>
 			</div>
 			<div class="absolute right-4 bottom-[3%] mt-8 flex items-center gap-3 self-end">
-				<div class="hidden md:flex lg:hidden gap-2">
+				<div class="hidden gap-2 md:flex lg:hidden">
 					<button
 						onclick={prev}
 						class="rounded-full border border-white/10 bg-black/30 p-2 text-white/70 opacity-100 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/50 hover:text-white md:block"

@@ -48,7 +48,6 @@
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
 		{ href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
 		{ href: '/about', label: 'About', Icon: InfoIcon }
-		
 	];
 </script>
 
@@ -66,7 +65,9 @@
 			<div class="flex h-8 w-8 items-center justify-center transition-all duration-300">
 				<img src="/logo.svg" alt="Moviemania" class="h-full w-full" />
 			</div>
-			<span class="font-display text-lg font-bold tracking-tight text-white transition-opacity duration-300">
+			<span
+				class="font-display text-lg font-bold tracking-tight text-white transition-opacity duration-300"
+			>
 				Moviemania
 			</span>
 		</a>
@@ -84,7 +85,9 @@
 					<Icon class="h-4 w-4" />
 					<span>{label}</span>
 					{#if href === '/watchlist' && watchlistCount > 0}
-						<span class="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black">
+						<span
+							class="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black"
+						>
 							{watchlistCount > 99 ? '99+' : watchlistCount}
 						</span>
 					{/if}
@@ -111,7 +114,9 @@
 					weight={page.url.pathname === '/watchlist' ? 'fill' : 'regular'}
 				/>
 				{#if watchlistCount > 0}
-					<span class="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black">
+					<span
+						class="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black"
+					>
 						{watchlistCount > 99 ? '99+' : watchlistCount}
 					</span>
 				{/if}
@@ -141,7 +146,9 @@
 <!-- ─── Mobile bottom tab bar ─── -->
 <nav class="fixed inset-x-0 bottom-0 z-50 md:hidden">
 	<div class="border-t border-white/6 bg-surface-950/90 backdrop-blur-xl">
-		<div class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]">
+		<div
+			class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]"
+		>
 			<!-- Home -->
 			<a
 				href="/"
@@ -165,7 +172,9 @@
 					<Icon class="h-5 w-5" weight={page.url.pathname === href ? 'fill' : 'regular'} />
 					<span class="text-[10px] font-medium tracking-wide">{label}</span>
 					{#if href === '/watchlist' && watchlistCount > 0}
-						<span class="absolute -top-0.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black">
+						<span
+							class="absolute -top-0.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black"
+						>
 							{watchlistCount > 99 ? '99+' : watchlistCount}
 						</span>
 					{/if}
@@ -174,6 +183,3 @@
 		</div>
 	</div>
 </nav>
-
-<!-- Spacer -->
-<div class="h-16 md:hidden" aria-hidden="true"></div>

@@ -8,7 +8,7 @@ import type {
 	TmdbGenre,
 	TmdbImage,
 	TmdbCollection,
-  TmdbCollectionSummary
+	TmdbCollectionSummary
 } from '$lib/types/tmdb.d';
 
 export type { TmdbGenre };
@@ -92,8 +92,7 @@ export const tmdb = {
 		) => `${IMG_BASE}/${s}${p}`,
 		backdrop: (p: string, s: 'w300' | 'w780' | 'w1280' | 'original' = 'w1280') =>
 			`${IMG_BASE}/${s}${p}`,
-		profile: (p: string, s: 'w45' | 'w185' | 'h632' | 'original' = 'h632') =>
-			`${IMG_BASE}/${s}${p}`
+		profile: (p: string, s: 'w45' | 'w185' | 'h632' | 'original' = 'h632') => `${IMG_BASE}/${s}${p}`
 	},
 	embed: {
 		movie: (id: number, source?: EmbedSource) => (source ?? embedSources[0]).movie(id),
@@ -122,18 +121,12 @@ export const tmdb = {
 		topRated: () => fetchMediaList<TmdbMovie>('/movie/top_rated', 'movie'),
 		nowPlaying: () => fetchMediaList<TmdbMovie>('/movie/now_playing', 'movie'),
 		detail: (id: number) =>
-			fetchJson<TmdbMovieDetail>(
-				`/movie/${id}`,
-				'credits,videos,recommendations,similar,images'
-			),
+			fetchJson<TmdbMovieDetail>(`/movie/${id}`, 'credits,videos,recommendations,similar,images'),
 		images: (id: number) =>
 			fetchJson<{ backdrops: TmdbImage[]; posters: TmdbImage[] }>(`/movie/${id}/images`),
 		collection: (id: number) => fetchJson<TmdbCollection>(`/collection/${id}`),
 		search: (q: string, p = 1) =>
-			fetchMediaList<TmdbMovie>(
-				`/search/movie?query=${encodeURIComponent(q)}&page=${p}`,
-				'movie'
-			)
+			fetchMediaList<TmdbMovie>(`/search/movie?query=${encodeURIComponent(q)}&page=${p}`, 'movie')
 	},
 	tv: {
 		popular: () => fetchMediaList<TmdbTvShow>('/tv/popular', 'tv'),
@@ -145,13 +138,13 @@ export const tmdb = {
 			fetchJson<{ backdrops: TmdbImage[]; posters: TmdbImage[] }>(`/tv/${id}/images`),
 		search: (q: string, p = 1) =>
 			fetchMediaList<TmdbTvShow>(`/search/tv?query=${encodeURIComponent(q)}&page=${p}`, 'tv')
-  },
-  collection: {
-	search: (q: string) =>
-		fetchJson<{ results: TmdbCollectionSummary[] }>(
-			`/search/collection?query=${encodeURIComponent(q)}`
-		)
-  },
+	},
+	collection: {
+		search: (q: string) =>
+			fetchJson<{ results: TmdbCollectionSummary[] }>(
+				`/search/collection?query=${encodeURIComponent(q)}`
+			)
+	},
 	season: {
 		detail: (tvId: number, seasonNumber: number) =>
 			fetchJson<TmdbSeasonDetail>(`/tv/${tvId}/season/${seasonNumber}`)

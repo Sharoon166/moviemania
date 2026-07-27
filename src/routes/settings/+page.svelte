@@ -47,8 +47,8 @@
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-4 pt-16 pb-8 md:pt-24 md:pb-16">
-	<h1 class="font-display text-2xl font-bold text-white mb-1">Settings</h1>
-	<p class="text-sm text-neutral-500 mb-10">Customize the look and feel of Moviemania.</p>
+	<h1 class="mb-1 font-display text-2xl font-bold text-white">Settings</h1>
+	<p class="mb-10 text-sm text-neutral-500">Customize the look and feel of Moviemania.</p>
 
 	<!-- ═══════════════════════════════════════════ -->
 	<!-- Appearance                                  -->
@@ -56,28 +56,29 @@
 
 	<!-- Color Theme -->
 	<section class="mb-10">
-		<h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
+		<h2 class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">
 			Color Theme
 		</h2>
 		<div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
 			{#each themes as theme (theme.id)}
 				<button
 					onclick={() => themeStore.selectTheme(theme)}
-					class="group flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all {themeStore.activeThemeId === theme.id
+					class="group flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all {themeStore.activeThemeId ===
+					theme.id
 						? 'border-gold-500/50 bg-gold-500/10 ring-1 ring-gold-500/20'
 						: 'border-white/5 bg-white/[0.02] hover:border-white/15 hover:bg-white/5'}"
 				>
 					<div class="flex gap-1.5">
 						<div
-							class="h-5 w-5 rounded-full ring-1 ring-inset ring-white/10"
+							class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
 							style="background-color: {theme.surface[11]}"
 						></div>
 						<div
-							class="h-5 w-5 rounded-full ring-1 ring-inset ring-white/10"
+							class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
 							style="background-color: {theme.surface[8]}"
 						></div>
 						<div
-							class="h-5 w-5 rounded-full ring-1 ring-inset ring-white/10"
+							class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
 							style="background-color: {theme.accent[5]}"
 						></div>
 					</div>
@@ -95,14 +96,15 @@
 
 	<!-- Display Font -->
 	<section class="mb-10">
-		<h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
+		<h2 class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">
 			Display Font
 		</h2>
 		<div class="flex flex-wrap gap-2">
 			{#each displayFontOptions as font (font.id)}
 				<button
 					onclick={() => themeStore.selectDisplayFont(font.family)}
-					class="rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all {themeStore.activeDisplayFont === font.family
+					class="rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all {themeStore.activeDisplayFont ===
+					font.family
 						? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
 						: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'}"
 				>
@@ -114,14 +116,13 @@
 
 	<!-- Body Font -->
 	<section class="mb-10">
-		<h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
-			Body Font
-		</h2>
+		<h2 class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">Body Font</h2>
 		<div class="flex flex-wrap gap-2">
 			{#each bodyFontOptions as font (font.id)}
 				<button
 					onclick={() => themeStore.selectBodyFont(font.family)}
-					class="rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all {themeStore.activeBodyFont === font.family
+					class="rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all {themeStore.activeBodyFont ===
+					font.family
 						? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
 						: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'}"
 				>
@@ -148,15 +149,16 @@
 	<!-- ═══════════════════════════════════════════ -->
 
 	<section class="mb-10">
-		<h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
-			Playback
-		</h2>
-		<p class="text-xs text-neutral-600 mb-4">Choose the default streaming server.</p>
+		<h2 class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">Playback</h2>
+		<p class="mb-4 text-xs text-neutral-600">Choose the default streaming server.</p>
 
 		<div class="flex flex-wrap gap-2">
 			{#each embedSources as src (src.id)}
 				<button
-					onclick={() => { appSettings.setDefaultServer(src.id); setPreferredServer(src.id); }}
+					onclick={() => {
+						appSettings.setDefaultServer(src.id);
+						setPreferredServer(src.id);
+					}}
 					class={cn(
 						'rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all',
 						appSettings.defaultServerId === src.id
@@ -178,15 +180,13 @@
 	<!-- ═══════════════════════════════════════════ -->
 
 	<section class="mb-10">
-		<h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
-			Browsing
-		</h2>
-		<p class="text-xs text-neutral-600 mb-4">Defaults for the browse page.</p>
+		<h2 class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">Browsing</h2>
+		<p class="mb-4 text-xs text-neutral-600">Defaults for the browse page.</p>
 
 		<div class="space-y-6">
 			<!-- Default Media Filter -->
 			<div>
-				<p class="text-xs text-neutral-400 mb-2">Default Media Filter</p>
+				<p class="mb-2 text-xs text-neutral-400">Default Media Filter</p>
 				<div class="flex gap-2">
 					{#each mediaFilterOptions as opt}
 						<button
@@ -206,24 +206,26 @@
 
 			<!-- Default Sort -->
 			<div>
-				<p class="text-xs text-neutral-400 mb-2">Default Sort Order</p>
+				<p class="mb-2 text-xs text-neutral-400">Default Sort Order</p>
 				<div class="relative inline-block">
 					<select
 						value={appSettings.defaultSortBy}
 						onchange={(e) => appSettings.setDefaultSortBy(e.currentTarget.value)}
-						class="appearance-none rounded-xl border border-white/5 bg-white/[0.02] py-1.5 pr-8 pl-3.5 text-xs font-medium text-neutral-400 outline-none transition-all hover:border-white/15 hover:text-white focus:border-gold-500/50 focus:text-white"
+						class="appearance-none rounded-xl border border-white/5 bg-white/[0.02] py-1.5 pr-8 pl-3.5 text-xs font-medium text-neutral-400 transition-all outline-none hover:border-white/15 hover:text-white focus:border-gold-500/50 focus:text-white"
 					>
 						{#each sortOptions as opt}
 							<option value={opt.value} class="bg-surface-900">{opt.label}</option>
 						{/each}
 					</select>
-					<CaretDownIcon class="pointer-events-none absolute top-1/2 right-2.5 h-3 w-3 -translate-y-1/2 text-neutral-500" />
+					<CaretDownIcon
+						class="pointer-events-none absolute top-1/2 right-2.5 h-3 w-3 -translate-y-1/2 text-neutral-500"
+					/>
 				</div>
 			</div>
 
 			<!-- Items Per Page -->
 			<div>
-				<p class="text-xs text-neutral-400 mb-2">Items Per Page</p>
+				<p class="mb-2 text-xs text-neutral-400">Items Per Page</p>
 				<div class="flex gap-2">
 					{#each itemsPerPageOptions as count}
 						<button
@@ -243,7 +245,7 @@
 
 			<!-- Show Heatmap -->
 			<div>
-				<p class="text-xs text-neutral-400 mb-2">Episode Ratings Heatmap</p>
+				<p class="mb-2 text-xs text-neutral-400">Episode Ratings Heatmap</p>
 				<button
 					onclick={() => appSettings.toggleHeatmap()}
 					class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5"
@@ -258,7 +260,9 @@
 							{appSettings.showHeatmap ? 'Visible' : 'Hidden'}
 						</p>
 						<p class="text-[11px] text-neutral-600">
-							{appSettings.showHeatmap ? 'Heatmap shown on TV show pages' : 'Heatmap hidden on TV show pages'}
+							{appSettings.showHeatmap
+								? 'Heatmap shown on TV show pages'
+								: 'Heatmap hidden on TV show pages'}
 						</p>
 					</div>
 				</button>
@@ -274,11 +278,9 @@
 	<!-- ═══════════════════════════════════════════ -->
 
 	<section class="mb-10">
-		<h2 class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-3">
-			Data
-		</h2>
+		<h2 class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">Data</h2>
 
-		<div class="flex flex-wrap gap-3 items-center">
+		<div class="flex flex-wrap items-center gap-3">
 			<!-- Clear Search History -->
 			<button
 				onclick={() => searchHistory.clear()}
@@ -289,14 +291,18 @@
 				<div class="flex-1">
 					<p class="text-xs font-medium text-neutral-300">Clear Search History</p>
 					<p class="text-[11px] text-neutral-600">
-						{searchHistory.items.length} recent {searchHistory.items.length === 1 ? 'search' : 'searches'}
+						{searchHistory.items.length} recent {searchHistory.items.length === 1
+							? 'search'
+							: 'searches'}
 					</p>
 				</div>
 			</button>
 
 			<!-- Clear Continue Watching -->
 			<button
-				onclick={() => { showConfirmClearCW = true; }}
+				onclick={() => {
+					showConfirmClearCW = true;
+				}}
 				disabled={continueWatching.items.length === 0}
 				class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/2 px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
 			>
@@ -304,7 +310,8 @@
 				<div class="flex-1">
 					<p class="text-xs font-medium text-neutral-300">Clear Continue Watching</p>
 					<p class="text-[11px] text-neutral-600">
-						{continueWatching.items.length} {continueWatching.items.length === 1 ? 'item' : 'items'}
+						{continueWatching.items.length}
+						{continueWatching.items.length === 1 ? 'item' : 'items'}
 					</p>
 				</div>
 			</button>
@@ -316,7 +323,9 @@
 	<div
 		class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm"
 		onclick={() => (showConfirmClearCW = false)}
-		onkeydown={(e) => { if (e.key === 'Escape') showConfirmClearCW = false; }}
+		onkeydown={(e) => {
+			if (e.key === 'Escape') showConfirmClearCW = false;
+		}}
 		role="dialog"
 		aria-modal="true"
 		tabindex="-1"
@@ -327,9 +336,11 @@
 			onkeydown={(e) => e.stopPropagation()}
 			role="document"
 		>
-			<h3 class="text-sm font-semibold text-white mb-2">Clear Continue Watching?</h3>
-			<p class="text-xs text-neutral-400 mb-6">
-				This will remove all {continueWatching.items.length} {continueWatching.items.length === 1 ? 'item' : 'items'} from your continue watching list. This cannot be undone.
+			<h3 class="mb-2 text-sm font-semibold text-white">Clear Continue Watching?</h3>
+			<p class="mb-6 text-xs text-neutral-400">
+				This will remove all {continueWatching.items.length}
+				{continueWatching.items.length === 1 ? 'item' : 'items'} from your continue watching list. This
+				cannot be undone.
 			</p>
 			<div class="flex justify-end gap-2">
 				<button
@@ -339,7 +350,10 @@
 					Cancel
 				</button>
 				<button
-					onclick={() => { continueWatching.clear(); showConfirmClearCW = false; }}
+					onclick={() => {
+						continueWatching.clear();
+						showConfirmClearCW = false;
+					}}
 					class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs font-medium text-red-400 transition-all hover:border-red-500/50 hover:bg-red-500/20 hover:text-red-300"
 				>
 					Clear All

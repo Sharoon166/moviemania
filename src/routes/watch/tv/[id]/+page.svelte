@@ -2,7 +2,16 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
 	import { browser } from '$app/environment';
-	import { PlayIcon, FilmSlateIcon, DownloadIcon, SkipForwardIcon, SkipBackIcon, CornersOutIcon, ArrowsInIcon } from 'phosphor-svelte';
+	import {
+		PlayIcon,
+		FilmSlateIcon,
+		DownloadIcon,
+		SkipForwardIcon,
+		SkipBackIcon,
+		CornersOutIcon,
+		ArrowsInIcon,
+		ClockAfternoonIcon
+	} from 'phosphor-svelte';
 	import { cn } from '$lib/cn';
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';
@@ -32,6 +41,7 @@
 	);
 
 	let totalSeasons = $derived(show.data?.number_of_seasons ?? 0);
+	let unreleased = $derived((show.data?.vote_average ?? 0) === 0);
 
 	let seasonDetail = createQuery(() => ({
 		queryKey: ['tv', Number(id), 'season', season],
@@ -115,9 +125,7 @@
 
 		untrack(() => {
 			continueWatching.reload();
-			const existing = continueWatching.items.find(
-				(i) => i.id === data.id && i.mediaType === 'tv'
-			);
+			const existing = continueWatching.items.find((i) => i.id === data.id && i.mediaType === 'tv');
 			const prevSeason = existing?.season;
 			const prevEpisode = existing?.episode;
 			const isNewEpisode = prevSeason !== s || prevEpisode !== e;
@@ -170,179 +178,201 @@
 	<div class="relative flex min-h-screen flex-col bg-black">
 		<div class="flex flex-col items-center pt-20 pb-8">
 			<div class="mx-auto w-full max-w-5xl px-4">
-				<div class="flex flex-wrap items-center gap-2 pb-4">
-					<button
-						onclick={() => (source = 'embed')}
-						class={cn(
-							'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300',
-							source === 'embed'
-								? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-								: 'text-neutral-400 hover:text-white'
-						)}
+				{#if unreleased}
+					<div
+						class="flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface-900 ring-1 ring-white/10"
 					>
-						<FilmSlateIcon class="h-4 w-4" />
-						Watch Now
-					</button>
-					{#if video}
+						<div class="flex flex-col items-center gap-3 text-center">
+							<ClockAfternoonIcon class="h-10 w-10 text-neutral-600" />
+							<p class="text-sm font-medium text-neutral-400">Coming Soon</p>
+							<p class="text-xs text-neutral-600">This show has not been released yet.</p>
+						</div>
+					</div>
+				{:else}
+					<div class="flex flex-wrap items-center gap-2 pb-4">
 						<button
-							onclick={() => (source = 'trailer')}
+							onclick={() => (source = 'embed')}
 							class={cn(
 								'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300',
-								source === 'trailer'
+								source === 'embed'
 									? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
 									: 'text-neutral-400 hover:text-white'
 							)}
 						>
-							<PlayIcon class="h-4 w-4" />
-							Trailer
+							<FilmSlateIcon class="h-4 w-4" />
+							Watch Now
 						</button>
-					{/if}
-				</div>
-
-				<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<div
-					bind:this={playerWrapper}
-					onclick={() => { if (cinemaMode) { cinemaMode = false; } }}
-					class={cn(
-						'overflow-hidden',
-						cinemaMode
-							? '!fixed !inset-0 !z-[100] !rounded-none bg-black flex flex-col items-center justify-center'
-							: 'relative rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-white/10'
-					)}
-				>
-					<div class={cn(cinemaMode ? 'w-full max-w-[90vw] max-h-[85dvh]' : '')}>
-						<div class="relative h-full aspect-video overflow-hidden rounded-xl mx-auto">
-							{#if source === 'embed'}
-								<iframe
-									src={tmdb.embed.tv(show.data.id, season, episode, server)}
-									title={show.data.name}
-									class="aspect-video w-full"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-									allowfullscreen
-								></iframe>
-							{:else if video}
-								<iframe
-									src={`https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0`}
-									title={video.name}
-									class="aspect-video w-full"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-									allowfullscreen
-								></iframe>
-							{/if}
-						</div>
+						{#if video}
+							<button
+								onclick={() => (source = 'trailer')}
+								class={cn(
+									'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300',
+									source === 'trailer'
+										? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
+										: 'text-neutral-400 hover:text-white'
+								)}
+							>
+								<PlayIcon class="h-4 w-4" />
+								Trailer
+							</button>
+						{/if}
 					</div>
 
-					{#if cinemaMode}
-						<div
-							class="mt-4 flex items-center gap-3"
-							onclick={(e) => e.stopPropagation()}
-							onkeydown={(e) => e.stopPropagation()}
-						>
-							{#if hasPrevEpisode}
-								<button
-									onclick={goToPrevEpisode}
-									class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
-								>
-									<SkipBackIcon class="h-4 w-4" weight="fill" />
-									Prev
-								</button>
-							{/if}
-
-							<button
-								onclick={(e) => { e.stopPropagation(); cinemaMode = false; }}
-								class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
-							>
-								<ArrowsInIcon class="h-4 w-4" />
-								Exit Cinema
-						</button>
-
-							{#if hasNextEpisode}
-								<button
-									onclick={(e) => { e.stopPropagation(); goToNextEpisode(); }}
-									class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
-								>
-									Next
-									<SkipForwardIcon class="h-4 w-4" weight="fill" />
-								</button>
-							{/if}
+					<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+					<!-- svelte-ignore a11y_click_events_have_key_events -->
+					<div
+						bind:this={playerWrapper}
+						onclick={() => {
+							if (cinemaMode) {
+								cinemaMode = false;
+							}
+						}}
+						class={cn(
+							'overflow-hidden',
+							cinemaMode
+								? '!fixed !inset-0 !z-[100] flex flex-col items-center justify-center !rounded-none bg-black'
+								: 'relative rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-white/10'
+						)}
+					>
+						<div class={cn(cinemaMode ? 'max-h-[85dvh] w-full max-w-[90vw]' : '')}>
+							<div class="relative mx-auto aspect-video h-full overflow-hidden rounded-xl">
+								{#if source === 'embed'}
+									<iframe
+										src={tmdb.embed.tv(show.data.id, season, episode, server)}
+										title={show.data.name}
+										class="aspect-video w-full"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										allowfullscreen
+									></iframe>
+								{:else if video}
+									<iframe
+										src={`https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0`}
+										title={video.name}
+										class="aspect-video w-full"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										allowfullscreen
+									></iframe>
+								{/if}
+							</div>
 						</div>
-					{/if}
-				</div>
 
-				{#if source === 'embed' && !cinemaMode}
-					{#if hasNextEpisode && nextEpisode}
-						<div class="mt-3">
-							<button
-								onclick={goToNextEpisode}
-								class="group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface-800/60 px-4 py-3 text-left backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-surface-700/80"
+						{#if cinemaMode}
+							<div
+								class="mt-4 flex items-center gap-3"
+								onclick={(e) => e.stopPropagation()}
+								onkeydown={(e) => e.stopPropagation()}
 							>
-								<div
-									class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold-500/20 text-gold-400 transition-all group-hover:bg-gold-500/30"
+								{#if hasPrevEpisode}
+									<button
+										onclick={goToPrevEpisode}
+										class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
+									>
+										<SkipBackIcon class="h-4 w-4" weight="fill" />
+										Prev
+									</button>
+								{/if}
+
+								<button
+									onclick={(e) => {
+										e.stopPropagation();
+										cinemaMode = false;
+									}}
+									class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
 								>
-									<SkipForwardIcon class="h-5 w-5" weight="fill" />
-								</div>
-								<div class="min-w-0 flex-1">
-									<p class="text-xs font-medium text-neutral-500">Up Next</p>
-									<p class="truncate text-sm font-semibold text-white">
-										{nextEpisode.name}
-									</p>
-									<p class="text-xs text-neutral-400">
-										Season {season} Episode {nextEpisode.episode_number}
-									</p>
-								</div>
-								<PlayIcon
-									class="h-6 w-6 shrink-0 text-gold-400 transition-all group-hover:scale-110"
-									weight="fill"
+									<ArrowsInIcon class="h-4 w-4" />
+									Exit Cinema
+								</button>
+
+								{#if hasNextEpisode}
+									<button
+										onclick={(e) => {
+											e.stopPropagation();
+											goToNextEpisode();
+										}}
+										class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
+									>
+										Next
+										<SkipForwardIcon class="h-4 w-4" weight="fill" />
+									</button>
+								{/if}
+							</div>
+						{/if}
+					</div>
+
+					{#if source === 'embed' && !cinemaMode}
+						{#if hasNextEpisode && nextEpisode}
+							<div class="mt-3">
+								<button
+									onclick={goToNextEpisode}
+									class="group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface-800/60 px-4 py-3 text-left backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-surface-700/80"
+								>
+									<div
+										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold-500/20 text-gold-400 transition-all group-hover:bg-gold-500/30"
+									>
+										<SkipForwardIcon class="h-5 w-5" weight="fill" />
+									</div>
+									<div class="min-w-0 flex-1">
+										<p class="text-xs font-medium text-neutral-500">Up Next</p>
+										<p class="truncate text-sm font-semibold text-white">
+											{nextEpisode.name}
+										</p>
+										<p class="text-xs text-neutral-400">
+											Season {season} Episode {nextEpisode.episode_number}
+										</p>
+									</div>
+									<PlayIcon
+										class="h-6 w-6 shrink-0 text-gold-400 transition-all group-hover:scale-110"
+										weight="fill"
+									/>
+								</button>
+							</div>
+						{/if}
+
+						<div class="flex flex-wrap items-center justify-between gap-3 pt-4">
+							<div class="flex w-full items-center justify-center gap-2">
+								<ServerPicker
+									{server}
+									onselect={(src) => {
+										server = src;
+										setPreferredServer(src.id);
+									}}
 								/>
-							</button>
+							</div>
+
+							<div class="flex items-center gap-2">
+								<button
+									onclick={() => (cinemaMode = true)}
+									class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+								>
+									<CornersOutIcon class="h-3.5 w-3.5" />
+									Cinema
+								</button>
+
+								<a
+									href={tmdb.embed.tv(show.data.id, season, episode, server)}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+								>
+									<DownloadIcon class="h-3.5 w-3.5" />
+									Download
+								</a>
+							</div>
 						</div>
 					{/if}
 
-					<div class="flex flex-wrap items-center justify-between gap-3 pt-4">
-						<div class="flex items-center justify-center w-full gap-2">
-							<ServerPicker
-								{server}
-								onselect={(src) => {
-									server = src;
-									setPreferredServer(src.id);
-								}}
+					{#if source === 'embed' && totalSeasons > 0 && !cinemaMode}
+						<div class="mt-6">
+							<EpisodeSidebar
+								tvId={show.data.id}
+								showName={show.data.name}
+								{totalSeasons}
+								{season}
+								{episode}
+								onchange={handleEpisodeChange}
 							/>
 						</div>
-
-						<div class="flex items-center gap-2">
-							<button
-								onclick={() => (cinemaMode = true)}
-								class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
-							>
-								<CornersOutIcon class="h-3.5 w-3.5" />
-								Cinema
-							</button>
-
-							<a
-								href={tmdb.embed.tv(show.data.id, season, episode, server)}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
-							>
-								<DownloadIcon class="h-3.5 w-3.5" />
-								Download
-							</a>
-						</div>
-					</div>
-				{/if}
-
-				{#if source === 'embed' && totalSeasons > 0 && !cinemaMode}
-					<div class="mt-6">
-						<EpisodeSidebar
-							tvId={show.data.id}
-							showName={show.data.name}
-							{totalSeasons}
-							{season}
-							{episode}
-							onchange={handleEpisodeChange}
-						/>
-					</div>
+					{/if}
 				{/if}
 			</div>
 		</div>

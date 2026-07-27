@@ -27,6 +27,11 @@
 		queryFn: () => tmdb.movie.nowPlaying()
 	}));
 
+	let popularTv = createQuery(() => ({
+		queryKey: ['tv', 'popular'],
+		queryFn: () => tmdb.tv.popular()
+	}));
+
 	let heroItems = $derived(trending.data?.results ?? []);
 </script>
 
@@ -47,5 +52,6 @@
 	<Carousel items={trending.data?.results?.slice(1) ?? []} title="Trending This Week" />
 	<Carousel items={nowPlaying.data?.results ?? []} title="Now Playing" />
 	<Grid items={popular.data?.results ?? []} title="Popular Movies" />
+	<Grid items={popularTv.data?.results ?? []} title="Popular TV Shows" />
 	<Grid items={topRated.data?.results ?? []} title="Top Rated" />
 </div>

@@ -47,7 +47,7 @@
 	class="group flex w-full flex-col gap-3 text-left"
 >
 	<div
-		class="relative aspect-2/3 overflow- rounded-2xl border border-white/5 bg-surface-800 transition-all duration-300 group-hover:border-white/10 group-hover:shadow-2xl group-hover:shadow-black/40"
+		class="overflow- relative aspect-2/3 rounded-2xl border border-white/5 bg-surface-800 transition-all duration-300 group-hover:border-white/10 group-hover:shadow-2xl group-hover:shadow-black/40"
 	>
 		<!-- Background Glow -->
 		<div
@@ -64,9 +64,9 @@
 								'absolute inset-0 overflow-hidden rounded-2xl border border-white/10 bg-surface-700 shadow-2xl transition-all duration-500 ease-out hover:z-100',
 								i === 0 && 'z-30 rotate-0 group-hover:-translate-y-1 group-hover:scale-[1.03]',
 								i === 1 &&
-									'z-20 translatex-10 rotate-8 group-hover:translate-x-13 group-hover:-translate-y-1',
+									'translatex-10 z-20 rotate-8 group-hover:translate-x-13 group-hover:-translate-y-1',
 								i === 2 &&
-									'z-10 -translatex-10 -rotate-8 group-hover:-translate-x-13 group-hover:-translate-y-1'
+									'-translatex-10 z-10 -rotate-8 group-hover:-translate-x-13 group-hover:-translate-y-1'
 							)}
 						>
 							<img

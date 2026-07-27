@@ -31,7 +31,9 @@
 		return 'rgba(126,87,194,0.18)';
 	}
 
-	let heatmapData = $state<Array<{ season: number; episodes: Array<{ episode: number; score: number; name: string }> }>>([]);
+	let heatmapData = $state<
+		Array<{ season: number; episodes: Array<{ episode: number; score: number; name: string }> }>
+	>([]);
 	let isLoading = $state(true);
 	let maxEpisodes = $derived(Math.max(...heatmapData.map((s) => s.episodes.length), 0));
 	let seasonCount = $derived(heatmapData.length);
@@ -143,7 +145,9 @@
 							{#if ep}
 								<div
 									class="flex items-center justify-center rounded-md text-[13px] font-bold"
-									style="width: 64px; height: 36px; background-color: {getBg(ep.score)}; color: {getColor(ep.score)}; border: 1px solid {getColor(ep.score)}22;"
+									style="width: 64px; height: 36px; background-color: {getBg(
+										ep.score
+									)}; color: {getColor(ep.score)}; border: 1px solid {getColor(ep.score)}22;"
 									title="S{s.season}E{ep.episode} — {ep.name} ({ep.score})"
 								>
 									{ep.score.toFixed(1)}

@@ -13,7 +13,8 @@
 		CaretRightIcon,
 		XIcon,
 		FilmStripIcon,
-		CurrencyDollarIcon
+		CurrencyDollarIcon,
+		ClockAfternoonIcon
 	} from 'phosphor-svelte';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
@@ -96,6 +97,7 @@
 	}
 
 	let director = $derived(movie.data?.credits?.crew?.find((c) => c.job === 'Director'));
+	let unreleased = $derived((movie.data?.vote_average ?? 0) === 0);
 </script>
 
 {#if movie.data}
@@ -136,8 +138,10 @@
 				<div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-neutral-400">
 					<span class="flex items-center gap-1.5">
 						<StarIcon class="h-4 w-4 text-gold-400" weight="fill" />
-						<span class="font-semibold text-gold-400">{movie.data.vote_average.toFixed(1)}</span>
-						<span class="text-neutral-500">/ 10</span>
+						<span class="font-semibold text-gold-400"
+							>{movie.data.vote_average > 0 ? movie.data.vote_average.toFixed(1) : 'TBD'}</span
+						>
+						{#if movie.data.vote_average > 0}<span class="text-neutral-500">/ 10</span>{/if}
 					</span>
 					<span class="flex items-center gap-1.5">
 						<CalendarIcon class="h-4 w-4" />
@@ -192,13 +196,22 @@
 				{/if}
 
 				<div class="flex flex-wrap gap-3 pt-2">
-					<a
-						href={`/watch/movie/${movie.data.id}`}
-						class="flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
-					>
-						<PlayCircleIcon class="h-5 w-5" weight="fill" />
-						Watch Now
-					</a>
+					{#if unreleased}
+						<div
+							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-neutral-400 backdrop-blur-sm"
+						>
+							<ClockAfternoonIcon class="h-5 w-5" />
+							Coming Soon
+						</div>
+					{:else}
+						<a
+							href={`/watch/movie/${movie.data.id}`}
+							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
+						>
+							<PlayCircleIcon class="h-5 w-5" weight="fill" />
+							Watch Now
+						</a>
+					{/if}
 					<WatchlistButton
 						id={movie.data.id}
 						mediaType="movie"
@@ -211,7 +224,7 @@
 							: null}
 						runtime={movie.data.runtime}
 					/>
-					{#if video}
+					{#if !unreleased && video}
 						<button
 							onclick={() => (showTrailer = true)}
 							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
@@ -220,15 +233,17 @@
 							Trailer
 						</button>
 					{/if}
-					<a
-						href={embedSources[0].movie(movie.data.id)}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
-					>
-						<DownloadIcon class="h-5 w-5" />
-						Download
-					</a>
+					{#if !unreleased}
+						<a
+							href={embedSources[0].movie(movie.data.id)}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
+						>
+							<DownloadIcon class="h-5 w-5" />
+							Download
+						</a>
+					{/if}
 				</div>
 			</div>
 		</div>

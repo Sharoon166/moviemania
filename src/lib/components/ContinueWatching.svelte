@@ -10,7 +10,6 @@
 		if (!browser) return;
 		continueWatching.reload();
 	});
-
 </script>
 
 {#if items.length > 0}
@@ -19,7 +18,9 @@
 		<div class="flex gap-3 overflow-x-auto pb-4" style="scrollbar-width: none;">
 			{#each items as item (item.id)}
 				<a
-					href={item.mediaType === 'movie' ? `/watch/movie/${item.id}` : `/watch/tv/${item.id}?season=${item.season ?? 1}&episode=${item.episode ?? 1}`}
+					href={item.mediaType === 'movie'
+						? `/watch/movie/${item.id}`
+						: `/watch/tv/${item.id}?season=${item.season ?? 1}&episode=${item.episode ?? 1}`}
 					class="group relative w-45 shrink-0 overflow-hidden rounded-xl bg-surface-800 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/50"
 				>
 					<div class="aspect-2/3 w-full overflow-hidden">

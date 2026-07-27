@@ -140,7 +140,7 @@
 	>
 		<div class="max-w-full">
 			<div class="flex items-center gap-2">
-				<h3 class="font-display text-base font-bold line-clamp-2 text-white">
+				<h3 class="line-clamp-2 font-display text-base font-bold text-white">
 					{#if nextEpisode}
 						Up Next - {nextEpisode.name}
 					{:else}
@@ -177,9 +177,9 @@
 						/>
 					{/if}
 					<div class="min-w-0 flex-1">
-						<h4 class="text-sm font-semibold text-white line-clamp-1">{seasonDetail.data.name}</h4>
+						<h4 class="line-clamp-1 text-sm font-semibold text-white">{seasonDetail.data.name}</h4>
 						{#if seasonDetail.data.overview}
-							<p class="mt-1 text-xs leading-relaxed text-neutral-400 line-clamp-4">
+							<p class="mt-1 line-clamp-4 text-xs leading-relaxed text-neutral-400">
 								{seasonDetail.data.overview}
 							</p>
 						{:else}
@@ -211,26 +211,25 @@
 				</div>
 
 				<!-- Season Selector & Sort -->
-				<div class="flex flex-col  gap-2">
-				<div class="flex items-center gap-2">
-				
-					<button
-						onclick={toggleSort}
-						class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-surface-700"
-						title={sortOrder === 'asc' ? 'Sort descending' : 'Sort ascending'}
-					>
-						<ArrowsDownUpIcon class="h-3.5 w-3.5" weight="bold" />
-					</button>
+				<div class="flex flex-col gap-2">
+					<div class="flex items-center gap-2">
+						<button
+							onclick={toggleSort}
+							class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-surface-700"
+							title={sortOrder === 'asc' ? 'Sort descending' : 'Sort ascending'}
+						>
+							<ArrowsDownUpIcon class="h-3.5 w-3.5" weight="bold" />
+						</button>
 
-					<div
-						class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2"
-					>
-						<ListIcon class="h-3.5 w-3.5 text-neutral-500" weight="bold" />
-						<span class="text-xs font-medium text-neutral-400">Season</span>
+						<div
+							class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2"
+						>
+							<ListIcon class="h-3.5 w-3.5 text-neutral-500" weight="bold" />
+							<span class="text-xs font-medium text-neutral-400">Season</span>
+						</div>
 					</div>
-				</div>
 
-					<div class="flex flex-1 overflow-x-auto gap-1.5">
+					<div class="flex flex-1 gap-1.5 overflow-x-auto">
 						{#each Array(totalSeasons) as _, i (i)}
 							<button
 								onclick={() => {
@@ -238,7 +237,7 @@
 									episode = 1;
 								}}
 								class={cn(
-									'rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200 text-nowrap',
+									'rounded-lg px-2.5 py-1.5 text-xs font-bold text-nowrap transition-all duration-200',
 									season === i + 1
 										? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
 										: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
