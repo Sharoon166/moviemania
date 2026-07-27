@@ -10,7 +10,8 @@
 		{ label: 'Good', min: 7.0, color: '#5CDB95', bg: 'rgba(92,219,149,0.15)' },
 		{ label: 'Regular', min: 6.0, color: '#FFB300', bg: 'rgba(255,179,0,0.15)' },
 		{ label: 'Bad', min: 5.0, color: '#E53935', bg: 'rgba(229,57,53,0.15)' },
-		{ label: 'Garbage', min: 0, color: '#7E57C2', bg: 'rgba(126,87,194,0.15)' }
+		{ label: 'Garbage', min: 0, color: '#7E57C2', bg: 'rgba(126,87,194,0.15)' },
+		{ label: 'Not Rated', min: -1, color: '#525252', bg: 'rgba(82,82,82,0.12)' }
 	];
 
 	function getColor(score: number) {
@@ -32,10 +33,15 @@
 	}
 
 	let heatmapData = $state<
-		Array<{ season: number; episodes: Array<{ episode: number; score: number; name: string }> }>
+		Array<{
+			season: number;
+			episodes: Array<{ episode: number; score: number | null; name: string }>;
+		}>
 	>([]);
 	let isLoading = $state(true);
-	let maxEpisodes = $derived(Math.max(...heatmapData.map((s) => s.episodes.length), 0));
+	let maxEpisodes = $derived(
+		Math.max(...heatmapData.map((s) => Math.max(...s.episodes.map((e) => e.episode), 0)), 0)
+	);
 	let seasonCount = $derived(heatmapData.length);
 
 	async function loadRatings() {
@@ -49,20 +55,18 @@
 
 			const results: Array<{
 				season: number;
-				episodes: Array<{ episode: number; score: number; name: string }>;
+				episodes: Array<{ episode: number; score: number | null; name: string }>;
 			}> = [];
 
 			for (const season of seasons) {
 				try {
 					const seasonDetail = await tmdb.season.detail(showId, season.season_number);
 
-					const episodes = seasonDetail.episodes
-						.filter((ep) => ep.vote_average > 0)
-						.map((ep, idx) => ({
-							episode: idx + 1,
-							score: Math.round(ep.vote_average * 10) / 10,
-							name: ep.name
-						}));
+					const episodes = seasonDetail.episodes.map((ep) => ({
+						episode: ep.episode_number,
+						score: ep.vote_average > 0 ? Math.round(ep.vote_average * 10) / 10 : null,
+						name: ep.name
+					}));
 
 					if (episodes.length > 0) {
 						results.push({ season: season.season_number, episodes });
@@ -72,7 +76,7 @@
 				}
 			}
 
-			heatmapData = results;
+			heatmapData = results.sort((a, b) => a.season - b.season);
 		} catch {
 			heatmapData = [];
 		}
@@ -143,15 +147,25 @@
 						{#each heatmapData as s (s.season)}
 							{@const ep = s.episodes.find((e) => e.episode === epNum)}
 							{#if ep}
-								<div
-									class="flex items-center justify-center rounded-md text-[13px] font-bold"
-									style="width: 64px; height: 36px; background-color: {getBg(
-										ep.score
-									)}; color: {getColor(ep.score)}; border: 1px solid {getColor(ep.score)}22;"
-									title="S{s.season}E{ep.episode} — {ep.name} ({ep.score})"
-								>
-									{ep.score.toFixed(1)}
-								</div>
+								{#if ep.score !== null}
+									<div
+										class="flex items-center justify-center rounded-md text-[13px] font-bold"
+										style="width: 64px; height: 36px; background-color: {getBg(
+											ep.score
+										)}; color: {getColor(ep.score)}; border: 1px solid {getColor(ep.score)}22;"
+										title="S{s.season}E{ep.episode} — {ep.name} ({ep.score})"
+									>
+										{ep.score.toFixed(1)}
+									</div>
+								{:else}
+									<div
+										class="flex items-center justify-center rounded-md text-[13px] font-semibold"
+										style="width: 64px; height: 36px; background-color: rgba(82,82,82,0.12); color: #525252; border: 1px solid #52525222;"
+										title="S{s.season}E{ep.episode} — {ep.name} (Not rated)"
+									>
+										?
+									</div>
+								{/if}
 							{:else}
 								<div style="width: 64px; height: 36px;"></div>
 							{/if}

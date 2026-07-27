@@ -418,7 +418,7 @@
 
 		<!-- Keyboard shortcuts hint -->
 		<div
-			class="max-sm:hidden fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-white/60 backdrop-blur-sm"
+			class="fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-white/60 backdrop-blur-sm max-sm:hidden"
 		>
 			<div>↑↓ Navigate</div>
 			<div>M Mute</div>
