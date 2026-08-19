@@ -308,7 +308,7 @@
 			const bottomNav = document.querySelector('nav.fixed.bottom-0') as HTMLElement | null;
 			const header = document.getElementById('top-header') as HTMLElement;
 			bottomNav?.style.setProperty('display', '');
-			header.style.setProperty("position","fixed")
+			header.style.setProperty('position', 'fixed');
 		}
 	});
 </script>

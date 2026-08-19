@@ -219,9 +219,9 @@ const FONT_KEYS_BY_FAMILY: Record<string, string[]> = {
 };
 
 class ThemeStore {
-	activeThemeId = $state('obsidian-gold');
-	activeDisplayFont = $state("'Syne', sans-serif");
-	activeBodyFont = $state("'DM Sans', sans-serif");
+	activeThemeId = $state('doom');
+	activeDisplayFont = $state("'Oxanium', sans-serif");
+	activeBodyFont = $state("'Oxanium', sans-serif");
 
 	private styleEl: HTMLStyleElement | null = null;
 	private loadedFonts = new SvelteSet<string>();
@@ -394,9 +394,9 @@ class ThemeStore {
 			this.styleEl.textContent = '';
 		}
 
-		this.activeThemeId = 'obsidian-gold';
-		this.activeDisplayFont = "'Syne', sans-serif";
-		this.activeBodyFont = "'DM Sans', sans-serif";
+		this.activeThemeId = 'doom';
+		this.activeDisplayFont = "'Oxanium', sans-serif";
+		this.activeBodyFont = "'Oxanium', sans-serif";
 		localStorage.removeItem('theme-switcher');
 	}
 

@@ -51,7 +51,7 @@
 
 <!-- ─── Top bar ─── -->
 <nav
-    id="top-header"
+	id="top-header"
 	class={cn(
 		'fixed inset-x-0 top-0 z-50 transition-all duration-500',
 		isScrolled && 'bg-surface-950/85 shadow-[0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl'

@@ -1,32 +1,32 @@
 @import 'tailwindcss';
 
 @theme {
-	--color-surface-50: #fafafa;
-	--color-surface-100: #f0f0f0;
-	--color-surface-200: #d9d9d9;
-	--color-surface-300: #b3b3b3;
-	--color-surface-400: #808080;
-	--color-surface-500: #5c5c5c;
-	--color-surface-600: #404040;
-	--color-surface-700: #2a2a2a;
-	--color-surface-800: #1a1a1a;
-	--color-surface-850: #121212;
-	--color-surface-900: #0a0a0a;
-	--color-surface-950: #050505;
+	--color-surface-50: #f0ece8;
+	--color-surface-100: #ddd5cd;
+	--color-surface-200: #c4b8ab;
+	--color-surface-300: #9f9186;
+	--color-surface-400: #7d6e64;
+	--color-surface-500: #625550;
+	--color-surface-600: #4d4340;
+	--color-surface-700: #3c3433;
+	--color-surface-800: #312a29;
+	--color-surface-850: #272221;
+	--color-surface-900: #1e1a19;
+	--color-surface-950: #161312;
 
-	--color-gold-50: #fffbeb;
-	--color-gold-100: #fef3c7;
-	--color-gold-200: #fde68a;
-	--color-gold-300: #fcd34d;
-	--color-gold-400: #fbbf24;
-	--color-gold-500: #f59e0b;
-	--color-gold-600: #d97706;
+	--color-gold-50: #fff5ed;
+	--color-gold-100: #ffe4cc;
+	--color-gold-200: #ffc799;
+	--color-gold-300: #f0a060;
+	--color-gold-400: #e07828;
+	--color-gold-500: #c45a1a;
+	--color-gold-600: #9c4614;
 
-	--color-crimson-500: #dc2626;
-	--color-crimson-600: #b91c1c;
+	--color-crimson-500: #c4381a;
+	--color-crimson-600: #9c2c14;
 
-	--font-display: 'Syne', sans-serif;
-	--font-body: 'DM Sans', sans-serif;
+	--font-display: 'Oxanium', sans-serif;
+	--font-body: 'Oxanium', sans-serif;
 }
 
 body {
