@@ -61,3 +61,34 @@ button {
 ::-webkit-scrollbar-thumb:hover {
 	background: #555;
 }
+
+a {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        width: 6px;
+        height: 6px;
+        background-color: var(--color-gold-400, red);
+        border-radius: 50%;
+        opacity: 0;
+        /* Start elevated and small */
+        transform: translate(-50%, -10px) scale(0.3);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+    }
+
+    &.active {
+        color: var(--color-gold-400);
+        font-weight: 700;
+
+        &::before {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+        }
+    }
+}

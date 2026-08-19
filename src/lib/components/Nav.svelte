@@ -11,8 +11,13 @@
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
 	import { watchlist } from '$lib/services/watchlist.svelte';
+	import { tick } from 'svelte';
 
 	let isScrolled = $state(false);
+
+	// Element references instead of global document querying
+	let navContainer = $state<HTMLElement | null>(null);
+	let navDot = $state<HTMLElement | null>(null);
 
 	$effect(() => {
 		if (typeof window === 'undefined') return;
@@ -42,6 +47,7 @@
 	];
 
 	const mobileNavLinks = [
+		{ href: '/', label: 'Home', Icon: HouseIcon },
 		{ href: '/browse', label: 'Search', Icon: MagnifyingGlassIcon },
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
 		{ href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
@@ -72,13 +78,13 @@
 		</a>
 
 		<!-- Desktop nav (md+) -->
-		<div class="hidden items-center gap-2 md:flex">
+		<div class="hidden items-center gap-2 md:flex relative" bind:this={navContainer}>
 			{#each navLinks as { href, label, Icon } (href)}
 				<a
 					{href}
 					class={cn(
-						'relative flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-neutral-300 transition-all duration-300 hover:bg-white/5 hover:text-white active:scale-95',
-						page.url.pathname === href && 'bg-white/5 text-white'
+						'nav-link relative flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-neutral-300 transition-all duration-300 hover:text-white active:scale-95',
+						page.url.pathname === href && 'active'
 					)}
 				>
 					<Icon class="h-4 w-4" />
@@ -148,24 +154,12 @@
 		<div
 			class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]"
 		>
-			<!-- Home -->
-			<a
-				href="/"
-				class={cn(
-					'flex flex-col items-center gap-1 rounded-xl px-4 py-1.5 text-neutral-400 transition-all duration-200 active:scale-90',
-					page.url.pathname === '/' && 'text-white'
-				)}
-			>
-				<HouseIcon class="h-5 w-5" weight={page.url.pathname === '/' ? 'fill' : 'regular'} />
-				<span class="text-[10px] font-medium tracking-wide">Home</span>
-			</a>
-
 			{#each mobileNavLinks as { href, label, Icon } (href)}
 				<a
 					{href}
 					class={cn(
 						'relative flex flex-col items-center gap-1 rounded-xl px-4 py-1.5 text-neutral-400 transition-all duration-200 active:scale-90',
-						page.url.pathname === href && 'text-white'
+						page.url.pathname === href && 'text-gold-400 scale-110'
 					)}
 				>
 					<Icon class="h-5 w-5" weight={page.url.pathname === href ? 'fill' : 'regular'} />
