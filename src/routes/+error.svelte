@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { ArrowLeftIcon, FilmReelIcon } from 'phosphor-svelte';
+	import ArrowLeftIcon from 'phosphor-svelte/lib/ArrowLeftIcon';
+	import FilmReelIcon from 'phosphor-svelte/lib/FilmReelIcon';
 
 	let status = $derived(page.status);
 	let message = $derived(page.error?.message || 'Something went wrong');

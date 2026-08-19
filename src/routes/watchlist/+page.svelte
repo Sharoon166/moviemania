@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { watchlist, type SortField, type SortDir } from '$lib/services/watchlist.svelte';
 	import { tmdb } from '$lib/api/tmdb';
-	import {
-		StarIcon,
-		PlayCircleIcon,
-		EyeIcon,
-		EyeSlashIcon,
-		TrashIcon,
-		MagnifyingGlassIcon,
-		CaretDownIcon,
-		BookmarkIcon,
-		CheckCircleIcon
-	} from 'phosphor-svelte';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import PlayCircleIcon from 'phosphor-svelte/lib/PlayCircleIcon';
+	import EyeIcon from 'phosphor-svelte/lib/EyeIcon';
+	import EyeSlashIcon from 'phosphor-svelte/lib/EyeSlashIcon';
+	import TrashIcon from 'phosphor-svelte/lib/TrashIcon';
+	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
+	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
+	import BookmarkIcon from 'phosphor-svelte/lib/BookmarkIcon';
+	import CheckCircleIcon from 'phosphor-svelte/lib/CheckCircleIcon';
 	import { cn } from '$lib/cn';
 
 	let mediaType = $state<'all' | 'movie' | 'tv'>('all');

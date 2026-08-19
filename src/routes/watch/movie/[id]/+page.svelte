@@ -2,14 +2,12 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
 	import { browser } from '$app/environment';
-	import {
-		PlayIcon,
-		FilmSlateIcon,
-		DownloadIcon,
-		CornersOutIcon,
-		ArrowsInIcon,
-		ClockAfternoonIcon
-	} from 'phosphor-svelte';
+	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
+	import FilmSlateIcon from 'phosphor-svelte/lib/FilmSlateIcon';
+	import DownloadIcon from 'phosphor-svelte/lib/DownloadIcon';
+	import CornersOutIcon from 'phosphor-svelte/lib/CornersOutIcon';
+	import ArrowsInIcon from 'phosphor-svelte/lib/ArrowsInIcon';
+	import ClockAfternoonIcon from 'phosphor-svelte/lib/ClockAfternoonIcon';
 	import { cn } from '$lib/cn';
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { getPreferredServer, setPreferredServer } from '$lib/stores/embed-server';

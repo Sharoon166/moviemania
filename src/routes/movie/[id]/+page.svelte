@@ -2,20 +2,18 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
 	import type { TmdbImage } from '$lib/types/tmdb.d';
-	import {
-		StarIcon,
-		PlayCircleIcon,
-		ClockIcon,
-		CalendarIcon,
-		TrendUpIcon,
-		DownloadIcon,
-		CaretLeftIcon,
-		CaretRightIcon,
-		XIcon,
-		FilmStripIcon,
-		CurrencyDollarIcon,
-		ClockAfternoonIcon
-	} from 'phosphor-svelte';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import PlayCircleIcon from 'phosphor-svelte/lib/PlayCircleIcon';
+	import ClockIcon from 'phosphor-svelte/lib/ClockIcon';
+	import CalendarIcon from 'phosphor-svelte/lib/CalendarIcon';
+	import TrendUpIcon from 'phosphor-svelte/lib/TrendUpIcon';
+	import DownloadIcon from 'phosphor-svelte/lib/DownloadIcon';
+	import CaretLeftIcon from 'phosphor-svelte/lib/CaretLeftIcon';
+	import CaretRightIcon from 'phosphor-svelte/lib/CaretRightIcon';
+	import XIcon from 'phosphor-svelte/lib/XIcon';
+	import FilmStripIcon from 'phosphor-svelte/lib/FilmStripIcon';
+	import CurrencyDollarIcon from 'phosphor-svelte/lib/CurrencyDollarIcon';
+	import ClockAfternoonIcon from 'phosphor-svelte/lib/ClockAfternoonIcon';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
 	import WatchlistButton from '$lib/components/WatchlistButton.svelte';

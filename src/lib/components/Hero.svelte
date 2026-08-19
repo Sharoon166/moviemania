@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbMovie, TmdbTvShow } from '$lib/types/tmdb.d';
-	import { PlayIcon, InfoIcon, StarIcon, CaretLeftIcon, CaretRight } from 'phosphor-svelte';
+	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
+	import InfoIcon from 'phosphor-svelte/lib/InfoIcon';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import CaretLeftIcon from 'phosphor-svelte/lib/CaretLeftIcon';
+	import CaretRight from 'phosphor-svelte/lib/CaretRight';
 	import { cn } from '$lib/cn';
 	import { onMount } from 'svelte';
 
@@ -220,7 +224,7 @@
 			<div class="flex flex-wrap gap-3 pt-3">
 				<a
 					href={`/watch/${mediaType}/${current.id}`}
-					class="group flex items-center gap-2.5 rounded-full bg-gold-500 px-8 py-3.5 text-sm font-bold text-black transition-all duration-300 hover:scale-[1.03] hover:bg-gold-400 hover:shadow-[0_0_40px_rgba(245,158,11,0.35)] active:scale-95"
+					class="group flex items-center gap-2.5 rounded-full bg-gold-500 px-8 py-3.5 text-sm font-bold text-black transition-all duration-300 hover:scale-[1.03] hover:bg-gold-400 hover:shadow-gold-300 active:scale-95"
 				>
 					<PlayIcon class="h-5 w-5" weight="fill" />
 

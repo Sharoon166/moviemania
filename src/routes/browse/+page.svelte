@@ -4,7 +4,9 @@
 	import type { TmdbGenre, TmdbMovie, TmdbTvShow } from '$lib/types/tmdb.d';
 	import Tile from '$lib/components/Tile.svelte';
 	import SkeletonTile from '$lib/components/SkeletonTile.svelte';
-	import { MagnifyingGlassIcon, XIcon, CaretDownIcon } from 'phosphor-svelte';
+	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
+	import XIcon from 'phosphor-svelte/lib/XIcon';
+	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
 	import { cn } from '$lib/cn';
 	import { searchHistory } from '$lib/services/search-history.svelte';
 	import { appSettings } from '$lib/services/app-settings.svelte';
@@ -499,7 +501,7 @@
 						bind:value={sortBy}
 						class="appearance-none rounded-lg border border-white/10 bg-surface-800 py-1.5 pr-7 pl-3 text-xs text-white transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
 					>
-						{#each sortOptions as opt}
+						{#each sortOptions as opt (opt.value)}
 							<option value={opt.value} class="bg-surface-900">{opt.label}</option>
 						{/each}
 					</select>

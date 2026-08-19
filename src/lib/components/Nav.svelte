@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import {
-		MagnifyingGlassIcon,
-		ShuffleIcon,
-		PlayIcon,
-		InfoIcon,
-		HouseIcon,
-		CardsThreeIcon,
-		BookmarkIcon,
-		GearSixIcon
-	} from 'phosphor-svelte';
+	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
+	import ShuffleIcon from 'phosphor-svelte/lib/ShuffleIcon';
+	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
+	import InfoIcon from 'phosphor-svelte/lib/InfoIcon';
+	import HouseIcon from 'phosphor-svelte/lib/HouseIcon';
+	import CardsThreeIcon from 'phosphor-svelte/lib/CardsThreeIcon';
+	import BookmarkIcon from 'phosphor-svelte/lib/BookmarkIcon';
+	import GearSixIcon from 'phosphor-svelte/lib/GearSixIcon';
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
 	import { watchlist } from '$lib/services/watchlist.svelte';
@@ -53,6 +51,7 @@
 
 <!-- ─── Top bar ─── -->
 <nav
+    id="top-header"
 	class={cn(
 		'fixed inset-x-0 top-0 z-50 transition-all duration-500',
 		isScrolled && 'bg-surface-950/85 shadow-[0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl'

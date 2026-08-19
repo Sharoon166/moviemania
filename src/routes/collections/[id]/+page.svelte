@@ -3,7 +3,10 @@
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbCollectionPart } from '$lib/types/tmdb.d';
 	import Tile from '$lib/components/Tile.svelte';
-	import { StarIcon, FilmSlateIcon, SpinnerIcon, CalendarIcon } from 'phosphor-svelte';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import FilmSlateIcon from 'phosphor-svelte/lib/FilmSlateIcon';
+	import SpinnerIcon from 'phosphor-svelte/lib/SpinnerIcon';
+	import CalendarIcon from 'phosphor-svelte/lib/CalendarIcon';
 
 	let { params } = $props();
 	let id = $derived(params.id);

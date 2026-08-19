@@ -34,6 +34,7 @@
 	let hasMore = $state(true);
 	let muted = $state(false);
 	let isPageVisible = $state(true);
+	let topOffset = $state(0);
 
 	const seen = new SvelteSet<string>();
 
@@ -282,7 +283,17 @@
 		window.addEventListener('keydown', handleKeyboard);
 		window.addEventListener('message', handleYTMessage);
 		document.addEventListener('visibilitychange', handleVisibility);
-		document.querySelector('nav')?.style.setProperty('position', 'static');
+
+		if (browser) {
+			const bottomNav = document.querySelector('nav.fixed.bottom-0') as HTMLElement | null;
+			bottomNav?.style.setProperty('display', 'none');
+		}
+
+		tick().then(() => {
+			const header = document.getElementById('top-header') as HTMLElement;
+			header.style.setProperty('position', 'static');
+			topOffset = header?.getBoundingClientRect().height ?? 0;
+		});
 
 		return () => {
 			observer?.disconnect();
@@ -293,7 +304,12 @@
 	});
 
 	onDestroy(() => {
-		if (browser) document.querySelector('nav')?.style.setProperty('position', 'fixed');
+		if (browser) {
+			const bottomNav = document.querySelector('nav.fixed.bottom-0') as HTMLElement | null;
+			const header = document.getElementById('top-header') as HTMLElement;
+			bottomNav?.style.setProperty('display', '');
+			header.style.setProperty("position","fixed")
+		}
 	});
 </script>
 
@@ -303,17 +319,20 @@
 
 <div
 	bind:this={container}
-	class="h-screen snap-y snap-mandatory scrollbar-none overflow-x-hidden overflow-y-auto"
-	style="-webkit-overflow-scrolling: touch"
+	class="snap-y snap-mandatory scrollbar-none overflow-x-hidden overflow-y-auto"
+	style="height: calc(100dvh - {topOffset}px); -webkit-overflow-scrolling: touch;"
 >
 	{#if loading && clips.length === 0}
-		<div class="flex h-screen items-center justify-center">
+		<div class="flex items-center justify-center" style="height: calc(100dvh - {topOffset}px);">
 			<div
 				class="h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white"
 			></div>
 		</div>
 	{:else if error}
-		<div class="flex h-screen items-center justify-center px-6 text-center">
+		<div
+			class="flex items-center justify-center px-6 text-center"
+			style="height: calc(100dvh - {topOffset}px);"
+		>
 			<p class="text-red-400">{error}</p>
 		</div>
 	{:else}
@@ -321,7 +340,8 @@
 			<section
 				data-reel
 				data-index={index}
-				class="relative mx-auto h-[calc(100dvh-128px)] snap-start overflow-hidden bg-black md:aspect-9/16 md:h-[calc(100dvh-64px)]"
+				class="relative mx-auto snap-start overflow-hidden bg-black md:aspect-9/16"
+				style="height: calc(100dvh - {topOffset}px);"
 			>
 				{#if Math.abs(index - activeIndex) <= 1}
 					<!-- Poster thumbnail behind iframe -->

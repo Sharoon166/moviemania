@@ -2,7 +2,8 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb } from '$lib/api/tmdb';
 	import { cn } from '$lib/cn';
-	import { CaretDownIcon, PlayIcon } from 'phosphor-svelte';
+	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
+	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
 
 	let {
 		tvId,

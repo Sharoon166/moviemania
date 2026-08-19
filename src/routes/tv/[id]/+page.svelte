@@ -1,18 +1,16 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tmdb, embedSources } from '$lib/api/tmdb';
-	import {
-		StarIcon,
-		PlayCircleIcon,
-		CalendarIcon,
-		TelevisionIcon,
-		DownloadIcon,
-		CaretLeftIcon,
-		CaretRightIcon,
-		XIcon,
-		FilmStripIcon,
-		ClockAfternoonIcon
-	} from 'phosphor-svelte';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import PlayCircleIcon from 'phosphor-svelte/lib/PlayCircleIcon';
+	import CalendarIcon from 'phosphor-svelte/lib/CalendarIcon';
+	import TelevisionIcon from 'phosphor-svelte/lib/TelevisionIcon';
+	import DownloadIcon from 'phosphor-svelte/lib/DownloadIcon';
+	import CaretLeftIcon from 'phosphor-svelte/lib/CaretLeftIcon';
+	import CaretRightIcon from 'phosphor-svelte/lib/CaretRightIcon';
+	import XIcon from 'phosphor-svelte/lib/XIcon';
+	import FilmStripIcon from 'phosphor-svelte/lib/FilmStripIcon';
+	import ClockAfternoonIcon from 'phosphor-svelte/lib/ClockAfternoonIcon';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import TrailerModal from '$lib/components/TrailerModal.svelte';
 	import EpisodeRatingsHeatmap from '$lib/components/EpisodeRatingsHeatmap.svelte';

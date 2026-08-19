@@ -8,8 +8,11 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import { themeStore } from '$lib/services/theme.svelte';
 	import { appSettings } from '$lib/services/app-settings.svelte';
+	import { page } from '$app/state';
 
 	let { children } = $props();
+
+	let isShorts = $derived(page.url.pathname.startsWith('/shorts'));
 
 	$effect(() => {
 		if (browser) import('@tanstack/svelte-query-devtools');
@@ -36,9 +39,11 @@
 <QueryClientProvider client={queryClient}>
 	<div class="flex min-h-dvh flex-col">
 		<Nav />
-		<main class="flex-1 pb-20 md:pb-0">
+		<main class="flex-1 {isShorts ? '' : 'pb-20 md:pb-0'}">
 			{@render children()}
 		</main>
-		<Footer />
+		{#if !isShorts}
+			<Footer />
+		{/if}
 	</div>
 </QueryClientProvider>

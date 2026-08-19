@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbMovie, TmdbTvShow } from '$lib/types/tmdb.d';
-	import { FilmSlateIcon, StarIcon, PlayCircleIcon } from 'phosphor-svelte';
+	import FilmSlateIcon from 'phosphor-svelte/lib/FilmSlateIcon';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import PlayCircleIcon from 'phosphor-svelte/lib/PlayCircleIcon';
 	import { cn } from '$lib/cn';
 
 	type TileItem = TmdbMovie | TmdbTvShow;

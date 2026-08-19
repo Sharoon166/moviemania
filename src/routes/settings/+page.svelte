@@ -10,13 +10,11 @@
 	import { searchHistory } from '$lib/services/search-history.svelte';
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { setPreferredServer } from '$lib/stores/embed-server';
-	import {
-		ArrowCounterClockwiseIcon,
-		TrashIcon,
-		CaretDownIcon,
-		EyeIcon,
-		EyeSlashIcon
-	} from 'phosphor-svelte';
+	import ArrowCounterClockwiseIcon from 'phosphor-svelte/lib/ArrowCounterClockwiseIcon';
+	import TrashIcon from 'phosphor-svelte/lib/TrashIcon';
+	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
+	import EyeIcon from 'phosphor-svelte/lib/EyeIcon';
+	import EyeSlashIcon from 'phosphor-svelte/lib/EyeSlashIcon';
 	import { cn } from '$lib/cn';
 	import { onMount } from 'svelte';
 

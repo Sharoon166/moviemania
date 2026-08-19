@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { GithubLogoIcon, GlobeIcon } from 'phosphor-svelte';
+	import GithubLogoIcon from 'phosphor-svelte/lib/GithubLogoIcon';
+	import GlobeIcon from 'phosphor-svelte/lib/GlobeIcon';
 </script>
 
 <svelte:head>

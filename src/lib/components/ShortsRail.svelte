@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TmdbMovie, TmdbTvShow, TmdbVideo } from '$lib/types/tmdb.d';
-	import { PlayCircleIcon, ThumbsUpIcon } from 'phosphor-svelte';
+	import PlayCircleIcon from 'phosphor-svelte/lib/PlayCircleIcon';
+	import ThumbsUpIcon from 'phosphor-svelte/lib/ThumbsUpIcon';
 
 	type ShortsClip = {
 		id: string;

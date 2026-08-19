@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BookmarkIcon } from 'phosphor-svelte';
+	import BookmarkIcon from 'phosphor-svelte/lib/BookmarkIcon';
 	import { cn } from '$lib/cn';
 	import { watchlist } from '$lib/services/watchlist.svelte';
 	import type { MediaType } from '$lib/services/watchlist.svelte';

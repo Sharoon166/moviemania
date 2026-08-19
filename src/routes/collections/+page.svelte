@@ -3,7 +3,8 @@
 	import type { TmdbCollection, TmdbCollectionSummary } from '$lib/types/tmdb.d';
 	import CollectionCard from '$lib/components/CollectionCard.svelte';
 
-	import { MagnifyingGlassIcon, SpinnerIcon } from 'phosphor-svelte';
+	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
+	import SpinnerIcon from 'phosphor-svelte/lib/SpinnerIcon';
 
 	import { cn } from '$lib/cn';
 	import { onMount } from 'svelte';

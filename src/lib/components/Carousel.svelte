@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TmdbMovie, TmdbTvShow } from '$lib/types/tmdb.d';
-	import { CaretLeftIcon, CaretRightIcon } from 'phosphor-svelte';
+	import CaretLeftIcon from 'phosphor-svelte/lib/CaretLeftIcon';
+	import CaretRightIcon from 'phosphor-svelte/lib/CaretRightIcon';
 	import Tile from './Tile.svelte';
 
 	let { items, title }: { items: (TmdbMovie | TmdbTvShow)[]; title: string } = $props();

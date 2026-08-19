@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { continueWatching } from '$lib/services/continue-watching.svelte';
 	import { tmdb } from '$lib/api/tmdb';
-	import { XIcon, PlayIcon } from 'phosphor-svelte';
+	import XIcon from 'phosphor-svelte/lib/XIcon';
+	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
 	import { browser } from '$app/environment';
 
 	let items = $derived(continueWatching.items);

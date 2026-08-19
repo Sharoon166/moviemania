@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ChartBarIcon } from 'phosphor-svelte';
+	import ChartBarIcon from 'phosphor-svelte/lib/ChartBarIcon';
 	import { tmdb } from '$lib/api/tmdb';
 
 	let { showId }: { showId: number } = $props();

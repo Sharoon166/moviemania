@@ -2,7 +2,7 @@
 	import type { TmdbCollection, TmdbCollectionSummary } from '$lib/types/tmdb.d';
 
 	import { tmdb } from '$lib/api/tmdb';
-	import { FilmSlateIcon } from 'phosphor-svelte';
+	import FilmSlateIcon from 'phosphor-svelte/lib/FilmSlateIcon';
 	import { goto } from '$app/navigation';
 	import { cn } from '$lib/cn';
 

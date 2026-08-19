@@ -3,15 +3,13 @@
 	import { tmdb } from '$lib/api/tmdb';
 	import type { TmdbEpisode } from '$lib/types/tmdb.d';
 	import { cn } from '$lib/cn';
-	import {
-		CaretUpIcon,
-		CaretDownIcon,
-		ListIcon,
-		ArrowsDownUpIcon,
-		MagnifyingGlassIcon,
-		StarIcon,
-		PlayIcon
-	} from 'phosphor-svelte';
+	import CaretUpIcon from 'phosphor-svelte/lib/CaretUpIcon';
+	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
+	import ListIcon from 'phosphor-svelte/lib/ListIcon';
+	import ArrowsDownUpIcon from 'phosphor-svelte/lib/ArrowsDownUpIcon';
+	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
+	import StarIcon from 'phosphor-svelte/lib/StarIcon';
+	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
 
 	let {
 		tvId,
