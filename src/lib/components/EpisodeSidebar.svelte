@@ -130,7 +130,7 @@
 	});
 </script>
 
-<div class="w-full rounded-2xl border border-white/10 bg-surface-900/95 shadow-xl backdrop-blur-xl">
+<div class="w-full rounded-2xl border border-white/10 bg-surface-900/95 shadow-xl backdrop-blur-xl overflow-hidden">
 	<!-- Header - Collapsible -->
 	<button
 		onclick={toggleExpanded}

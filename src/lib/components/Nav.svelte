@@ -11,13 +11,8 @@
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
 	import { watchlist } from '$lib/services/watchlist.svelte';
-	import { tick } from 'svelte';
 
 	let isScrolled = $state(false);
-
-	// Element references instead of global document querying
-	let navContainer = $state<HTMLElement | null>(null);
-	let navDot = $state<HTMLElement | null>(null);
 
 	$effect(() => {
 		if (typeof window === 'undefined') return;
@@ -149,7 +144,7 @@
 </nav>
 
 <!-- ─── Mobile bottom tab bar ─── -->
-<nav class="fixed inset-x-0 bottom-0 z-50 md:hidden">
+<nav class="fixed inset-x-0 bottom-0 z-1000 md:hidden">
 	<div class="border-t border-white/6 bg-surface-950/90 backdrop-blur-xl">
 		<div
 			class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]"

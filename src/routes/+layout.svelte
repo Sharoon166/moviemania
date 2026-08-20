@@ -39,7 +39,7 @@
 <QueryClientProvider client={queryClient}>
 	<div class="flex min-h-dvh flex-col">
 		<Nav />
-		<main class="flex-1 {isShorts ? '' : 'pb-20 md:pb-0'}">
+		<main class="flex-1">
 			{@render children()}
 		</main>
 		{#if !isShorts}

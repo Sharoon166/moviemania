@@ -81,7 +81,7 @@
 {#if show.data}
 	<!-- HERO -->
 	<section
-		class="relative flex min-h-[60vh] flex-col items-start justify-end overflow-hidden pt-32 pb-8"
+		class="relative flex min-h-[80vh] flex-col items-start justify-end overflow-hidden pt-32 pb-8"
 	>
 		<div class="absolute inset-0">
 			<img

@@ -11,7 +11,7 @@
 	<title>{status} - Moviemania</title>
 </svelte:head>
 
-<div class="flex min-h-screen items-center justify-center bg-black px-6">
+<div class="flex min-h-screen items-center justify-center px-6">
 	<div class="w-full max-w-md text-center">
 		<!-- Custom SVG Illustration -->
 		<div class="mb-2 flex justify-center"></div>
@@ -21,7 +21,7 @@
 			class="mb-3 flex items-end justify-center font-display text-6xl font-bold text-white md:text-9xl"
 		>
 			{#if status == 404}
-				4<FilmReelIcon class="text-5xl md:text-8xl" />4
+				4<FilmReelIcon class="text-7xl md:text-9xl" />4
 			{:else}
 				{status}
 			{/if}
