@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
-	import { tmdb, embedSources } from '$lib/api/tmdb';
+	import { tmdb } from '$lib/api/tmdb';
 	import { browser } from '$app/environment';
 	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
-	import FilmSlateIcon from 'phosphor-svelte/lib/FilmSlateIcon';
 	import DownloadIcon from 'phosphor-svelte/lib/DownloadIcon';
 	import SkipForwardIcon from 'phosphor-svelte/lib/SkipForwardIcon';
 	import SkipBackIcon from 'phosphor-svelte/lib/SkipBackIcon';
@@ -17,6 +16,7 @@
 	import { untrack } from 'svelte';
 	import WatchlistButton from '$lib/components/WatchlistButton.svelte';
 	import ServerPicker from '$lib/components/ServerPicker.svelte';
+	import TrailerModal from '$lib/components/TrailerModal.svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -26,7 +26,7 @@
 		queryFn: () => tmdb.tv.detail(Number(id))
 	}));
 
-	let source = $state<'embed' | 'trailer'>('embed');
+	let showTrailer = $state(false);
 	let season = $state(1);
 	let episode = $state(1);
 	let server = $state(getPreferredServer());
@@ -173,7 +173,7 @@
 </svelte:head>
 
 {#if show.data}
-	<div class="relative flex min-h-screen flex-col bg-black">
+	<div class="relative flex min-h-screen flex-col">
 		<div class="flex flex-col items-center pt-20 pb-8">
 			<div class="mx-auto w-full max-w-5xl px-4">
 				{#if unreleased}
@@ -187,35 +187,6 @@
 						</div>
 					</div>
 				{:else}
-					<div class="flex flex-wrap items-center gap-2 pb-4">
-						<button
-							onclick={() => (source = 'embed')}
-							class={cn(
-								'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300',
-								source === 'embed'
-									? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-									: 'text-neutral-400 hover:text-white'
-							)}
-						>
-							<FilmSlateIcon class="h-4 w-4" />
-							Watch Now
-						</button>
-						{#if video}
-							<button
-								onclick={() => (source = 'trailer')}
-								class={cn(
-									'flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-300',
-									source === 'trailer'
-										? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-										: 'text-neutral-400 hover:text-white'
-								)}
-							>
-								<PlayIcon class="h-4 w-4" />
-								Trailer
-							</button>
-						{/if}
-					</div>
-
 					<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 					<!-- svelte-ignore a11y_click_events_have_key_events -->
 					<div
@@ -234,23 +205,13 @@
 					>
 						<div class={cn(cinemaMode ? 'max-h-[85dvh] w-full max-w-[90vw]' : '')}>
 							<div class="relative mx-auto aspect-video h-full overflow-hidden rounded-xl">
-								{#if source === 'embed'}
-									<iframe
-										src={tmdb.embed.tv(show.data.id, season, episode, server)}
-										title={show.data.name}
-										class="aspect-video w-full"
-										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-										allowfullscreen
-									></iframe>
-								{:else if video}
-									<iframe
-										src={`https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0`}
-										title={video.name}
-										class="aspect-video w-full"
-										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-										allowfullscreen
-									></iframe>
-								{/if}
+								<iframe
+									src={tmdb.embed.tv(show.data.id, season, episode, server)}
+									title={show.data.name}
+									class="aspect-video w-full"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowfullscreen
+								></iframe>
 							</div>
 						</div>
 
@@ -297,7 +258,7 @@
 						{/if}
 					</div>
 
-					{#if source === 'embed' && !cinemaMode}
+					{#if !cinemaMode}
 						{#if hasNextEpisode && nextEpisode}
 							<div class="mt-3">
 								<button
@@ -338,6 +299,15 @@
 							</div>
 
 							<div class="flex items-center gap-2">
+								{#if video}
+									<button
+										onclick={() => (showTrailer = true)}
+										class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+									>
+										<PlayIcon class="h-3.5 w-3.5" />
+										Trailer
+									</button>
+								{/if}
 								<button
 									onclick={() => (cinemaMode = true)}
 									class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
@@ -359,7 +329,7 @@
 						</div>
 					{/if}
 
-					{#if source === 'embed' && totalSeasons > 0 && !cinemaMode}
+					{#if totalSeasons > 0 && !cinemaMode}
 						<div class="mt-6">
 							<EpisodeSidebar
 								tvId={show.data.id}
@@ -408,4 +378,12 @@
 			<p class="text-sm text-neutral-500">Loading...</p>
 		</div>
 	</div>
+{/if}
+
+{#if showTrailer && video}
+	<TrailerModal
+		videoKey={video.key}
+		videoName={video.name}
+		onclose={() => (showTrailer = false)}
+	/>
 {/if}
