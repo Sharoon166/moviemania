@@ -14,6 +14,8 @@
 	import WatchlistButton from '$lib/components/WatchlistButton.svelte';
 	import GallerySection from '$lib/components/GallerySection.svelte';
 	import CastSection from '$lib/components/CastSection.svelte';
+	import ThemeGenerator from '$lib/components/ThemeGenerator.svelte';
+	import { appSettings } from '$lib/services/app-settings.svelte';
 
 	let { params } = $props();
 	let id = $derived(params.id);
@@ -84,12 +86,19 @@
 		<div
 			class="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 md:flex-row md:px-8"
 		>
-			<div class="hidden shrink-0 md:block">
+			<div class="relative hidden shrink-0 md:block">
 				<img
 					src={tmdb.image.poster(movie.data.poster_path ?? '', 'w342')}
 					alt={movie.data.title}
 					class="h-88 w-auto rounded-xl object-cover shadow-2xl shadow-black/50"
 				/>
+				{#if appSettings.enableThemeGenerator && movie.data.poster_path}
+					<ThemeGenerator
+						posterPath={movie.data.poster_path}
+						title={movie.data.title}
+						genreIds={movie.data.genres.map((g) => g.id)}
+					/>
+				{/if}
 			</div>
 			<div class="flex max-w-3xl flex-col gap-5">
 				<h1 class="font-display text-4xl font-extrabold text-white sm:text-5xl">

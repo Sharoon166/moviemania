@@ -15,6 +15,8 @@
 	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
 	import EyeIcon from 'phosphor-svelte/lib/EyeIcon';
 	import EyeSlashIcon from 'phosphor-svelte/lib/EyeSlashIcon';
+	import PaletteIcon from 'phosphor-svelte/lib/PaletteIcon';
+	import ProhibitIcon from 'phosphor-svelte/lib/ProhibitIcon';
 	import { cn } from '$lib/cn';
 	import { onMount } from 'svelte';
 
@@ -90,6 +92,55 @@
 				</button>
 			{/each}
 		</div>
+
+		{#if themeStore.customThemes.length > 0}
+			<div class="my-5 border-t border-white/5"></div>
+			<p class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">
+				Generated Themes
+			</p>
+			<div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+				{#each themeStore.customThemes as theme (theme.id)}
+					<div class="relative">
+						<button
+							onclick={() => themeStore.selectTheme(theme)}
+							class="group flex w-full flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all {themeStore.activeThemeId ===
+							theme.id
+								? 'border-gold-500/50 bg-gold-500/10 ring-1 ring-gold-500/20'
+								: 'border-white/5 bg-white/[0.02] hover:border-white/15 hover:bg-white/5'}"
+						>
+							<div class="flex gap-1.5">
+								<div
+									class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+									style="background-color: {theme.surface[11]}"
+								></div>
+								<div
+									class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+									style="background-color: {theme.surface[8]}"
+								></div>
+								<div
+									class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+									style="background-color: {theme.accent[5]}"
+								></div>
+							</div>
+							<span
+								class="text-xs font-medium {themeStore.activeThemeId === theme.id
+									? 'text-gold-400'
+									: 'text-neutral-400 group-hover:text-white'}"
+							>
+								{theme.name}
+							</span>
+						</button>
+						<button
+							onclick={() => themeStore.removeCustomTheme(theme.id)}
+							class="absolute top-2 right-2 rounded-lg p-1 text-neutral-600 transition-colors hover:bg-white/10 hover:text-neutral-300"
+							title="Remove theme"
+						>
+							<TrashIcon class="h-3 w-3" />
+						</button>
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</section>
 
 	<!-- Display Font -->
@@ -261,6 +312,31 @@
 							{appSettings.showHeatmap
 								? 'Heatmap shown on TV show pages'
 								: 'Heatmap hidden on TV show pages'}
+						</p>
+					</div>
+				</button>
+			</div>
+
+			<!-- Theme Generator -->
+			<div>
+				<p class="mb-2 text-xs text-neutral-400">Poster Theme Generator</p>
+				<button
+					onclick={() => appSettings.toggleThemeGenerator()}
+					class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5"
+				>
+					{#if appSettings.enableThemeGenerator}
+						<PaletteIcon class="h-4 w-4 shrink-0 text-gold-400" />
+					{:else}
+						<ProhibitIcon class="h-4 w-4 shrink-0 text-neutral-500" />
+					{/if}
+					<div class="flex-1">
+						<p class="text-xs font-medium text-neutral-300">
+							{appSettings.enableThemeGenerator ? 'Enabled' : 'Disabled'}
+						</p>
+						<p class="text-[11px] text-neutral-600">
+							{appSettings.enableThemeGenerator
+								? 'Generate themes from movie/TV posters'
+								: 'Hide theme generator on detail pages'}
 						</p>
 					</div>
 				</button>

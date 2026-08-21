@@ -10,6 +10,7 @@ interface AppSettingsData {
 	itemsPerPage: number;
 	defaultServerId: string;
 	showHeatmap: boolean;
+	enableThemeGenerator: boolean;
 }
 
 const defaults: AppSettingsData = {
@@ -17,7 +18,8 @@ const defaults: AppSettingsData = {
 	defaultSortBy: 'popularity.desc',
 	itemsPerPage: 20,
 	defaultServerId: embedSources[0].id,
-	showHeatmap: true
+	showHeatmap: true,
+	enableThemeGenerator: true
 };
 
 class AppSettings {
@@ -26,6 +28,7 @@ class AppSettings {
 	itemsPerPage = $state(defaults.itemsPerPage);
 	defaultServerId = $state(defaults.defaultServerId);
 	showHeatmap = $state(defaults.showHeatmap);
+	enableThemeGenerator = $state(defaults.enableThemeGenerator);
 
 	get defaultServer(): EmbedSource {
 		return embedSources.find((s) => s.id === this.defaultServerId) ?? embedSources[0];
@@ -42,6 +45,7 @@ class AppSettings {
 			if (data.itemsPerPage) this.itemsPerPage = data.itemsPerPage;
 			if (data.defaultServerId) this.defaultServerId = data.defaultServerId;
 			if (data.showHeatmap !== undefined) this.showHeatmap = data.showHeatmap;
+			if (data.enableThemeGenerator !== undefined) this.enableThemeGenerator = data.enableThemeGenerator;
 		} catch {}
 	}
 
@@ -53,7 +57,8 @@ class AppSettings {
 				defaultSortBy: this.defaultSortBy,
 				itemsPerPage: this.itemsPerPage,
 				defaultServerId: this.defaultServerId,
-				showHeatmap: this.showHeatmap
+				showHeatmap: this.showHeatmap,
+				enableThemeGenerator: this.enableThemeGenerator
 			};
 			localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 		} catch {}
@@ -84,12 +89,18 @@ class AppSettings {
 		this.save();
 	}
 
+	toggleThemeGenerator() {
+		this.enableThemeGenerator = !this.enableThemeGenerator;
+		this.save();
+	}
+
 	reset() {
 		this.defaultMediaFilter = defaults.defaultMediaFilter;
 		this.defaultSortBy = defaults.defaultSortBy;
 		this.itemsPerPage = defaults.itemsPerPage;
 		this.defaultServerId = defaults.defaultServerId;
 		this.showHeatmap = defaults.showHeatmap;
+		this.enableThemeGenerator = defaults.enableThemeGenerator;
 		this.save();
 	}
 }

@@ -281,13 +281,52 @@ const FONT_KEYS_BY_FAMILY: Record<string, string[]> = {
 	'Tenor Sans': ['tenor-sans']
 };
 
+const CUSTOM_THEMES_KEY = 'moviemania_custom_themes';
+
 class ThemeStore {
 	activeThemeId = $state('doom');
 	activeDisplayFont = $state("'Oxanium', sans-serif");
 	activeBodyFont = $state("'Oxanium', sans-serif");
+	customThemes = $state<Theme[]>([]);
 
 	private styleEl: HTMLStyleElement | null = null;
 	private loadedFonts = new SvelteSet<string>();
+
+	get allThemes(): Theme[] {
+		return [...themes, ...this.customThemes];
+	}
+
+	findTheme(id: string): Theme | undefined {
+		return this.allThemes.find((t) => t.id === id);
+	}
+
+	addCustomTheme(theme: Theme) {
+		this.customThemes = [...this.customThemes.filter((t) => t.id !== theme.id), theme];
+		this.saveCustomThemes();
+	}
+
+	removeCustomTheme(id: string) {
+		this.customThemes = this.customThemes.filter((t) => t.id !== id);
+		this.saveCustomThemes();
+		if (this.activeThemeId === id) {
+			this.selectTheme(themes[0]);
+		}
+	}
+
+	private saveCustomThemes() {
+		if (!browser) return;
+		try {
+			localStorage.setItem(CUSTOM_THEMES_KEY, JSON.stringify(this.customThemes));
+		} catch {}
+	}
+
+	private loadCustomThemes() {
+		if (!browser) return;
+		try {
+			const raw = localStorage.getItem(CUSTOM_THEMES_KEY);
+			if (raw) this.customThemes = JSON.parse(raw);
+		} catch {}
+	}
 
 	private hexToRgba(hex: string, alpha: number): string {
 		const r = parseInt(hex.slice(1, 3), 16);
@@ -477,11 +516,12 @@ class ThemeStore {
 
 	restoreState() {
 		if (!browser) return;
+		this.loadCustomThemes();
 		const raw = localStorage.getItem('theme-switcher');
 		if (!raw) return;
 		try {
 			const data = JSON.parse(raw);
-			const theme = themes.find((t) => t.id === data.themeId);
+			const theme = this.findTheme(data.themeId);
 			if (theme) {
 				this.activeThemeId = data.themeId;
 				this.activeDisplayFont = data.displayFont ?? theme.fontDisplay;
