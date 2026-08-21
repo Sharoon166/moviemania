@@ -150,6 +150,52 @@ const themes: Theme[] = [
 		text: '#fafafa',
 		fontDisplay: "'Space Grotesk', sans-serif",
 		fontBody: "'Inter', sans-serif"
+	},
+	{
+		id: 'sakura',
+		name: 'Sakura',
+		surface: [
+			'#faf5f7',
+			'#f0e4ea',
+			'#e0c8d4',
+			'#c8a0b4',
+			'#a87894',
+			'#8a5878',
+			'#6e4260',
+			'#54334a',
+			'#3e2638',
+			'#2e1c2a',
+			'#221420',
+			'#180e16'
+		],
+		accent: ['#fff0f6', '#ffd6e8', '#ffadc8', '#ff80aa', '#ff5090', '#e83078', '#c01060'],
+		crimson: ['#ff1744', '#d50000'],
+		text: '#fff0f5',
+		fontDisplay: "'Poiret One', sans-serif",
+		fontBody: "'DM Sans', sans-serif"
+	},
+	{
+		id: 'emerald',
+		name: 'Emerald',
+		surface: [
+			'#f8faf9',
+			'#eef2f0',
+			'#d8e0dc',
+			'#b0beb8',
+			'#7a9488',
+			'#587268',
+			'#3e5448',
+			'#2c3c34',
+			'#1e2a24',
+			'#16201a',
+			'#0e1612',
+			'#080c0a'
+		],
+		accent: ['#f0fdf4', '#dcfce7', '#bbf7d0', '#86efac', '#4ade80', '#22c55e', '#16a34a'],
+		crimson: ['#ef4444', '#dc2626'],
+		text: '#f0fdf4',
+		fontDisplay: "'Tenor Sans', sans-serif",
+		fontBody: "'Inter', sans-serif"
 	}
 ];
 
@@ -162,8 +208,12 @@ const displayFontOptions = [
 	{ id: 'oxanium', family: "'Oxanium', sans-serif", label: 'Oxanium' },
 	{ id: 'montserrat', family: "'Montserrat', sans-serif", label: 'Montserrat' },
 	{ id: 'raleway', family: "'Raleway', sans-serif", label: 'Raleway' },
-	{ id: 'bebas-neue', family: "'Bebas Neue', sans-serif", label: 'Bebas Neue' },
-	{ id: 'dm-sans', family: "'DM Sans', sans-serif", label: 'DM Sans' }
+	{ id: 'dm-sans', family: "'DM Sans', sans-serif", label: 'DM Sans' },
+	{ id: 'poiret-one', family: "'Poiret One', sans-serif", label: 'Poiret One' },
+	{ id: 'cormorant-garamond', family: "'Cormorant Garamond', serif", label: 'Cormorant Garamond' },
+	{ id: 'josefin-sans', family: "'Josefin Sans', sans-serif", label: 'Josefin Sans' },
+	{ id: 'righteous', family: "'Righteous', sans-serif", label: 'Righteous' },
+	{ id: 'tenor-sans', family: "'Tenor Sans', sans-serif", label: 'Tenor Sans' }
 ];
 
 const bodyFontOptions = [
@@ -194,11 +244,20 @@ const FONT_URLS: Record<string, string> = {
 	montserrat:
 		'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap',
 	raleway: 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap',
-	'bebas-neue': 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap',
 	'source-code-pro':
 		'https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap',
 	nunito: 'https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap',
-	roboto: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'
+	roboto: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap',
+	'poiret-one':
+		'https://fonts.googleapis.com/css2?family=Poiret+One&display=swap',
+	'cormorant-garamond':
+		'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap',
+	'josefin-sans':
+		'https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap',
+	righteous:
+		'https://fonts.googleapis.com/css2?family=Righteous&display=swap',
+	'tenor-sans':
+		'https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap'
 };
 
 const FONT_KEYS_BY_FAMILY: Record<string, string[]> = {
@@ -212,10 +271,14 @@ const FONT_KEYS_BY_FAMILY: Record<string, string[]> = {
 	Oxanium: ['oxanium'],
 	Montserrat: ['montserrat'],
 	Raleway: ['raleway'],
-	'Bebas Neue': ['bebas-neue'],
 	'Source Code Pro': ['source-code-pro'],
 	Nunito: ['nunito'],
-	Roboto: ['roboto']
+	Roboto: ['roboto'],
+	'Poiret One': ['poiret-one'],
+	'Cormorant Garamond': ['cormorant-garamond'],
+	'Josefin Sans': ['josefin-sans'],
+	Righteous: ['righteous'],
+	'Tenor Sans': ['tenor-sans']
 };
 
 class ThemeStore {

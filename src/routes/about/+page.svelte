@@ -20,7 +20,7 @@
 		{ Icon: MagnifyingGlassIcon, text: 'Autocomplete search' },
 		{ Icon: ChartBarIcon, text: 'Episode heatmap' },
 		{ Icon: MonitorIcon, text: 'Shorts player' },
-		{ Icon: PaletteIcon, text: '6 themes' },
+		{ Icon: PaletteIcon, text: '8 themes' },
 		{ Icon: DeviceMobileIcon, text: 'PWA support' },
 		{ Icon: SquaresFourIcon, text: 'Collections' }
 	];

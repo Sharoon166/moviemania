@@ -73,7 +73,7 @@
 		</a>
 
 		<!-- Desktop nav (md+) -->
-		<div class="hidden items-center gap-2 md:flex relative" bind:this={navContainer}>
+		<div class="hidden items-center gap-2 md:flex relative">
 			{#each navLinks as { href, label, Icon } (href)}
 				<a
 					{href}
