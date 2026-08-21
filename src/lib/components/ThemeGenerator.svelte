@@ -178,27 +178,6 @@
 				</div>
 			</div>
 
-			<div class="mb-4 rounded-lg bg-black/30 p-3">
-				<p class="mb-1.5 text-[10px] font-medium text-neutral-500 uppercase tracking-wider">
-					Font Preview
-				</p>
-				<p
-					class="mb-1 text-lg text-white"
-					style="font-family: {theme.fontDisplay}"
-				>
-					{title}
-				</p>
-				<p
-					class="text-xs text-neutral-400"
-					style="font-family: {theme.fontBody}"
-				>
-					A quick brown fox jumps over the lazy dog
-				</p>
-				<p class="mt-2 text-[10px] text-neutral-600">
-					Display: {theme.fontDisplay.split("'")[1]} · Body: {theme.fontBody.split("'")[1]}
-				</p>
-			</div>
-
 			{#if error}
 				<p class="mb-3 text-xs text-red-400">{error}</p>
 			{/if}

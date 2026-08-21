@@ -8,6 +8,7 @@
 	import CardsThreeIcon from 'phosphor-svelte/lib/CardsThreeIcon';
 	import BookmarkIcon from 'phosphor-svelte/lib/BookmarkIcon';
 	import GearSixIcon from 'phosphor-svelte/lib/GearSixIcon';
+	import CircleDashedIcon from 'phosphor-svelte/lib/CircleDashedIcon';
 	import { cn } from '$lib/cn';
 	import { goto } from '$app/navigation';
 	import { watchlist } from '$lib/services/watchlist.svelte';
@@ -36,6 +37,7 @@
 		{ href: '/browse', label: 'Search', Icon: MagnifyingGlassIcon },
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
 		{ href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
+		{ href: '/wheel', label: 'Wheel', Icon: CircleDashedIcon },
 		{ href: '/watchlist', label: 'Watchlist', Icon: BookmarkIcon },
 		{ href: '/settings', label: 'Settings', Icon: GearSixIcon },
 		{ href: '/about', label: 'About', Icon: InfoIcon }
