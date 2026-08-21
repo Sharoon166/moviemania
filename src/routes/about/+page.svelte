@@ -166,7 +166,7 @@
 			<p class="mb-3">Sharoon Shaleem</p>
 			<div class="flex gap-4">
 				<a
-					href="https://sharoon.vercel.app"
+					href="https://sharoon.dev"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white"
