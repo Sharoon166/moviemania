@@ -31,18 +31,18 @@
 
 <div class="space-y-4">
 	<div class="flex items-center justify-between px-4 md:px-8">
-		<h2 class="font-display text-2xl font-bold text-white">{title}</h2>
+		<h2 class="font-display text-2xl font-bold text-fg">{title}</h2>
 		<div class="flex gap-1.5">
 			<button
 				onclick={() => scroll(-400)}
-				class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-neutral-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-90 disabled:cursor-not-allowed disabled:opacity-20"
+				class="flex h-9 w-9 items-center justify-center rounded-xl border border-fg/10 bg-fg/5 text-neutral-400 backdrop-blur-sm transition-all duration-300 hover:bg-fg/10 hover:text-fg active:scale-90 disabled:cursor-not-allowed disabled:opacity-20"
 				disabled={!canScrollLeft}
 			>
 				<CaretLeftIcon class="h-4 w-4" weight="bold" />
 			</button>
 			<button
 				onclick={() => scroll(400)}
-				class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-neutral-400 backdrop-blur-sm transition-all duration-300 hover:bg-white/10 hover:text-white active:scale-90 disabled:cursor-not-allowed disabled:opacity-20"
+				class="flex h-9 w-9 items-center justify-center rounded-xl border border-fg/10 bg-fg/5 text-neutral-400 backdrop-blur-sm transition-all duration-300 hover:bg-fg/10 hover:text-fg active:scale-90 disabled:cursor-not-allowed disabled:opacity-20"
 				disabled={!canScrollRight}
 			>
 				<CaretRightIcon class="h-4 w-4" weight="bold" />

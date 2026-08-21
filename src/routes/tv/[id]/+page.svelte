@@ -81,7 +81,7 @@
 				{/if}
 			</div>
 			<div class="flex max-w-3xl flex-col gap-5">
-				<h1 class="font-display text-3xl text-balance font-extrabold text-white sm:text-5xl">
+				<h1 class="font-display text-3xl text-balance font-extrabold text-fg sm:text-5xl">
 					{show.data.name}
 				</h1>
 
@@ -111,7 +111,7 @@
 				<div class="flex flex-wrap gap-2">
 					{#each show.data.genres as genre (genre.id)}
 						<span
-							class="rounded-full border border-white/10 bg-white/5 px-3.5 py-1 text-xs font-medium text-neutral-300 backdrop-blur-sm"
+							class="rounded-full border border-fg/10 bg-fg/5 px-3.5 py-1 text-xs font-medium text-neutral-300 backdrop-blur-sm"
 						>
 							{genre.name}
 						</span>
@@ -121,7 +121,7 @@
 				<div class="flex flex-wrap gap-3 pt-2">
 					{#if unreleased}
 						<div
-							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-neutral-400 backdrop-blur-sm"
+							class="flex items-center gap-2.5 rounded-full border border-fg/10 bg-fg/5 px-7 py-3 text-sm font-semibold text-neutral-400 backdrop-blur-sm"
 						>
 							<ClockAfternoonIcon class="h-5 w-5" />
 							Coming Soon
@@ -150,7 +150,7 @@
 					{#if !unreleased && video}
 						<button
 							onclick={() => (showTrailer = true)}
-							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
+							class="flex items-center gap-2.5 rounded-full border border-fg/10 bg-fg/5 px-6 py-3 text-sm font-semibold text-fg backdrop-blur-sm transition-all duration-300 hover:border-fg/20 hover:bg-fg/10 active:scale-95"
 						>
 							<PlayCircleIcon class="h-5 w-5" />
 							Trailer
@@ -161,7 +161,7 @@
 							href={embedSources[0].tv(show.data.id, 1, 1)}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
+							class="flex items-center gap-2.5 rounded-full border border-fg/10 bg-fg/5 px-6 py-3 text-sm font-semibold text-fg backdrop-blur-sm transition-all duration-300 hover:border-fg/20 hover:bg-fg/10 active:scale-95"
 						>
 							<DownloadIcon class="h-5 w-5" />
 							Download
@@ -180,7 +180,7 @@
 
 	<!-- SEASONS -->
 	<section class="mx-auto max-w-7xl px-4 pb-12 md:px-8">
-		<h2 class="mb-5 font-display text-2xl font-bold text-white">Seasons</h2>
+		<h2 class="mb-5 font-display text-2xl font-bold text-fg">Seasons</h2>
 		<div
 			class="flex snap-x gap-4 overflow-x-auto scroll-smooth pb-2"
 			style="scrollbar-width: none;"
@@ -206,7 +206,7 @@
 							</div>
 						{/if}
 					</div>
-					<p class="text-sm font-semibold text-white transition-colors group-hover:text-gold-400">
+					<p class="text-sm font-semibold text-fg transition-colors group-hover:text-gold-400">
 						{season.name}
 					</p>
 					<p class="text-xs text-neutral-500">

@@ -339,16 +339,16 @@
 						}
 					}}
 					placeholder="Search movies & TV..."
-					class="w-full rounded-2xl border border-white/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-white placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
+					class="w-full rounded-2xl border border-fg/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-fg placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
 				/>
 
 				{#if showDropdown}
 					<div
-						class="absolute top-full right-0 left-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
+						class="absolute top-full right-0 left-0 z-50 mt-2 overflow-hidden rounded-2xl border border-fg/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
 					>
 						<!-- Recent Searches -->
 						{#if hasHistory && !q.trim()}
-							<div class="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
+							<div class="flex items-center justify-between border-b border-fg/10 px-4 py-2.5">
 								<span class="text-xs font-medium text-neutral-500">Recent Searches</span>
 								<button
 									onmousedown={(e) => e.preventDefault()}
@@ -368,7 +368,7 @@
 									onkeydown={(e) => e.key === 'Enter' && submitSearch(item.query)}
 									role="button"
 									tabindex="0"
-									class="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm text-neutral-300 transition-all hover:bg-white/5 hover:text-white"
+									class="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm text-neutral-300 transition-all hover:bg-fg/5 hover:text-fg"
 								>
 									<MagnifyingGlassIcon class="h-3.5 w-3.5 shrink-0 text-neutral-500" />
 									<span class="truncate">{item.query}</span>
@@ -378,7 +378,7 @@
 											e.stopPropagation();
 											searchHistory.remove(item.query);
 										}}
-										class="ml-auto shrink-0 rounded-md p-1.5 text-neutral-500 hover:bg-white/10 hover:text-white"
+										class="ml-auto shrink-0 rounded-md p-1.5 text-neutral-500 hover:bg-fg/10 hover:text-fg"
 									>
 										<XIcon class="h-3.5 w-3.5" />
 									</button>
@@ -395,7 +395,7 @@
 								<span class="text-xs text-neutral-500">Searching...</span>
 							</div>
 						{:else if suggestions.length > 0}
-							<div class="border-t border-white/5 px-4 py-2.5">
+							<div class="border-t border-fg/5 px-4 py-2.5">
 								<span class="text-xs font-medium text-neutral-500">
 									{q.trim() ? 'Suggestions' : 'Popular'}
 								</span>
@@ -404,7 +404,7 @@
 								<button
 									onmousedown={(e) => e.preventDefault()}
 									onclick={() => navigateToSuggestion(item)}
-									class="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-all hover:bg-white/5"
+									class="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-all hover:bg-fg/5"
 								>
 									{#if item.poster}
 										<img
@@ -417,7 +417,7 @@
 										<div class="h-11 w-8 shrink-0 rounded-md bg-surface-700"></div>
 									{/if}
 									<div class="min-w-0 flex-1">
-										<p class="truncate text-sm font-medium text-white">{item.title}</p>
+										<p class="truncate text-sm font-medium text-fg">{item.title}</p>
 										<div class="flex items-center gap-2">
 											<span class="text-[11px] text-neutral-500">
 												{item.media_type === 'movie' ? 'Movie' : 'TV'}
@@ -442,14 +442,14 @@
 		<div>
 			<div class="flex items-center gap-2 overflow-x-auto pb-2" style="scrollbar-width: none;">
 				<!-- Media Type -->
-				<div class="flex shrink-0 rounded-xl border border-white/10 bg-surface-800 p-0.5">
+				<div class="flex shrink-0 rounded-xl border border-fg/10 bg-surface-800 p-0.5">
 					<button
 						onclick={() => (mediaFilter = 'all')}
 						class={cn(
 							'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
 							mediaFilter === 'all'
 								? 'bg-gold-500/20 text-gold-400'
-								: 'text-neutral-400 hover:text-white'
+								: 'text-neutral-400 hover:text-fg'
 						)}>All</button
 					>
 					<button
@@ -458,7 +458,7 @@
 							'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
 							mediaFilter === 'movie'
 								? 'bg-gold-500/20 text-gold-400'
-								: 'text-neutral-400 hover:text-white'
+								: 'text-neutral-400 hover:text-fg'
 						)}>Movies</button
 					>
 					<button
@@ -467,12 +467,12 @@
 							'rounded-lg px-3 py-1.5 text-xs font-medium transition-all',
 							mediaFilter === 'tv'
 								? 'bg-gold-500/20 text-gold-400'
-								: 'text-neutral-400 hover:text-white'
+								: 'text-neutral-400 hover:text-fg'
 						)}>TV</button
 					>
 				</div>
 
-				<div class="h-5 w-px shrink-0 bg-white/10"></div>
+				<div class="h-5 w-px shrink-0 bg-fg/10"></div>
 
 				<!-- Year Filter -->
 				<input
@@ -481,13 +481,13 @@
 					placeholder="Year"
 					min="1900"
 					max="2030"
-					class="w-20 shrink-0 rounded-lg border border-white/10 bg-surface-800 px-3 py-1.5 text-xs text-white placeholder-neutral-500 transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
+					class="w-20 shrink-0 rounded-lg border border-fg/10 bg-surface-800 px-3 py-1.5 text-xs text-fg placeholder-neutral-500 transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
 				/>
 
 				<!-- Rating Filter -->
 				<select
 					bind:value={minRating}
-					class="shrink-0 rounded-lg border border-white/10 bg-surface-800 px-3 py-1.5 text-xs text-white transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
+					class="shrink-0 rounded-lg border border-fg/10 bg-surface-800 px-3 py-1.5 text-xs text-fg transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
 				>
 					<option value="" class="bg-surface-900">Min Rating</option>
 					<option value="7" class="bg-surface-900">7+</option>
@@ -499,7 +499,7 @@
 				<div class="relative shrink-0">
 					<select
 						bind:value={sortBy}
-						class="appearance-none rounded-lg border border-white/10 bg-surface-800 py-1.5 pr-7 pl-3 text-xs text-white transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
+						class="appearance-none rounded-lg border border-fg/10 bg-surface-800 py-1.5 pr-7 pl-3 text-xs text-fg transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
 					>
 						{#each sortOptions as opt (opt.value)}
 							<option value={opt.value} class="bg-surface-900">{opt.label}</option>
@@ -510,7 +510,7 @@
 					/>
 				</div>
 
-				<div class="h-5 w-px shrink-0 bg-white/10"></div>
+				<div class="h-5 w-px shrink-0 bg-fg/10"></div>
 
 				<!-- Genre Chips -->
 				{#if genres.data}
@@ -521,7 +521,7 @@
 								'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
 								selectedGenres.includes(genre.id)
 									? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-									: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
+									: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-fg'
 							)}
 						>
 							{genre.name}
@@ -533,7 +533,7 @@
 				{#if hasFilters}
 					<button
 						onclick={clearAllFilters}
-						class="flex shrink-0 items-center gap-1 rounded-lg bg-surface-800 px-3 py-1.5 text-xs text-neutral-500 transition-all hover:text-white"
+						class="flex shrink-0 items-center gap-1 rounded-lg bg-surface-800 px-3 py-1.5 text-xs text-neutral-500 transition-all hover:text-fg"
 					>
 						<XIcon class="h-3 w-3" />
 						Clear

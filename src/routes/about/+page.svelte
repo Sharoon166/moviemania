@@ -83,7 +83,7 @@
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-4 pt-16 pb-8 md:pt-24 md:pb-16">
-	<h1 class="mb-1 font-display text-2xl font-bold text-white">About</h1>
+	<h1 class="mb-1 font-display text-2xl font-bold text-fg">About</h1>
 	<p class="mb-10 text-xs text-neutral-600">v{version}</p>
 
 	<div class="space-y-8 text-sm leading-relaxed text-neutral-400">
@@ -106,7 +106,7 @@
 						onmouseenter={() => onMouseEnter(i)}
 						onmouseleave={onMouseLeave}
 						role="listitem"
-						class="feature-item flex flex-col items-center gap-2 border border-white/[0.04] bg-neutral-900/50 px-2 py-4 text-center"
+						class="feature-item flex flex-col items-center gap-2 border border-fg/[0.04] bg-neutral-900/50 px-2 py-4 text-center"
 						style="{getStyle(i)} animation-delay: {i * 30}ms"
 					>
 						<Icon
@@ -169,7 +169,7 @@
 					href="https://sharoon.dev"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white"
+					class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-fg"
 				>
 					<GlobeIcon class="h-4 w-4" />
 					Portfolio
@@ -178,7 +178,7 @@
 					href="https://github.com/sharoon166"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-white"
+					class="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-fg"
 				>
 					<GithubLogoIcon class="h-4 w-4" />
 					GitHub

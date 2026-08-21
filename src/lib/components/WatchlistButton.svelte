@@ -41,10 +41,10 @@
 	<button
 		onclick={handleClick}
 		class={cn(
-			'flex h-10 w-10 items-center justify-center rounded-full border text-white backdrop-blur-sm transition-all duration-300 active:scale-90',
+			'flex h-10 w-10 items-center justify-center rounded-full border text-fg backdrop-blur-sm transition-all duration-300 active:scale-90',
 			inList
 				? 'border-gold-500/40 bg-gold-500/20 text-gold-400 hover:bg-gold-500/30'
-				: 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
+				: 'border-fg/10 bg-fg/5 hover:border-fg/20 hover:bg-fg/10'
 		)}
 		aria-label={inList ? 'Remove from watchlist' : 'Add to watchlist'}
 	>
@@ -57,7 +57,7 @@
 			'flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 active:scale-95',
 			inList
 				? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30 hover:bg-gold-500/30'
-				: 'border border-white/10 bg-white/5 text-white backdrop-blur-sm hover:border-white/20 hover:bg-white/10'
+				: 'border border-fg/10 bg-fg/5 text-fg backdrop-blur-sm hover:border-fg/20 hover:bg-fg/10'
 		)}
 	>
 		<BookmarkIcon class="h-5 w-5" weight={inList ? 'fill' : 'regular'} />

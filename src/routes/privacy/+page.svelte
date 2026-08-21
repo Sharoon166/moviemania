@@ -7,7 +7,7 @@
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-4 pt-16 pb-8 md:pt-24 md:pb-16">
-	<h1 class="mb-1 font-display text-2xl font-bold text-white">Privacy Policy</h1>
+	<h1 class="mb-1 font-display text-2xl font-bold text-fg">Privacy Policy</h1>
 	<p class="mb-10 text-xs text-neutral-600">Last updated: {lastUpdated}</p>
 
 	<div class="space-y-8 text-sm leading-relaxed text-neutral-400">

@@ -47,7 +47,7 @@
 </svelte:head>
 
 <main class="mx-auto max-w-2xl px-4 pt-16 pb-8 md:pt-24 md:pb-16">
-	<h1 class="mb-1 font-display text-2xl font-bold text-white">Settings</h1>
+	<h1 class="mb-1 font-display text-2xl font-bold text-fg">Settings</h1>
 	<p class="mb-10 text-sm text-neutral-500">Customize the look and feel of Moviemania.</p>
 
 	<!-- ═══════════════════════════════════════════ -->
@@ -66,26 +66,26 @@
 					class="group flex flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all {themeStore.activeThemeId ===
 					theme.id
 						? 'border-gold-500/50 bg-gold-500/10 ring-1 ring-gold-500/20'
-						: 'border-white/5 bg-white/[0.02] hover:border-white/15 hover:bg-white/5'}"
+						: 'border-fg/5 bg-fg/[0.02] hover:border-fg/15 hover:bg-fg/5'}"
 				>
 					<div class="flex gap-1.5">
 						<div
-							class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+							class="h-5 w-5 rounded-full ring-1 ring-fg/10 ring-inset"
 							style="background-color: {theme.surface[11]}"
 						></div>
 						<div
-							class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+							class="h-5 w-5 rounded-full ring-1 ring-fg/10 ring-inset"
 							style="background-color: {theme.surface[8]}"
 						></div>
 						<div
-							class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+							class="h-5 w-5 rounded-full ring-1 ring-fg/10 ring-inset"
 							style="background-color: {theme.accent[5]}"
 						></div>
 					</div>
 					<span
 						class="text-xs font-medium {themeStore.activeThemeId === theme.id
 							? 'text-gold-400'
-							: 'text-neutral-400 group-hover:text-white'}"
+							: 'text-neutral-400 group-hover:text-fg'}"
 					>
 						{theme.name}
 					</span>
@@ -94,7 +94,7 @@
 		</div>
 
 		{#if themeStore.customThemes.length > 0}
-			<div class="my-5 border-t border-white/5"></div>
+			<div class="my-5 border-t border-fg/5"></div>
 			<p class="mb-3 text-xs font-semibold tracking-wider text-neutral-500 uppercase">
 				Generated Themes
 			</p>
@@ -106,33 +106,33 @@
 							class="group flex w-full flex-col items-start gap-2 rounded-xl border p-3 text-left transition-all {themeStore.activeThemeId ===
 							theme.id
 								? 'border-gold-500/50 bg-gold-500/10 ring-1 ring-gold-500/20'
-								: 'border-white/5 bg-white/[0.02] hover:border-white/15 hover:bg-white/5'}"
+								: 'border-fg/5 bg-fg/[0.02] hover:border-fg/15 hover:bg-fg/5'}"
 						>
 							<div class="flex gap-1.5">
 								<div
-									class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+									class="h-5 w-5 rounded-full ring-1 ring-fg/10 ring-inset"
 									style="background-color: {theme.surface[11]}"
 								></div>
 								<div
-									class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+									class="h-5 w-5 rounded-full ring-1 ring-fg/10 ring-inset"
 									style="background-color: {theme.surface[8]}"
 								></div>
 								<div
-									class="h-5 w-5 rounded-full ring-1 ring-white/10 ring-inset"
+									class="h-5 w-5 rounded-full ring-1 ring-fg/10 ring-inset"
 									style="background-color: {theme.accent[5]}"
 								></div>
 							</div>
 							<span
 								class="text-xs font-medium {themeStore.activeThemeId === theme.id
 									? 'text-gold-400'
-									: 'text-neutral-400 group-hover:text-white'}"
+									: 'text-neutral-400 group-hover:text-fg'}"
 							>
 								{theme.name}
 							</span>
 						</button>
 						<button
 							onclick={() => themeStore.removeCustomTheme(theme.id)}
-							class="absolute top-2 right-2 rounded-lg p-1 text-neutral-600 transition-colors hover:bg-white/10 hover:text-neutral-300"
+							class="absolute top-2 right-2 rounded-lg p-1 text-neutral-600 transition-colors hover:bg-fg/10 hover:text-neutral-300"
 							title="Remove theme"
 						>
 							<TrashIcon class="h-3 w-3" />
@@ -155,7 +155,7 @@
 					class="rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all {themeStore.activeDisplayFont ===
 					font.family
 						? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
-						: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'}"
+						: 'border-fg/5 bg-fg/[0.02] text-neutral-500 hover:border-fg/15 hover:text-fg'}"
 				>
 					{font.label}
 				</button>
@@ -173,7 +173,7 @@
 					class="rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all {themeStore.activeBodyFont ===
 					font.family
 						? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
-						: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'}"
+						: 'border-fg/5 bg-fg/[0.02] text-neutral-500 hover:border-fg/15 hover:text-fg'}"
 				>
 					{font.label}
 				</button>
@@ -184,14 +184,14 @@
 	<!-- Reset Appearance -->
 	<button
 		onclick={() => themeStore.resetTheme()}
-		class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-xs font-medium text-neutral-400 transition-all hover:border-white/20 hover:text-white"
+		class="flex items-center gap-2 rounded-xl border border-fg/10 bg-fg/5 px-5 py-2.5 text-xs font-medium text-neutral-400 transition-all hover:border-fg/20 hover:text-fg"
 	>
 		<ArrowCounterClockwiseIcon class="h-4 w-4" />
 		Reset Appearance
 	</button>
 
 	<!-- Divider -->
-	<div class="my-10 border-t border-white/5"></div>
+	<div class="my-10 border-t border-fg/5"></div>
 
 	<!-- ═══════════════════════════════════════════ -->
 	<!-- Playback                                    -->
@@ -212,7 +212,7 @@
 						'rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all',
 						appSettings.defaultServerId === src.id
 							? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
-							: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'
+							: 'border-fg/5 bg-fg/[0.02] text-neutral-500 hover:border-fg/15 hover:text-fg'
 					)}
 				>
 					{src.name}
@@ -222,7 +222,7 @@
 	</section>
 
 	<!-- Divider -->
-	<div class="my-10 border-t border-white/5"></div>
+	<div class="my-10 border-t border-fg/5"></div>
 
 	<!-- ═══════════════════════════════════════════ -->
 	<!-- Browsing                                    -->
@@ -244,7 +244,7 @@
 								'rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all',
 								appSettings.defaultMediaFilter === opt.value
 									? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
-									: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'
+									: 'border-fg/5 bg-fg/[0.02] text-neutral-500 hover:border-fg/15 hover:text-fg'
 							)}
 						>
 							{opt.label}
@@ -260,7 +260,7 @@
 					<select
 						value={appSettings.defaultSortBy}
 						onchange={(e) => appSettings.setDefaultSortBy(e.currentTarget.value)}
-						class="appearance-none rounded-xl border border-white/5 bg-white/[0.02] py-1.5 pr-8 pl-3.5 text-xs font-medium text-neutral-400 transition-all outline-none hover:border-white/15 hover:text-white focus:border-gold-500/50 focus:text-white"
+						class="appearance-none rounded-xl border border-fg/5 bg-fg/[0.02] py-1.5 pr-8 pl-3.5 text-xs font-medium text-neutral-400 transition-all outline-none hover:border-fg/15 hover:text-fg focus:border-gold-500/50 focus:text-fg"
 					>
 						{#each sortOptions as opt}
 							<option value={opt.value} class="bg-surface-900">{opt.label}</option>
@@ -283,7 +283,7 @@
 								'rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all',
 								appSettings.itemsPerPage === count
 									? 'border-gold-500/50 bg-gold-500/10 text-gold-400'
-									: 'border-white/5 bg-white/[0.02] text-neutral-500 hover:border-white/15 hover:text-white'
+									: 'border-fg/5 bg-fg/[0.02] text-neutral-500 hover:border-fg/15 hover:text-fg'
 							)}
 						>
 							{count}
@@ -297,7 +297,7 @@
 				<p class="mb-2 text-xs text-neutral-400">Episode Ratings Heatmap</p>
 				<button
 					onclick={() => appSettings.toggleHeatmap()}
-					class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5"
+					class="flex items-center gap-2.5 rounded-xl border border-fg/5 bg-fg/[0.02] px-4 py-3 text-left transition-all hover:border-fg/15 hover:bg-fg/5"
 				>
 					{#if appSettings.showHeatmap}
 						<EyeIcon class="h-4 w-4 shrink-0 text-gold-400" />
@@ -322,7 +322,7 @@
 				<p class="mb-2 text-xs text-neutral-400">Poster Theme Generator</p>
 				<button
 					onclick={() => appSettings.toggleThemeGenerator()}
-					class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5"
+					class="flex items-center gap-2.5 rounded-xl border border-fg/5 bg-fg/[0.02] px-4 py-3 text-left transition-all hover:border-fg/15 hover:bg-fg/5"
 				>
 					{#if appSettings.enableThemeGenerator}
 						<PaletteIcon class="h-4 w-4 shrink-0 text-gold-400" />
@@ -345,7 +345,7 @@
 	</section>
 
 	<!-- Divider -->
-	<div class="my-10 border-t border-white/5"></div>
+	<div class="my-10 border-t border-fg/5"></div>
 
 	<!-- ═══════════════════════════════════════════ -->
 	<!-- Data                                        -->
@@ -359,7 +359,7 @@
 			<button
 				onclick={() => searchHistory.clear()}
 				disabled={searchHistory.items.length === 0}
-				class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/2 px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+				class="flex items-center gap-2.5 rounded-xl border border-fg/5 bg-fg/2 px-4 py-3 text-left transition-all hover:border-fg/15 hover:bg-fg/5 disabled:cursor-not-allowed disabled:opacity-40"
 			>
 				<TrashIcon class="h-4 w-4 shrink-0 text-neutral-500" />
 				<div class="flex-1">
@@ -378,7 +378,7 @@
 					showConfirmClearCW = true;
 				}}
 				disabled={continueWatching.items.length === 0}
-				class="flex items-center gap-2.5 rounded-xl border border-white/5 bg-white/2 px-4 py-3 text-left transition-all hover:border-white/15 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-40"
+				class="flex items-center gap-2.5 rounded-xl border border-fg/5 bg-fg/2 px-4 py-3 text-left transition-all hover:border-fg/15 hover:bg-fg/5 disabled:cursor-not-allowed disabled:opacity-40"
 			>
 				<TrashIcon class="h-4 w-4 shrink-0 text-neutral-500" />
 				<div class="flex-1">
@@ -405,12 +405,12 @@
 		tabindex="-1"
 	>
 		<div
-			class="mx-4 w-full max-w-sm rounded-2xl border border-white/10 bg-surface-900 p-6 shadow-2xl"
+			class="mx-4 w-full max-w-sm rounded-2xl border border-fg/10 bg-surface-900 p-6 shadow-2xl"
 			onclick={(e) => e.stopPropagation()}
 			onkeydown={(e) => e.stopPropagation()}
 			role="document"
 		>
-			<h3 class="mb-2 text-sm font-semibold text-white">Clear Continue Watching?</h3>
+			<h3 class="mb-2 text-sm font-semibold text-fg">Clear Continue Watching?</h3>
 			<p class="mb-6 text-xs text-neutral-400">
 				This will remove all {continueWatching.items.length}
 				{continueWatching.items.length === 1 ? 'item' : 'items'} from your continue watching list. This
@@ -419,7 +419,7 @@
 			<div class="flex justify-end gap-2">
 				<button
 					onclick={() => (showConfirmClearCW = false)}
-					class="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-neutral-400 transition-all hover:border-white/20 hover:text-white"
+					class="rounded-xl border border-fg/10 bg-fg/5 px-4 py-2 text-xs font-medium text-neutral-400 transition-all hover:border-fg/20 hover:text-fg"
 				>
 					Cancel
 				</button>

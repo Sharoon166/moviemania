@@ -72,7 +72,7 @@
 					<span class="h-px w-8 bg-gold-500/50"></span>
 					Film Collection
 				</div>
-				<h1 class="font-display text-4xl font-extrabold text-white sm:text-5xl">
+				<h1 class="font-display text-4xl font-extrabold text-fg sm:text-5xl">
 					{collection.data.name}
 				</h1>
 
@@ -110,7 +110,7 @@
 
 	<!-- FILMS GRID -->
 	<section class="mx-auto max-w-7xl px-4 pb-16 md:px-8">
-		<h2 class="mb-6 font-display text-2xl font-bold text-white">All Films</h2>
+		<h2 class="mb-6 font-display text-2xl font-bold text-fg">All Films</h2>
 		<div
 			class="grid grid-cols-2 gap-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
 		>
@@ -120,7 +120,7 @@
 					<div class="relative">
 						<Tile media={part} />
 						<div
-							class="absolute top-2 left-2 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-xs font-bold text-gold-400 ring-1 ring-white/10 backdrop-blur-sm"
+							class="absolute top-2 left-2 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-xs font-bold text-gold-400 ring-1 ring-fg/10 backdrop-blur-sm"
 						>
 							{i + 1}
 						</div>

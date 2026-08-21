@@ -19,7 +19,7 @@
 				'shrink-0 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-all duration-200 active:scale-95',
 				src.id === server.id
 					? 'border-gold-500/40 bg-gold-500/15 text-gold-400'
-					: 'border-white/10 bg-surface-800/60 text-neutral-400 hover:border-white/20 hover:text-white'
+					: 'border-fg/10 bg-surface-800/60 text-neutral-400 hover:border-fg/20 hover:text-fg'
 			)}
 		>
 			{src.name}

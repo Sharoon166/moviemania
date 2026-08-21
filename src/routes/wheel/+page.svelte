@@ -206,7 +206,7 @@
 								style="transform: translate(calc(-50% + {card.x}vw), calc(-50% + {card.y}vh)) rotate({card.rot}deg);"
 							>
 								<div
-									class="w-32 overflow-hidden rounded-2xl ring-1 ring-white/10"
+									class="w-32 overflow-hidden rounded-2xl ring-1 ring-fg/10"
 									in:scale={{ duration: 380, start: 0.3, opacity: 0, easing: backOut }}
 									out:scale={{ duration: 200, start: 1, opacity: 0, easing: cubicIn }}
 								>
@@ -223,7 +223,7 @@
 									{/if}
 									<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 									<div class="absolute inset-x-0 bottom-0 p-2 text-center">
-										<p class="truncate text-[10px] font-bold text-white drop-shadow-lg">
+										<p class="truncate text-[10px] font-bold text-fg drop-shadow-lg">
 											{getTitle(card.item)}
 										</p>
 									</div>
@@ -234,7 +234,7 @@
 						<!-- Center glow -->
 						<div class="pointer-events-none absolute inset-0 flex items-center justify-center">
 							<div class="h-64 w-64 rounded-full bg-gold-500/5 blur-3xl"></div>
-							<p class="absolute text-sm font-semibold tracking-wide text-white/70 drop-shadow-lg">
+							<p class="absolute text-sm font-semibold tracking-wide text-fg/70 drop-shadow-lg">
 								Finding the best match for you...
 							</p>
 						</div>
@@ -252,7 +252,7 @@
 							></div>
 
 							<div
-								class="winner-card aspect-2/3  relative overflow-hidden rounded-2xl bg-surface-900 shadow-2xl ring-1 ring-white/10"
+								class="winner-card aspect-2/3  relative overflow-hidden rounded-2xl bg-surface-900 shadow-2xl ring-1 ring-fg/10"
 							>
 								{#if result.poster_path}
 									<img
@@ -271,7 +271,7 @@
 								></div>
 
 								<div class="absolute inset-x-0 bottom-0 p-5">
-									<h2 class="mb-2 font-display text-2xl font-bold text-white">
+									<h2 class="mb-2 font-display text-2xl font-bold text-fg">
 										{getTitle(result)}
 									</h2>
 									<div class="mb-3 flex flex-wrap items-center gap-2 text-sm text-neutral-400">
@@ -284,7 +284,7 @@
 										<span>&middot;</span>
 										<span>{getYear(result)}</span>
 										<span>&middot;</span>
-										<span class="rounded-full bg-white/10 px-2 py-0.5 text-xs capitalize">
+										<span class="rounded-full bg-fg/10 px-2 py-0.5 text-xs capitalize">
 											{result.media_type === 'movie' ? 'Movie' : 'TV Show'}
 										</span>
 									</div>
@@ -302,7 +302,7 @@
 										<button
 											onclick={spin}
 											disabled={spinning}
-											class="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition-all hover:border-white/20 hover:bg-white/10 active:scale-95 disabled:opacity-40"
+											class="flex items-center justify-center gap-2 rounded-xl border border-fg/10 bg-fg/5 px-4 py-2.5 text-sm font-medium text-fg transition-all hover:border-fg/20 hover:bg-fg/10 active:scale-95 disabled:opacity-40"
 										>
 											<ArrowClockwiseIcon class="h-4 w-4" />
 											Spin Again
@@ -315,7 +315,7 @@
 						<!-- Change Preferences button -->
 						<button
 							onclick={changePreferences}
-							class="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-neutral-400 transition-all hover:border-white/20 hover:text-white"
+							class="flex items-center gap-1.5 rounded-full border border-fg/10 bg-fg/5 px-4 py-2 text-xs font-medium text-neutral-400 transition-all hover:border-fg/20 hover:text-fg"
 						>
 							<XIcon class="h-3.5 w-3.5" />
 							Change Preferences
@@ -326,7 +326,7 @@
 		{:else}
 			<!-- Idle mode -->
 			<div class="mb-8 text-center">
-				<h1 class="mb-2 font-display text-3xl font-bold text-white md:text-4xl">
+				<h1 class="mb-2 font-display text-3xl font-bold text-fg md:text-4xl">
 					Movie Night Wheel
 				</h1>
 				<p class="text-sm text-neutral-500">Can't decide what to watch? Let fate choose.</p>
@@ -347,8 +347,8 @@
 							class="rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all {isActive
 								? 'border-gold-500/50 bg-gold-500/15 text-gold-400'
 								: atLimit
-									? 'cursor-not-allowed border-white/5 bg-white/[0.02] text-neutral-700'
-									: 'border-white/5 bg-white/[0.02] text-neutral-400 hover:border-white/15 hover:text-white'}"
+									? 'cursor-not-allowed border-fg/5 bg-fg/[0.02] text-neutral-700'
+									: 'border-fg/5 bg-fg/[0.02] text-neutral-400 hover:border-fg/15 hover:text-fg'}"
 						>
 							{genre.name}
 						</button>
@@ -369,7 +369,7 @@
 								class="flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition-all {minRating ===
 								r
 									? 'border-gold-500/50 bg-gold-500/15 text-gold-400'
-									: 'border-white/5 bg-white/[0.02] text-neutral-400 hover:border-white/15 hover:text-white'}"
+									: 'border-fg/5 bg-fg/[0.02] text-neutral-400 hover:border-fg/15 hover:text-fg'}"
 							>
 								{#if r > 0}
 									<StarIcon class="h-3 w-3" weight="fill" />

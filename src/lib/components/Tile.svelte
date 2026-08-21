@@ -63,13 +63,13 @@
 		)}
 	>
 		<div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
-		<div class="absolute inset-0 rounded-xl ring-1 ring-white/10 ring-inset"></div>
+		<div class="absolute inset-0 rounded-xl ring-1 ring-fg/10 ring-inset"></div>
 	</div>
 
 	<div
 		class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
 	>
-		<p class="truncate text-sm font-semibold text-white">{title}</p>
+		<p class="truncate text-sm font-semibold text-fg">{title}</p>
 		<div class="mt-1 flex items-center gap-2 text-xs text-neutral-400">
 			<StarIcon class="h-3.5 w-3.5 text-gold-400" weight="fill" />
 			<span class="font-medium text-neutral-200"
@@ -79,7 +79,7 @@
 			<span>{year ?? ''}</span>
 			<PlayCircleIcon
 				class={cn(
-					'ml-auto h-4 w-4 text-white transition-all duration-300',
+					'ml-auto h-4 w-4 text-fg transition-all duration-300',
 					hovered ? 'translate-x-0 opacity-100' : 'translate-x-1 opacity-0'
 				)}
 				weight="fill"

@@ -14,6 +14,8 @@
 	--color-surface-900: #1e1a19;
 	--color-surface-950: #161312;
 
+	--color-fg: #ffffff;
+
 	--color-gold-50: #fff5ed;
 	--color-gold-100: #ffe4cc;
 	--color-gold-200: #ffc799;
@@ -31,7 +33,7 @@
 
 body {
 	background-color: var(--color-surface-950);
-	color: white;
+	color: var(--color-fg);
 	overflow-x: hidden;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

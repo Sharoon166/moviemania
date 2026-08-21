@@ -194,7 +194,7 @@
 
 			<h1
 				{title}
-				class="line-clamp-2 max-w-3xl font-display text-2xl  font-black text-white md:text-4xl"
+				class="line-clamp-2 max-w-3xl font-display text-2xl  font-black text-fg md:text-4xl"
 			>
 				{title}
 			</h1>
@@ -210,7 +210,7 @@
 				<span>{year}</span>
 
 				<span
-					class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase backdrop-blur-sm"
+					class="rounded-full border border-fg/10 bg-fg/5 px-3 py-1 text-xs uppercase backdrop-blur-sm"
 				>
 					{mediaType}
 				</span>
@@ -233,7 +233,7 @@
 
 				<a
 					href={`/${mediaType}/${current.id}`}
-					class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
+					class="flex items-center gap-2.5 rounded-full border border-fg/10 bg-fg/5 px-8 py-3.5 text-sm font-semibold text-fg backdrop-blur-md transition-all duration-300 hover:border-fg/20 hover:bg-fg/10 active:scale-95"
 				>
 					<InfoIcon class="h-5 w-5" />
 
@@ -291,13 +291,13 @@
 				<div class="flex gap-1.5 pb-0.5">
 					<button
 						onclick={prev}
-						class="rounded-full border border-white/10 bg-black/40 p-2 text-white/70 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:text-white"
+						class="rounded-full border border-fg/10 bg-black/40 p-2 text-fg/70 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:text-fg"
 					>
 						<CaretLeftIcon size={16} weight="bold" />
 					</button>
 					<button
 						onclick={next}
-						class="rounded-full border border-white/10 bg-black/40 p-2 text-white/70 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:text-white"
+						class="rounded-full border border-fg/10 bg-black/40 p-2 text-fg/70 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/60 hover:text-fg"
 					>
 						<CaretRight size={16} weight="bold" />
 					</button>
@@ -307,13 +307,13 @@
 				<div class="hidden gap-2 md:flex lg:hidden">
 					<button
 						onclick={prev}
-						class="rounded-full border border-white/10 bg-black/30 p-2 text-white/70 opacity-100 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/50 hover:text-white md:block"
+						class="rounded-full border border-fg/10 bg-black/30 p-2 text-fg/70 opacity-100 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/50 hover:text-fg md:block"
 					>
 						<CaretLeftIcon size={18} weight="bold" />
 					</button>
 					<button
 						onclick={next}
-						class="rounded-full border border-white/10 bg-black/30 p-2 text-white/70 opacity-100 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/50 hover:text-white md:block"
+						class="rounded-full border border-fg/10 bg-black/30 p-2 text-fg/70 opacity-100 backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:bg-black/50 hover:text-fg md:block"
 					>
 						<CaretRight size={18} weight="bold" />
 					</button>

@@ -60,7 +60,7 @@
 	<div class="mb-8 flex flex-col justify-between gap-4">
 		<div class="flex items-center gap-3">
 			<BookmarkIcon class="h-6 w-6 text-gold-400" weight="fill" />
-			<h1 class="font-display text-3xl font-bold text-white">Watchlist</h1>
+			<h1 class="font-display text-3xl font-bold text-fg">Watchlist</h1>
 			<span class="mt-1 text-sm text-neutral-500"
 				>({itemCount} {itemCount === 1 ? 'item' : 'items'})</span
 			>
@@ -75,7 +75,7 @@
 					const b = document.getElementById('import-input');
 					if (b) b.click();
 				}}
-				class="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all hover:border-white/20 hover:text-white"
+				class="rounded-xl border border-fg/10 bg-fg/5 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all hover:border-fg/20 hover:text-fg"
 			>
 				Import
 			</button>
@@ -89,7 +89,7 @@
 					a.click();
 					URL.revokeObjectURL(url);
 				}}
-				class="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all hover:border-white/20 hover:text-white"
+				class="rounded-xl border border-fg/10 bg-fg/5 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all hover:border-fg/20 hover:text-fg"
 			>
 				Export
 			</button>
@@ -134,7 +134,7 @@
 				type="text"
 				bind:value={query}
 				placeholder="Search your watchlist..."
-				class="w-full rounded-xl border border-white/10 bg-surface-800/80 py-2.5 pr-3 pl-10 text-sm text-white placeholder-neutral-500 backdrop-blur-sm transition-all focus:border-gold-500/40 focus:ring-1 focus:ring-gold-500/20 focus:outline-none"
+				class="w-full rounded-xl border border-fg/10 bg-surface-800/80 py-2.5 pr-3 pl-10 text-sm text-fg placeholder-neutral-500 backdrop-blur-sm transition-all focus:border-gold-500/40 focus:ring-1 focus:ring-gold-500/20 focus:outline-none"
 			/>
 		</div>
 
@@ -145,7 +145,7 @@
 					'shrink-0 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					mediaType === 'all'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+						: 'border border-fg/10 bg-fg/5 text-neutral-400 hover:text-fg'
 				)}>All</button
 			>
 			<button
@@ -154,7 +154,7 @@
 					'shrink-0 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					mediaType === 'movie'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+						: 'border border-fg/10 bg-fg/5 text-neutral-400 hover:text-fg'
 				)}>Movies</button
 			>
 			<button
@@ -163,11 +163,11 @@
 					'shrink-0 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					mediaType === 'tv'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+						: 'border border-fg/10 bg-fg/5 text-neutral-400 hover:text-fg'
 				)}>TV</button
 			>
 
-			<div class="mx-1 h-6 w-px shrink-0 bg-white/10"></div>
+			<div class="mx-1 h-6 w-px shrink-0 bg-fg/10"></div>
 
 			<button
 				onclick={() => (showWatched = 'all')}
@@ -175,7 +175,7 @@
 					'shrink-0 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					showWatched === 'all'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+						: 'border border-fg/10 bg-fg/5 text-neutral-400 hover:text-fg'
 				)}>All</button
 			>
 			<button
@@ -184,7 +184,7 @@
 					'flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					showWatched === 'unwatched'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+						: 'border border-fg/10 bg-fg/5 text-neutral-400 hover:text-fg'
 				)}
 			>
 				<EyeSlashIcon class="h-3.5 w-3.5" />
@@ -196,25 +196,25 @@
 					'flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-medium transition-all',
 					showWatched === 'watched'
 						? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-						: 'border border-white/10 bg-white/5 text-neutral-400 hover:text-white'
+						: 'border border-fg/10 bg-fg/5 text-neutral-400 hover:text-fg'
 				)}
 			>
 				<EyeIcon class="h-3.5 w-3.5" />
 				Watched
 			</button>
 
-			<div class="mx-1 h-6 w-px shrink-0 bg-white/10"></div>
+			<div class="mx-1 h-6 w-px shrink-0 bg-fg/10"></div>
 
 			<button
 				onclick={cycleDir}
-				class="shrink-0 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-neutral-400 transition-all hover:text-white"
+				class="shrink-0 rounded-xl border border-fg/10 bg-fg/5 px-3 py-2 text-xs font-medium text-neutral-400 transition-all hover:text-fg"
 			>
 				{dir === 'asc' ? '↑' : '↓'}
 			</button>
 			<div class="relative shrink-0">
 				<select
 					bind:value={sort}
-					class="appearance-none rounded-xl border border-white/10 bg-surface-800/80 py-2 pr-8 pl-3 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all focus:border-gold-500/40 focus:outline-none"
+					class="appearance-none rounded-xl border border-fg/10 bg-surface-800/80 py-2 pr-8 pl-3 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all focus:border-gold-500/40 focus:outline-none"
 				>
 					{#each sortOptions as opt (opt.value)}
 						<option value={opt.value}>{opt.label}</option>
@@ -263,7 +263,7 @@
 						<div
 							class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/50 to-transparent p-3 pt-8"
 						>
-							<p class="truncate text-sm font-semibold text-white">{item.title}</p>
+							<p class="truncate text-sm font-semibold text-fg">{item.title}</p>
 							<div
 								class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-neutral-400"
 							>
@@ -284,7 +284,7 @@
 
 						{#if item.watched}
 							<div
-								class="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-emerald-500/80 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm"
+								class="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-emerald-500/80 px-2 py-0.5 text-[10px] font-semibold text-fg backdrop-blur-sm"
 							>
 								<CheckCircleIcon class="h-3 w-3" weight="fill" />
 								Watched
@@ -311,7 +311,7 @@
 								toggleWatched(item.id, item.mediaType);
 							}}
 							class={cn(
-								'flex h-9 w-9 items-center justify-center rounded-full text-white transition-all active:scale-90',
+								'flex h-9 w-9 items-center justify-center rounded-full text-fg transition-all active:scale-90',
 								item.watched
 									? 'bg-surface-600/80 hover:bg-surface-500'
 									: 'bg-emerald-500/80 hover:bg-emerald-400'
@@ -329,7 +329,7 @@
 								e.stopPropagation();
 								remove(item.id, item.mediaType);
 							}}
-							class="flex h-9 w-9 items-center justify-center rounded-full bg-red-500/80 text-white transition-all hover:bg-red-400 active:scale-90"
+							class="flex h-9 w-9 items-center justify-center rounded-full bg-red-500/80 text-fg transition-all hover:bg-red-400 active:scale-90"
 						>
 							<TrashIcon class="h-4 w-4" />
 						</button>

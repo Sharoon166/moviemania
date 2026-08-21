@@ -18,13 +18,13 @@
 	];
 </script>
 
-<footer class="border-t border-white/5 max-md:pb-12">
+<footer class="border-t border-fg/5 max-md:pb-12">
 	<div class="mx-auto max-w-7xl px-4 pt-12 pb-8 md:px-8">
 		<div class="grid grid-cols-2 gap-8 md:grid-cols-4">
 			<div class="col-span-2 md:col-span-1">
 				<div class="flex items-center gap-2">
 					<img src="/logo.svg" alt="" class="h-5 w-5 opacity-40" />
-					<span class="font-display text-sm font-bold text-white">Moviemania</span>
+					<span class="font-display text-sm font-bold text-fg">Moviemania</span>
 				</div>
 				<p class="mt-3 max-w-xs text-xs leading-relaxed text-neutral-500">
 					A personal streaming platform for movies and TV shows. Clean, distraction-free.
@@ -81,7 +81,7 @@
 			</div>
 		</div>
 
-		<div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-6 md:flex-row">
+		<div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-fg/5 pt-6 md:flex-row">
 			<span class="text-xs text-neutral-600">&copy; {currentYear} Moviemania</span>
 			<span class="text-xs text-neutral-600">
 				Made by

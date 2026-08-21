@@ -175,7 +175,7 @@
 				<input
 					bind:value={q}
 					placeholder="Search collections..."
-					class="w-full rounded-2xl border border-white/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-white placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
+					class="w-full rounded-2xl border border-fg/10 bg-surface-800 py-3.5 pr-4 pl-11 text-sm text-fg placeholder-neutral-500 transition-all duration-300 outline-none focus:border-gold-500/50 focus:bg-surface-700 focus:ring-2 focus:ring-gold-500/20"
 				/>
 			</div>
 		</div>
@@ -189,7 +189,7 @@
 						'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
 						sort === 'popular'
 							? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-							: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
+							: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-fg'
 					)}
 				>
 					Popular
@@ -201,7 +201,7 @@
 						'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
 						sort === 'az'
 							? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-							: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
+							: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-fg'
 					)}
 				>
 					A–Z
@@ -213,7 +213,7 @@
 						'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
 						sort === 'films'
 							? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-							: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
+							: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-fg'
 					)}
 				>
 					Most Films

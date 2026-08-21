@@ -178,7 +178,7 @@
 			<div class="mx-auto w-full max-w-5xl px-4">
 				{#if unreleased}
 					<div
-						class="flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface-900 ring-1 ring-white/10"
+						class="flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-surface-900 ring-1 ring-fg/10"
 					>
 						<div class="flex flex-col items-center gap-3 text-center">
 							<ClockAfternoonIcon class="h-10 w-10 text-neutral-600" />
@@ -200,7 +200,7 @@
 							'overflow-hidden',
 							cinemaMode
 								? '!fixed !inset-0 !z-[100] flex flex-col items-center justify-center !rounded-none bg-black'
-								: 'relative rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-white/10'
+								: 'relative rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-fg/10'
 						)}
 					>
 						<div class={cn(cinemaMode ? 'max-h-[85dvh] w-full max-w-[90vw]' : '')}>
@@ -224,7 +224,7 @@
 								{#if hasPrevEpisode}
 									<button
 										onclick={goToPrevEpisode}
-										class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
+										class="flex items-center gap-2 rounded-xl border border-fg/10 bg-fg/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-fg/20 hover:bg-fg/10 hover:text-fg"
 									>
 										<SkipBackIcon class="h-4 w-4" weight="fill" />
 										Prev
@@ -236,7 +236,7 @@
 										e.stopPropagation();
 										cinemaMode = false;
 									}}
-									class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
+									class="flex items-center gap-2 rounded-xl border border-fg/10 bg-fg/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-fg/20 hover:bg-fg/10 hover:text-fg"
 								>
 									<ArrowsInIcon class="h-4 w-4" />
 									Exit Cinema
@@ -248,7 +248,7 @@
 											e.stopPropagation();
 											goToNextEpisode();
 										}}
-										class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:bg-white/10 hover:text-white"
+										class="flex items-center gap-2 rounded-xl border border-fg/10 bg-fg/5 px-4 py-2.5 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-fg/20 hover:bg-fg/10 hover:text-fg"
 									>
 										Next
 										<SkipForwardIcon class="h-4 w-4" weight="fill" />
@@ -263,7 +263,7 @@
 							<div class="mt-3">
 								<button
 									onclick={goToNextEpisode}
-									class="group flex w-full items-center gap-3 rounded-xl border border-white/10 bg-surface-800/60 px-4 py-3 text-left backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-surface-700/80"
+									class="group flex w-full items-center gap-3 rounded-xl border border-fg/10 bg-surface-800/60 px-4 py-3 text-left backdrop-blur-sm transition-all duration-300 hover:border-fg/20 hover:bg-surface-700/80"
 								>
 									<div
 										class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold-500/20 text-gold-400 transition-all group-hover:bg-gold-500/30"
@@ -272,7 +272,7 @@
 									</div>
 									<div class="min-w-0 flex-1">
 										<p class="text-xs font-medium text-neutral-500">Up Next</p>
-										<p class="truncate text-sm font-semibold text-white">
+										<p class="truncate text-sm font-semibold text-fg">
 											{nextEpisode.name}
 										</p>
 										<p class="text-xs text-neutral-400">
@@ -302,7 +302,7 @@
 								{#if video}
 									<button
 										onclick={() => (showTrailer = true)}
-										class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+										class="flex items-center gap-2 rounded-xl border border-fg/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-fg/20 hover:text-fg"
 									>
 										<PlayIcon class="h-3.5 w-3.5" />
 										Trailer
@@ -310,7 +310,7 @@
 								{/if}
 								<button
 									onclick={() => (cinemaMode = true)}
-									class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+									class="flex items-center gap-2 rounded-xl border border-fg/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-fg/20 hover:text-fg"
 								>
 									<CornersOutIcon class="h-3.5 w-3.5" />
 									Cinema
@@ -320,7 +320,7 @@
 									href={tmdb.embed.tv(show.data.id, season, episode, server)}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-white/20 hover:text-white"
+									class="flex items-center gap-2 rounded-xl border border-fg/10 bg-surface-800/80 px-4 py-2 text-xs font-medium text-neutral-300 backdrop-blur-sm transition-all duration-200 hover:border-fg/20 hover:text-fg"
 								>
 									<DownloadIcon class="h-3.5 w-3.5" />
 									Download
@@ -349,7 +349,7 @@
 			<div class="mx-auto w-full max-w-5xl px-4 pb-16">
 				<div class="flex flex-col gap-3">
 					<div class="flex items-center gap-3">
-						<h1 class="font-display text-2xl font-bold text-white">{show.data.name}</h1>
+						<h1 class="font-display text-2xl font-bold text-fg">{show.data.name}</h1>
 						<WatchlistButton
 							id={show.data.id}
 							mediaType="tv"

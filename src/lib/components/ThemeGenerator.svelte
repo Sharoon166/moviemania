@@ -66,7 +66,7 @@
 <button
 	onclick={generate}
 	disabled={loading}
-	class="absolute top-2 right-2 z-10 rounded-lg bg-black/60 p-2 text-white/70 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-gold-400 disabled:opacity-50"
+	class="absolute top-2 right-2 z-10 rounded-lg bg-black/60 p-2 text-fg/70 backdrop-blur-sm transition-all hover:bg-black/80 hover:text-gold-400 disabled:opacity-50"
 	title="Generate theme from poster"
 >
 	{#if loading}
@@ -89,13 +89,13 @@
 			role="document"
 			onclick={(e) => e.stopPropagation()}
 			onkeydown={(e) => e.stopPropagation()}
-			class="mx-4 w-full max-w-sm rounded-2xl border border-white/10 bg-surface-900 p-5 shadow-2xl"
+			class="mx-4 w-full max-w-sm rounded-2xl border border-fg/10 bg-surface-900 p-5 shadow-2xl"
 		>
 			<div class="mb-4 flex items-center justify-between">
-				<h3 class="text-sm font-semibold text-white">{title}</h3>
+				<h3 class="text-sm font-semibold text-fg">{title}</h3>
 				<button
 					onclick={closePreview}
-					class="rounded-lg p-1 text-neutral-500 transition-colors hover:bg-white/10 hover:text-white"
+					class="rounded-lg p-1 text-neutral-500 transition-colors hover:bg-fg/10 hover:text-fg"
 				>
 					<XIcon class="h-4 w-4" />
 				</button>
@@ -114,7 +114,7 @@
 						class="h-8 flex-1 rounded-lg ring-2 ring-inset transition-all hover:scale-110 {pickedAccent ===
 						color
 							? 'ring-gold-400 shadow-[0_0_8px_rgba(251,191,36,0.4)]'
-							: 'ring-white/10 hover:ring-white/30'}"
+							: 'ring-fg/10 hover:ring-fg/30'}"
 						style="background-color: {color}"
 						title={color}
 					></button>
@@ -134,7 +134,7 @@
 						class="h-8 flex-1 rounded-lg ring-2 ring-inset transition-all hover:scale-110 {pickedSurface ===
 						color
 							? 'ring-gold-400 shadow-[0_0_8px_rgba(251,191,36,0.4)]'
-							: 'ring-white/10 hover:ring-white/30'}"
+							: 'ring-fg/10 hover:ring-fg/30'}"
 						style="background-color: {color}"
 						title={color}
 					></button>

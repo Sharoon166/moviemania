@@ -53,7 +53,7 @@
 					tabindex="0"
 					onclick={() => openClip(clip)}
 					onkeydown={(e) => e.key === 'Enter' && openClip(clip)}
-					class="group block w-full rounded-2xl bg-surface-800 ring-1 ring-white/10 transition-transform duration-300 hover:-translate-y-0.5"
+					class="group block w-full rounded-2xl bg-surface-800 ring-1 ring-fg/10 transition-transform duration-300 hover:-translate-y-0.5"
 					aria-label={`Open ${clip.title}`}
 				>
 					<div class="relative aspect-[9/16] overflow-hidden rounded-2xl">
@@ -66,8 +66,8 @@
 							/>
 						{:else}
 							<div class="flex h-full w-full items-center justify-center bg-surface-800">
-								<div class="flex h-14 w-14 items-center justify-center rounded-full bg-white/5">
-									<PlayCircleIcon class="h-7 w-7 text-white" weight="fill" />
+								<div class="flex h-14 w-14 items-center justify-center rounded-full bg-fg/5">
+									<PlayCircleIcon class="h-7 w-7 text-fg" weight="fill" />
 								</div>
 							</div>
 						{/if}
@@ -76,7 +76,7 @@
 							class="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-transparent"
 						></div>
 						<div class="absolute right-2 bottom-2 left-2">
-							<p class="line-clamp-2 text-xs font-semibold text-white">{clip.name || clip.title}</p>
+							<p class="line-clamp-2 text-xs font-semibold text-fg">{clip.name || clip.title}</p>
 							<p class="mt-1 text-[11px] text-neutral-300">Tap to open</p>
 						</div>
 
@@ -85,7 +85,7 @@
 								e.stopPropagation();
 								toggleLike(clip.id);
 							}}
-							class="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white ring-1 ring-white/10 backdrop-blur-sm transition-colors duration-200 hover:bg-black/60"
+							class="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-fg ring-1 ring-fg/10 backdrop-blur-sm transition-colors duration-200 hover:bg-black/60"
 							aria-pressed={!!liked[clip.id]}
 							title={liked[clip.id] ? 'Unlike' : 'Like'}
 						>

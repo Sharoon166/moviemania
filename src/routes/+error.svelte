@@ -18,7 +18,7 @@
 
 		<!-- Error message -->
 		<h1
-			class="mb-3 flex items-end justify-center font-display text-6xl font-bold text-white md:text-9xl"
+			class="mb-3 flex items-end justify-center font-display text-6xl font-bold text-fg md:text-9xl"
 		>
 			{#if status == 404}
 				4<FilmReelIcon class="text-7xl md:text-9xl" />4

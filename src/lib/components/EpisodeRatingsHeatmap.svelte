@@ -91,7 +91,7 @@
 <section class="mx-auto max-w-7xl px-4 pb-12 md:px-8">
 	<div class="mb-5 flex items-center gap-2">
 		<ChartBarIcon class="h-5 w-5 text-gold-400" weight="fill" />
-		<h2 class="font-display text-2xl font-bold text-white">Ratings Heatmap</h2>
+		<h2 class="font-display text-2xl font-bold text-fg">Ratings Heatmap</h2>
 	</div>
 
 	{#if isLoading}

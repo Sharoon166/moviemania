@@ -130,15 +130,15 @@
 	});
 </script>
 
-<div class="w-full rounded-2xl border border-white/10 bg-surface-900/95 shadow-xl backdrop-blur-xl overflow-hidden">
+<div class="w-full rounded-2xl border border-fg/10 bg-surface-900/95 shadow-xl backdrop-blur-xl overflow-hidden">
 	<!-- Header - Collapsible -->
 	<button
 		onclick={toggleExpanded}
-		class="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-white/5"
+		class="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-fg/5"
 	>
 		<div class="max-w-full">
 			<div class="flex items-center gap-2">
-				<h3 class="line-clamp-2 font-display text-base font-bold text-white">
+				<h3 class="line-clamp-2 font-display text-base font-bold text-fg">
 					{#if nextEpisode}
 						Up Next - {nextEpisode.name}
 					{:else}
@@ -164,18 +164,18 @@
 	<!-- Season Info Card -->
 	{#if isExpanded && seasonDetail.data}
 		{#if seasonDetail.data.poster_path || seasonDetail.data.overview}
-			<div class="border-b border-white/10 px-4 py-3">
+			<div class="border-b border-fg/10 px-4 py-3">
 				<div class="flex gap-3">
 					{#if seasonDetail.data.poster_path}
 						<img
 							src={`https://image.tmdb.org/t/p/w185${seasonDetail.data.poster_path}`}
 							alt={seasonDetail.data.name}
-							class="h-28 w-20 shrink-0 rounded-lg object-cover shadow-lg ring-1 ring-white/10"
+							class="h-28 w-20 shrink-0 rounded-lg object-cover shadow-lg ring-1 ring-fg/10"
 							loading="lazy"
 						/>
 					{/if}
 					<div class="min-w-0 flex-1">
-						<h4 class="line-clamp-1 text-sm font-semibold text-white">{seasonDetail.data.name}</h4>
+						<h4 class="line-clamp-1 text-sm font-semibold text-fg">{seasonDetail.data.name}</h4>
 						{#if seasonDetail.data.overview}
 							<p class="mt-1 line-clamp-4 text-xs leading-relaxed text-neutral-400">
 								{seasonDetail.data.overview}
@@ -191,9 +191,9 @@
 
 	<!-- Collapsible Content -->
 	{#if isExpanded}
-		<div class="border-t border-white/10">
+		<div class="border-t border-fg/10">
 			<!-- Search & Controls -->
-			<div class="space-y-3 border-b border-white/10 px-4 py-3">
+			<div class="space-y-3 border-b border-fg/10 px-4 py-3">
 				<!-- Search Bar -->
 				<div class="relative">
 					<MagnifyingGlassIcon
@@ -204,7 +204,7 @@
 						type="text"
 						bind:value={searchQuery}
 						placeholder="Search Episode"
-						class="w-full rounded-lg border border-white/10 bg-surface-800 py-2.5 pr-3 pl-10 text-sm text-white placeholder-neutral-500 transition-all focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30 focus:outline-none"
+						class="w-full rounded-lg border border-fg/10 bg-surface-800 py-2.5 pr-3 pl-10 text-sm text-fg placeholder-neutral-500 transition-all focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30 focus:outline-none"
 					/>
 				</div>
 
@@ -213,14 +213,14 @@
 					<div class="flex items-center gap-2">
 						<button
 							onclick={toggleSort}
-							class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2 text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-surface-700"
+							class="flex items-center gap-1.5 rounded-lg border border-fg/10 bg-surface-800 px-3 py-2 text-xs font-medium text-neutral-300 transition-all hover:border-fg/20 hover:bg-surface-700"
 							title={sortOrder === 'asc' ? 'Sort descending' : 'Sort ascending'}
 						>
 							<ArrowsDownUpIcon class="h-3.5 w-3.5" weight="bold" />
 						</button>
 
 						<div
-							class="flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface-800 px-3 py-2"
+							class="flex items-center gap-1.5 rounded-lg border border-fg/10 bg-surface-800 px-3 py-2"
 						>
 							<ListIcon class="h-3.5 w-3.5 text-neutral-500" weight="bold" />
 							<span class="text-xs font-medium text-neutral-400">Season</span>
@@ -238,7 +238,7 @@
 									'rounded-lg px-2.5 py-1.5 text-xs font-bold text-nowrap transition-all duration-200',
 									season === i + 1
 										? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
-										: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-white'
+										: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-fg'
 								)}>S {i + 1}</button
 							>
 						{/each}
@@ -255,8 +255,8 @@
 							<button
 								onclick={() => select(season, ep.episode_number)}
 								class={cn(
-									'group flex w-full items-start gap-3 border-b border-white/5 px-4 py-3 text-left transition-all duration-200 last:border-b-0',
-									isActive ? 'bg-surface-800/80' : 'hover:bg-white/5'
+									'group flex w-full items-start gap-3 border-b border-fg/5 px-4 py-3 text-left transition-all duration-200 last:border-b-0',
+									isActive ? 'bg-surface-800/80' : 'hover:bg-fg/5'
 								)}
 							>
 								<!-- Thumbnail -->
@@ -273,7 +273,7 @@
 												<div
 													class="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-[1px]"
 												>
-													<PlayIcon class="h-5 w-5 text-white" weight="fill" />
+													<PlayIcon class="h-5 w-5 text-fg" weight="fill" />
 												</div>
 											{/if}
 										</div>
@@ -289,7 +289,7 @@
 										class={cn(
 											'absolute -top-1.5 -left-1.5 rounded-md px-1.5 py-0.5 text-[10px] font-bold',
 											isActive
-												? 'bg-neutral-900 text-white ring-2 ring-white/20'
+												? 'bg-neutral-900 text-fg ring-2 ring-fg/20'
 												: 'bg-neutral-900/90 text-neutral-400'
 										)}
 									>
@@ -302,7 +302,7 @@
 									<h4
 										class={cn(
 											'line-clamp-2 text-sm leading-snug font-medium',
-											isActive ? 'text-white' : 'text-neutral-200 group-hover:text-white'
+											isActive ? 'text-fg' : 'text-neutral-200 group-hover:text-fg'
 										)}
 									>
 										{ep.name}
@@ -363,7 +363,7 @@
 			</div>
 
 			<!-- Footer -->
-			<div class="border-t border-white/10 bg-surface-950/50 px-4 py-3">
+			<div class="border-t border-fg/10 bg-surface-950/50 px-4 py-3">
 				<div class="flex items-center justify-between text-xs">
 					<span class="text-neutral-500">
 						{filteredEpisodes.length} of {seasonDetail.data?.episodes.length ?? 0} episodes

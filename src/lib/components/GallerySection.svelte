@@ -46,14 +46,14 @@
 	<section class="mx-auto max-w-7xl px-4 pb-12 md:px-8">
 		<div class="mb-5 flex items-center gap-2">
 			<FilmStripIcon class="h-5 w-5 text-gold-400" weight="fill" />
-			<h2 class="font-display text-2xl font-bold text-white">Gallery</h2>
+			<h2 class="font-display text-2xl font-bold text-fg">Gallery</h2>
 			<span class="ml-1 text-sm text-neutral-500">{images.length} stills</span>
 		</div>
 		<div class="flex gap-3 overflow-x-auto pb-2" style="scrollbar-width: none;">
 			{#each images.slice(0, 20) as image, i (image.file_path)}
 				<button
 					onclick={() => openLightbox(i)}
-					class="relative shrink-0 overflow-hidden rounded-xl ring-1 ring-white/10 transition-all duration-300 hover:scale-[1.02] hover:ring-gold-500/40 focus:outline-none"
+					class="relative shrink-0 overflow-hidden rounded-xl ring-1 ring-fg/10 transition-all duration-300 hover:scale-[1.02] hover:ring-gold-500/40 focus:outline-none"
 				>
 					<img
 						src={tmdb.image.backdrop(image.file_path, 'w780')}
@@ -82,7 +82,7 @@
 	>
 		<button
 			onclick={closeLightbox}
-			class="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/60 text-white backdrop-blur-sm transition-all hover:bg-white/20"
+			class="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-fg/10 bg-black/60 text-fg backdrop-blur-sm transition-all hover:bg-fg/20"
 		>
 			<XIcon class="h-5 w-5" weight="bold" />
 		</button>
@@ -92,7 +92,7 @@
 				e.stopPropagation();
 				lightboxPrev();
 			}}
-			class="absolute left-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-xl transition-all hover:bg-black/80"
+			class="absolute left-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-fg/10 bg-black/50 text-fg backdrop-blur-xl transition-all hover:bg-black/80"
 		>
 			<CaretLeftIcon size={20} weight="bold" />
 		</button>
@@ -109,13 +109,13 @@
 				e.stopPropagation();
 				lightboxNext();
 			}}
-			class="absolute right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-xl transition-all hover:bg-black/80"
+			class="absolute right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-fg/10 bg-black/50 text-fg backdrop-blur-xl transition-all hover:bg-black/80"
 		>
 			<CaretRightIcon size={20} weight="bold" />
 		</button>
 
 		<div
-			class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-black/60 px-4 py-1.5 text-sm text-neutral-400 backdrop-blur-sm"
+			class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-fg/10 bg-black/60 px-4 py-1.5 text-sm text-neutral-400 backdrop-blur-sm"
 		>
 			{lightboxIndex + 1} / {images.length}
 		</div>

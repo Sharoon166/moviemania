@@ -325,7 +325,7 @@
 	{#if loading && clips.length === 0}
 		<div class="flex items-center justify-center" style="height: calc(100dvh - {topOffset}px);">
 			<div
-				class="h-12 w-12 animate-spin rounded-full border-2 border-white/20 border-t-white"
+				class="h-12 w-12 animate-spin rounded-full border-2 border-fg/20 border-t-fg"
 			></div>
 		</div>
 	{:else if error}
@@ -387,11 +387,11 @@
 						class="flex flex-col items-center gap-1.5 transition-transform hover:scale-110 active:scale-95"
 					>
 						<div
-							class="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm"
+							class="flex h-12 w-12 items-center justify-center rounded-full bg-fg/90 backdrop-blur-sm"
 						>
 							<PlayCircleIcon size={28} weight="fill" class="text-black" />
 						</div>
-						<span class="text-xs font-medium text-white drop-shadow">Watch</span>
+						<span class="text-xs font-medium text-fg drop-shadow">Watch</span>
 					</a>
 
 					<button
@@ -399,7 +399,7 @@
 						class="flex flex-col items-center gap-1.5 transition-transform hover:scale-110 active:scale-95"
 					>
 						<div
-							class="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm"
+							class="flex h-12 w-12 items-center justify-center rounded-full bg-fg/20 backdrop-blur-sm"
 						>
 							{#if muted}
 								<SpeakerSlashIcon />
@@ -407,7 +407,7 @@
 								<SpeakerHighIcon />
 							{/if}
 						</div>
-						<span class="text-xs font-medium text-white drop-shadow">
+						<span class="text-xs font-medium text-fg drop-shadow">
 							{muted ? 'Unmute' : 'Mute'}
 						</span>
 					</button>
@@ -415,7 +415,7 @@
 
 				{#if !hasMore && index === clips.length - 1}
 					<div
-						class="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-xs text-white backdrop-blur-md"
+						class="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-full bg-fg/10 px-4 py-2 text-xs text-fg backdrop-blur-md"
 					>
 						End of feed
 					</div>
@@ -429,16 +429,16 @@
 			>
 				<div class="flex items-center gap-2">
 					<div
-						class="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white"
+						class="h-4 w-4 animate-spin rounded-full border-2 border-fg/20 border-t-fg"
 					></div>
-					<span class="text-xs text-white">Loading more</span>
+					<span class="text-xs text-fg">Loading more</span>
 				</div>
 			</div>
 		{/if}
 
 		<!-- Keyboard shortcuts hint -->
 		<div
-			class="fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-white/60 backdrop-blur-sm max-sm:hidden"
+			class="fixed top-20 left-4 z-30 rounded-lg bg-black/80 px-3 py-2 text-xs text-fg/60 backdrop-blur-sm max-sm:hidden"
 		>
 			<div>↑↓ Navigate</div>
 			<div>M Mute</div>

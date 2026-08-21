@@ -406,6 +406,7 @@ class ThemeStore {
 
 		root.style.setProperty('--font-display', theme.fontDisplay);
 		root.style.setProperty('--font-body', theme.fontBody);
+		root.style.setProperty('--color-fg', theme.text);
 
 		if (!this.styleEl) {
 			const el = document.createElement('style');

@@ -54,7 +54,7 @@
 <div class="relative">
 	<button
 		onclick={toggle}
-		class="flex items-center gap-2 rounded-xl border border-white/10 bg-surface-800 px-4 py-2 text-sm text-white transition-all duration-300 hover:bg-surface-700 active:scale-95"
+		class="flex items-center gap-2 rounded-xl border border-fg/10 bg-surface-800 px-4 py-2 text-sm text-fg transition-all duration-300 hover:bg-surface-700 active:scale-95"
 	>
 		<span class="text-neutral-400">S</span><span class="font-medium">{season}</span>
 		<span class="text-neutral-500">/</span>
@@ -75,9 +75,9 @@
 		></div>
 
 		<div
-			class="absolute top-full left-0 z-50 mt-2 w-[320px] rounded-2xl border border-white/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
+			class="absolute top-full left-0 z-50 mt-2 w-[320px] rounded-2xl border border-fg/10 bg-surface-800 shadow-2xl shadow-black/50 backdrop-blur-xl"
 		>
-			<div class="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+			<div class="flex items-center gap-2 border-b border-fg/10 px-4 py-3">
 				<span class="text-xs font-medium text-neutral-500">Season</span>
 				<div class="flex gap-1 overflow-auto">
 					{#each Array(totalSeasons) as _, i (i)}
@@ -90,7 +90,7 @@
 								'rounded-lg px-2.5 py-1 text-xs font-medium transition-all duration-200',
 								season === i + 1
 									? 'bg-gold-500/20 text-gold-400'
-									: 'text-neutral-400 hover:bg-white/5 hover:text-white'
+									: 'text-neutral-400 hover:bg-fg/5 hover:text-fg'
 							)}>{i + 1}</button
 						>
 					{/each}
@@ -103,7 +103,7 @@
 						<button
 							onclick={() => select(season, ep.episode_number)}
 							class={cn(
-								'flex w-full items-start gap-3 px-4 py-2.5 text-left transition-all duration-200 hover:bg-white/5',
+								'flex w-full items-start gap-3 px-4 py-2.5 text-left transition-all duration-200 hover:bg-fg/5',
 								episode === ep.episode_number && 'bg-gold-500/10'
 							)}
 						>
@@ -123,7 +123,7 @@
 							</div>
 							<div class="min-w-0 flex-1">
 								<div class="flex items-center gap-2">
-									<p class="truncate text-sm font-medium text-white">{ep.name}</p>
+									<p class="truncate text-sm font-medium text-fg">{ep.name}</p>
 								</div>
 								{#if ep.overview}
 									<p class="mt-0.5 line-clamp-2 text-xs text-neutral-500">{ep.overview}</p>

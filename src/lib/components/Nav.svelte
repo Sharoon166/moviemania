@@ -68,19 +68,19 @@
 				<img src="/logo.svg" alt="Moviemania" class="h-full w-full" />
 			</div>
 			<span
-				class="font-display text-lg font-bold tracking-tight text-white transition-opacity duration-300"
+				class="font-display text-lg font-bold tracking-tight text-fg transition-opacity duration-300"
 			>
 				Moviemania
 			</span>
 		</a>
 
 		<!-- Desktop nav (md+) -->
-		<div class="hidden items-center gap-2 md:flex relative">
+		<div class="relative hidden items-center gap-2 md:flex">
 			{#each navLinks as { href, label, Icon } (href)}
 				<a
 					{href}
 					class={cn(
-						'nav-link relative flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-neutral-300 transition-all duration-300 hover:text-white active:scale-95',
+						'nav-link relative flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-neutral-300 transition-all duration-300 hover:text-fg active:scale-95',
 						page.url.pathname === href && 'active'
 					)}
 				>
@@ -96,20 +96,51 @@
 				</a>
 			{/each}
 
-			<button
-				onclick={goRandom}
-				class="flex items-center gap-2 rounded-xl bg-gold-500/20 px-4 py-2 text-sm font-medium text-gold-400 transition-all duration-300 hover:bg-gold-500/30 hover:text-gold-300 active:scale-95"
-			>
-				<ShuffleIcon class="h-4.5 w-4.5" weight="fill" />
-				<span>Random</span>
-			</button>
+			<div class="flex items-center gap-2">
+				<a
+					href="/watchlist"
+					class="relative flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-fg/5 hover:text-fg active:scale-90"
+				>
+					<BookmarkIcon
+						class="h-5 w-5"
+						weight={page.url.pathname === '/watchlist' ? 'fill' : 'regular'}
+					/>
+					{#if watchlistCount > 0}
+						<span
+							class="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold-500 px-1 text-[10px] font-bold text-black"
+						>
+							{watchlistCount > 99 ? '99+' : watchlistCount}
+						</span>
+					{/if}
+				</a>
+
+				<a
+					href="/settings"
+					class="flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-fg/5 hover:text-fg active:scale-90"
+				>
+					<GearSixIcon
+						class="h-5 w-5"
+						weight={page.url.pathname === '/settings' ? 'fill' : 'regular'}
+					/>
+				</a>
+
+				<div class="h-5 w-px bg-fg/10"></div>
+
+				<button
+					onclick={goRandom}
+					class="flex items-center gap-2 rounded-xl bg-gold-500/20 px-4 py-2 text-sm font-medium text-gold-400 transition-all duration-300 hover:bg-gold-500/30 hover:text-gold-300 active:scale-95"
+				>
+					<ShuffleIcon class="h-4.5 w-4.5" weight="fill" />
+					<span>Random</span>
+				</button>
+			</div>
 		</div>
 
 		<!-- Mobile: Watchlist icon + Settings + Random button -->
-		<div class="flex items-center gap-2 md:hidden">
+		<div class="flex items-center gap-2">
 			<a
 				href="/watchlist"
-				class="relative flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-white/5 hover:text-white active:scale-90"
+				class="relative flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-fg/5 hover:text-fg active:scale-90"
 			>
 				<BookmarkIcon
 					class="h-5 w-5"
@@ -126,7 +157,7 @@
 
 			<a
 				href="/settings"
-				class="flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-white/5 hover:text-white active:scale-90"
+				class="flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-fg/5 hover:text-fg active:scale-90"
 			>
 				<GearSixIcon
 					class="h-5 w-5"
@@ -138,7 +169,7 @@
 				onclick={goRandom}
 				class="flex items-center gap-1.5 rounded-xl bg-gold-500/20 px-3 py-2 text-sm font-medium text-gold-400 transition-all duration-300 hover:bg-gold-500/30 active:scale-95"
 			>
-				<ShuffleIcon class="h-4 w-4 text-white" weight="fill" />
+				<ShuffleIcon class="h-4 w-4 text-fg" weight="fill" />
 				<span class="text-xs font-semibold tracking-wide">Random</span>
 			</button>
 		</div>
@@ -147,7 +178,7 @@
 
 <!-- ─── Mobile bottom tab bar ─── -->
 <nav class="fixed inset-x-0 bottom-0 z-1000 md:hidden">
-	<div class="border-t border-white/6 bg-surface-950/90 backdrop-blur-xl">
+	<div class="border-t border-fg/6 bg-surface-950/90 backdrop-blur-xl">
 		<div
 			class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]"
 		>
@@ -156,7 +187,7 @@
 					{href}
 					class={cn(
 						'relative flex flex-col items-center gap-1 rounded-xl px-4 py-1.5 text-neutral-400 transition-all duration-200 active:scale-90',
-						page.url.pathname === href && 'text-gold-400 scale-110'
+						page.url.pathname === href && 'scale-110 text-gold-400'
 					)}
 				>
 					<Icon class="h-5 w-5" weight={page.url.pathname === href ? 'fill' : 'regular'} />

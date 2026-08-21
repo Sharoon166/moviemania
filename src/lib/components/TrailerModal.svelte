@@ -57,11 +57,11 @@
 		role="presentation"
 	>
 		<div
-			class="relative overflow-hidden rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-white/10"
+			class="relative overflow-hidden rounded-2xl shadow-2xl ring-1 shadow-black/50 ring-fg/10"
 		>
 			<button
 				onclick={close}
-				class="absolute top-3 right-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 active:scale-90"
+				class="absolute top-3 right-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-fg backdrop-blur-sm transition-all duration-300 hover:bg-fg/20 active:scale-90"
 			>
 				<XIcon class="h-5 w-5" weight="bold" />
 			</button>
