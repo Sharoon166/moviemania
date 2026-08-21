@@ -54,7 +54,7 @@
 	<button
 		onclick={handleClick}
 		class={cn(
-			'flex items-center gap-2.5 rounded-full px-7 py-3 text-sm font-bold transition-all duration-300 active:scale-95',
+			'flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 active:scale-95',
 			inList
 				? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30 hover:bg-gold-500/30'
 				: 'border border-white/10 bg-white/5 text-white backdrop-blur-sm hover:border-white/20 hover:bg-white/10'

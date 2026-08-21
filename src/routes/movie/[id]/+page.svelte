@@ -101,7 +101,7 @@
 				{/if}
 			</div>
 			<div class="flex max-w-3xl flex-col gap-5">
-				<h1 class="font-display text-4xl font-extrabold text-white sm:text-5xl">
+				<h1 class="font-display text-3xl font-extrabold text-white sm:text-5xl text-balance">
 					{movie.data.title}
 				</h1>
 
@@ -134,7 +134,7 @@
 					<p class="text-base text-gold-400/70 italic">{movie.data.tagline}</p>
 				{/if}
 
-				<p class="max-w-2xl text-base leading-relaxed text-neutral-300">{movie.data.overview}</p>
+				<p class="max-w-2xl text-sm sm:text-base leading-relaxed text-neutral-300">{movie.data.overview}</p>
 
 				<div class="flex flex-wrap gap-2">
 					{#each movie.data.genres as genre (genre.id)}
@@ -176,7 +176,7 @@
 					{:else}
 						<a
 							href={`/watch/movie/${movie.data.id}`}
-							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
+							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-6 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
 						>
 							<PlayCircleIcon class="h-5 w-5" weight="fill" />
 							Watch Now
@@ -197,7 +197,7 @@
 					{#if !unreleased && video}
 						<button
 							onclick={() => (showTrailer = true)}
-							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
+							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
 						>
 							<PlayCircleIcon class="h-5 w-5" />
 							Trailer
@@ -208,7 +208,7 @@
 							href={embedSources[0].movie(movie.data.id)}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
+							class="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/10 active:scale-95"
 						>
 							<DownloadIcon class="h-5 w-5" />
 							Download

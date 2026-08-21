@@ -194,13 +194,13 @@
 
 			<h1
 				{title}
-				class="line-clamp-2 max-w-3xl font-display text-2xl leading-[0.95] font-black text-white md:text-4xl"
+				class="line-clamp-2 max-w-3xl font-display text-2xl  font-black text-white md:text-4xl"
 			>
 				{title}
 			</h1>
 
 			<div class="flex flex-wrap items-center gap-4 text-sm text-neutral-300">
-				<div class="flex items-center gap-1.5 text-gold-400 md:hidden">
+				<div class="flex items-center gap-1.5 text-gold-400">
 					<StarIcon class="h-4 w-4" weight="fill" />
 					<span class="font-semibold">
 						{current.vote_average > 0 ? current.vote_average.toFixed(1) : 'TBD'}
