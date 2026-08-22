@@ -7,6 +7,9 @@
 	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
 	import XIcon from 'phosphor-svelte/lib/XIcon';
 	import CaretDownIcon from 'phosphor-svelte/lib/CaretDownIcon';
+	import CalendarIcon from 'phosphor-svelte/lib/CalendarIcon';
+	import ArrowCounterClockwiseIcon from 'phosphor-svelte/lib/ArrowCounterClockwiseIcon';
+	import YearRangeSelector from '$lib/components/YearRangeSelector.svelte';
 	import { cn } from '$lib/cn';
 	import { searchHistory } from '$lib/services/search-history.svelte';
 	import { appSettings } from '$lib/services/app-settings.svelte';
@@ -17,9 +20,30 @@
 	let submittedQuery = $state('');
 	let selectedGenres = $state<number[]>([]);
 	let mediaFilter = $state<'all' | 'movie' | 'tv'>(appSettings.defaultMediaFilter);
-	let year = $state<number | ''>('');
+	const currentYear = new Date().getFullYear();
+	const defaultYearRange: [number, number] = [1900, currentYear];
+	let yearRange = $state<[number, number]>([...defaultYearRange]);
+	let showYearPicker = $state(false);
+	let yearPickerKey = $state(0);
+	let yearPickerPos = $state({ top: 0, left: 0 });
+
+	function toggleYearPicker(e: MouseEvent) {
+		if (showYearPicker) {
+			showYearPicker = false;
+			return;
+		}
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		yearPickerPos = {
+			top: rect.bottom + 8,
+			left: Math.max(8, Math.min(rect.left, window.innerWidth - 272))
+		};
+		showYearPicker = true;
+	}
 	let minRating = $state<number | ''>('');
 	let sortBy = $state(appSettings.defaultSortBy);
+	let country = $state('');
+	let language = $state('');
+	let region = $state('');
 
 	let results = $state<(TmdbMovie | TmdbTvShow)[]>([]);
 	let totalPages = $state(0);
@@ -55,6 +79,56 @@
 		{ value: 'vote_count.desc', label: 'Most Voted' }
 	];
 
+	let countryOptions = [
+		{ value: 'US', label: 'United States', flag: '\u{1F1FA}\u{1F1F8}' },
+		{ value: 'GB', label: 'United Kingdom', flag: '\u{1F1EC}\u{1F1E7}' },
+		{ value: 'KR', label: 'South Korea', flag: '\u{1F1F0}\u{1F1F7}' },
+		{ value: 'JP', label: 'Japan', flag: '\u{1F1EF}\u{1F1F5}' },
+		{ value: 'FR', label: 'France', flag: '\u{1F1EB}\u{1F1F7}' },
+		{ value: 'DE', label: 'Germany', flag: '\u{1F1E9}\u{1F1EA}' },
+		{ value: 'IN', label: 'India', flag: '\u{1F1EE}\u{1F1F3}' },
+		{ value: 'ES', label: 'Spain', flag: '\u{1F1EA}\u{1F1F8}' },
+		{ value: 'IT', label: 'Italy', flag: '\u{1F1EE}\u{1F1F9}' },
+		{ value: 'CN', label: 'China', flag: '\u{1F1E8}\u{1F1F3}' },
+		{ value: 'BR', label: 'Brazil', flag: '\u{1F1E7}\u{1F1F7}' },
+		{ value: 'CA', label: 'Canada', flag: '\u{1F1E8}\u{1F1E6}' },
+		{ value: 'AU', label: 'Australia', flag: '\u{1F1E6}\u{1F1FA}' },
+		{ value: 'MX', label: 'Mexico', flag: '\u{1F1F2}\u{1F1FD}' },
+		{ value: 'TR', label: 'Turkey', flag: '\u{1F1F9}\u{1F1F7}' },
+		{ value: 'TH', label: 'Thailand', flag: '\u{1F1F9}\u{1F1ED}' },
+		{ value: 'SE', label: 'Sweden', flag: '\u{1F1F8}\u{1F1EA}' },
+		{ value: 'NL', label: 'Netherlands', flag: '\u{1F1F3}\u{1F1F1}' },
+		{ value: 'DK', label: 'Denmark', flag: '\u{1F1E9}\u{1F1F0}' },
+		{ value: 'NO', label: 'Norway', flag: '\u{1F1F3}\u{1F1F4}' }
+	];
+
+	let languageOptions = [
+		{ value: 'en', label: 'English' },
+		{ value: 'ko', label: 'Korean' },
+		{ value: 'ja', label: 'Japanese' },
+		{ value: 'fr', label: 'French' },
+		{ value: 'es', label: 'Spanish' },
+		{ value: 'de', label: 'German' },
+		{ value: 'hi', label: 'Hindi' },
+		{ value: 'zh', label: 'Chinese' },
+		{ value: 'pt', label: 'Portuguese' },
+		{ value: 'it', label: 'Italian' },
+		{ value: 'sv', label: 'Swedish' },
+		{ value: 'nl', label: 'Dutch' },
+		{ value: 'da', label: 'Danish' },
+		{ value: 'no', label: 'Norwegian' },
+		{ value: 'tr', label: 'Turkish' },
+		{ value: 'th', label: 'Thai' },
+		{ value: 'pl', label: 'Polish' },
+		{ value: 'ru', label: 'Russian' }
+	];
+
+	const regionLanguages: Record<string, string[]> = {
+		anime: ['ja']
+	};
+
+	let regionOptions = [{ value: 'anime', label: 'Anime', flag: '\u{1F34E}' }];
+
 	let genres = createQuery(() => ({
 		queryKey: ['genres-browse'],
 		queryFn: async () => {
@@ -66,7 +140,14 @@
 	}));
 
 	let hasFilters = $derived(
-		selectedGenres.length > 0 || year !== '' || minRating !== '' || sortBy !== 'popularity.desc'
+		selectedGenres.length > 0 ||
+			yearRange[0] !== defaultYearRange[0] ||
+			yearRange[1] !== defaultYearRange[1] ||
+			minRating !== '' ||
+			sortBy !== 'popularity.desc' ||
+			country !== '' ||
+			language !== '' ||
+			region !== ''
 	);
 
 	// async function fetchPage(page: number) {
@@ -100,17 +181,58 @@
 	// }
 
 	async function fetchPage(page: number) {
+		const langs = region ? regionLanguages[region] : language ? [language] : undefined;
+		const yearChanged =
+			yearRange[0] !== defaultYearRange[0] || yearRange[1] !== defaultYearRange[1];
+
 		const opts = {
 			query: q.length >= 2 ? q : undefined,
 			genreIds: selectedGenres,
 			page,
-			year: year || undefined,
+			yearRange: (yearChanged ? yearRange : undefined) as [number, number] | undefined,
 			rating: minRating || undefined,
-			sortBy: hasFilters ? sortBy : undefined
+			sortBy: hasFilters ? sortBy : undefined,
+			country: country || undefined,
+			language: langs && langs.length === 1 ? langs[0] : !langs ? language || undefined : undefined,
+			languages: langs && langs.length > 1 ? langs : undefined
 		};
 
 		const useDiscover = hasFilters || mediaFilter !== 'all' || q.length >= 2;
 		if (useDiscover) {
+			if (opts.languages && opts.languages.length > 1) {
+				const perLang = await Promise.all(
+					opts.languages.map((lang) => {
+						const langOpts = { ...opts, languages: undefined, language: lang };
+						return Promise.all([
+							mediaFilter !== 'tv'
+								? tmdb.discover.movies(langOpts)
+								: Promise.resolve({ results: [], total_pages: 0, total_results: 0 }),
+							mediaFilter !== 'movie'
+								? tmdb.discover.tv(langOpts)
+								: Promise.resolve({ results: [], total_pages: 0, total_results: 0 })
+						]);
+					})
+				);
+
+				const allMovies: any[] = [];
+				const allTv: any[] = [];
+				let maxPages = 0;
+				let totalResultsCount = 0;
+
+				for (const [movies, tvShows] of perLang) {
+					allMovies.push(...(movies as any).results.map((m: any) => ({ ...m, media_type: 'movie' })));
+					allTv.push(...(tvShows as any).results.map((t: any) => ({ ...t, media_type: 'tv' })));
+					maxPages = Math.max(maxPages, (movies as any).total_pages, (tvShows as any).total_pages);
+					totalResultsCount += (movies as any).total_results + (tvShows as any).total_results;
+				}
+
+				const combined = [...allMovies, ...allTv]
+					.sort((a: any, b: any) => b.popularity - a.popularity)
+					.slice(0, 20);
+
+				return { results: combined, total_pages: maxPages, total_results: totalResultsCount };
+			}
+
 			const fetchMovie = mediaFilter === 'tv' ? null : tmdb.discover.movies(opts);
 			const fetchTv = mediaFilter === 'movie' ? null : tmdb.discover.tv(opts);
 
@@ -119,7 +241,6 @@
 				fetchTv ?? Promise.resolve({ results: [], total_pages: 0, page: 1, total_results: 0 })
 			]);
 
-			// Stamp media_type explicitly — discover endpoints don't include it
 			const taggedMovies = (movies as any).results.map((m: any) => ({ ...m, media_type: 'movie' }));
 			const taggedTv = (tvShows as any).results.map((t: any) => ({ ...t, media_type: 'tv' }));
 
@@ -141,9 +262,12 @@
 		const term = submittedQuery;
 		const genreFilter = selectedGenres;
 		const filter = mediaFilter;
-		const y = year;
+		const y = `${yearRange[0]}-${yearRange[1]}`;
 		const rating = minRating;
 		const sort = sortBy;
+		const c = country;
+		const l = language;
+		const r = region;
 
 		loading = true;
 		error = '';
@@ -246,9 +370,13 @@
 
 	function clearAllFilters() {
 		selectedGenres = [];
-		year = '';
+		yearRange = [...defaultYearRange];
+		yearPickerKey++;
 		minRating = '';
 		sortBy = 'popularity.desc';
+		country = '';
+		language = '';
+		region = '';
 	}
 
 	$effect(() => {
@@ -438,9 +566,10 @@
 			</div>
 		</div>
 
-		<!-- Filter Row -->
-		<div>
-			<div class="flex items-center gap-2 overflow-x-auto pb-2" style="scrollbar-width: none;">
+		<!-- Filters -->
+		<div class="space-y-2">
+			<!-- Row 1: Controls -->
+			<div class="flex items-center gap-2 overflow-x-auto pb-1" style="scrollbar-width: none;">
 				<!-- Media Type -->
 				<div class="flex shrink-0 rounded-xl border border-fg/10 bg-surface-800 p-0.5">
 					<button
@@ -474,15 +603,56 @@
 
 				<div class="h-5 w-px shrink-0 bg-fg/10"></div>
 
-				<!-- Year Filter -->
-				<input
-					type="number"
-					bind:value={year}
-					placeholder="Year"
-					min="1900"
-					max="2030"
-					class="w-20 shrink-0 rounded-lg border border-fg/10 bg-surface-800 px-3 py-1.5 text-xs text-fg placeholder-neutral-500 transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
-				/>
+				<!-- Year Range Filter -->
+				<div class="shrink-0">
+					<button
+						onclick={toggleYearPicker}
+						class={cn(
+							'flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-all outline-none',
+							showYearPicker ||
+								yearRange[0] !== defaultYearRange[0] ||
+								yearRange[1] !== defaultYearRange[1]
+								? 'border-gold-500/30 bg-gold-500/10 text-gold-400 ring-1 ring-gold-500/30'
+								: 'border-fg/10 bg-surface-800 text-fg hover:border-gold-500/30'
+						)}
+					>
+						<CalendarIcon class="h-3.5 w-3.5" />
+						{yearRange[0]} – {yearRange[1]}
+					</button>
+					{#if showYearPicker}
+						<!-- svelte-ignore a11y_no_static_element_interactions -->
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<div class="fixed inset-0 z-40" onclick={() => (showYearPicker = false)}></div>
+						<div
+							class="fixed z-50 w-64 rounded-xl border border-fg/10 bg-surface-800 p-4 shadow-2xl shadow-black/50"
+							style="top: {yearPickerPos.top}px; left: {yearPickerPos.left}px"
+						>
+							<div class="mb-3 flex items-center justify-between">
+								<span class="text-xs font-semibold text-neutral-400">Year Range</span>
+								{#if yearRange[0] !== defaultYearRange[0] || yearRange[1] !== defaultYearRange[1]}
+									<button
+										onclick={() => {
+											yearRange = [...defaultYearRange];
+											yearPickerKey++;
+										}}
+										class="flex items-center gap-1 text-xs text-gold-400 transition-all hover:text-gold-300"
+									>
+										<ArrowCounterClockwiseIcon class="h-3 w-3" />
+										Reset
+									</button>
+								{/if}
+							</div>
+							{#key yearPickerKey}
+								<YearRangeSelector
+									minYear={1900}
+									maxYear={currentYear}
+									value={[...yearRange]}
+									onChange={(v) => (yearRange = v)}
+								/>
+							{/key}
+						</div>
+					{/if}
+				</div>
 
 				<!-- Rating Filter -->
 				<select
@@ -493,6 +663,29 @@
 					<option value="7" class="bg-surface-900">7+</option>
 					<option value="6" class="bg-surface-900">6+</option>
 					<option value="5" class="bg-surface-900">5+</option>
+				</select>
+
+				<!-- Country Filter -->
+				<select
+					bind:value={country}
+					class="shrink-0 rounded-lg border border-fg/10 bg-surface-800 px-3 py-1.5 text-xs text-fg transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30"
+				>
+					<option value="" class="bg-surface-900">Country</option>
+					{#each countryOptions as opt (opt.value)}
+						<option value={opt.value} class="bg-surface-900">{opt.flag} {opt.label}</option>
+					{/each}
+				</select>
+
+				<!-- Language Filter -->
+				<select
+					bind:value={language}
+					disabled={region !== ''}
+					class="shrink-0 rounded-lg border border-fg/10 bg-surface-800 px-3 py-1.5 text-xs text-fg transition-all outline-none focus:border-gold-500/30 focus:ring-1 focus:ring-gold-500/30 disabled:cursor-not-allowed disabled:opacity-40"
+				>
+					<option value="" class="bg-surface-900">Language</option>
+					{#each languageOptions as opt (opt.value)}
+						<option value={opt.value} class="bg-surface-900">{opt.label}</option>
+					{/each}
 				</select>
 
 				<!-- Sort By -->
@@ -509,6 +702,38 @@
 						class="pointer-events-none absolute top-1/2 right-2 h-3 w-3 -translate-y-1/2 text-neutral-500"
 					/>
 				</div>
+
+				<!-- Clear All Filters -->
+				{#if hasFilters}
+					<button
+						onclick={clearAllFilters}
+						class="flex shrink-0 items-center gap-1 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs text-red-400 transition-all hover:bg-red-500/20 hover:text-red-300"
+					>
+						<XIcon class="h-3 w-3" />
+						Clear
+					</button>
+				{/if}
+			</div>
+
+			<!-- Row 2: Genre Chips + Region Presets -->
+			<div class="flex items-center gap-2 overflow-x-auto pb-1" style="scrollbar-width: none;">
+				<!-- Region Presets -->
+				{#each regionOptions as opt (opt.value)}
+					<button
+						onclick={() => {
+							region = region === opt.value ? '' : opt.value;
+							language = '';
+						}}
+						class={cn(
+							'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all',
+							region === opt.value
+								? 'bg-gold-500/20 text-gold-400 ring-1 ring-gold-500/30'
+								: 'bg-surface-800 text-neutral-400 hover:bg-surface-700 hover:text-fg'
+						)}
+					>
+						{opt.flag} {opt.label}
+					</button>
+				{/each}
 
 				<div class="h-5 w-px shrink-0 bg-fg/10"></div>
 
@@ -527,17 +752,6 @@
 							{genre.name}
 						</button>
 					{/each}
-				{/if}
-
-				<!-- Clear All Filters -->
-				{#if hasFilters}
-					<button
-						onclick={clearAllFilters}
-						class="flex shrink-0 items-center gap-1 rounded-lg bg-surface-800 px-3 py-1.5 text-xs text-neutral-500 transition-all hover:text-fg"
-					>
-						<XIcon class="h-3 w-3" />
-						Clear
-					</button>
 				{/if}
 			</div>
 		</div>

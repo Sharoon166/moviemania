@@ -130,6 +130,19 @@
 					{/if}
 				</div>
 
+				{#if movie.data.release_date}
+					{@const isUpcoming = movie.data.release_date > new Date().toISOString().split('T')[0]}
+					<div>
+						<span
+							class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold {isUpcoming
+								? 'bg-gold-500/15 text-gold-400 ring-1 ring-gold-500/30'
+								: 'bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/30'}"
+						>
+							{isUpcoming ? 'Coming Soon' : 'Released'}
+						</span>
+					</div>
+				{/if}
+
 				{#if movie.data.tagline}
 					<p class="text-base text-gold-400/70 italic">{movie.data.tagline}</p>
 				{/if}
@@ -176,7 +189,7 @@
 					{:else}
 						<a
 							href={`/watch/movie/${movie.data.id}`}
-							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-6 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
+							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-6 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-gold-300 active:scale-95"
 						>
 							<PlayCircleIcon class="h-5 w-5" weight="fill" />
 							Watch Now

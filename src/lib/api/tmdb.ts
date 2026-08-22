@@ -30,6 +30,18 @@ export const embedSources: EmbedSource[] = [
 		tv: (id, s, e) => `https://vidsrc.me/embed/tv/${id}/${s}/${e}`
 	},
 	{
+		id: 'vidlink',
+		name: 'VidLink',
+		movie: (id) => `https://vidlink.pro/movie/${id}`,
+		tv: (id, s, e) => `https://vidlink.pro/tv/${id}/${s}/${e}`
+	},
+	{
+		id: 'vidcore',
+		name: 'VidCore',
+		movie: (id) => `https://vidcore.org/embed/movie/${id}`,
+		tv: (id, s, e) => `https://vidcore.org/embed/tv/${id}/${s}/${e}`
+	},
+	{
 		id: 'multiembed',
 		name: 'MultiEmbed',
 		movie: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1`,
@@ -158,9 +170,12 @@ export const tmdb = {
 			query?: string;
 			genreIds?: number[];
 			page?: number;
-			year?: number;
+			yearRange?: [number, number];
 			rating?: number;
 			sortBy?: string;
+			country?: string;
+			language?: string;
+			languages?: string[];
 		}) => {
 			const sp = new URLSearchParams({
 				page: String(params.page ?? 1),
@@ -168,17 +183,26 @@ export const tmdb = {
 			});
 			if (params.query) sp.set('with_text_query', params.query);
 			if (params.genreIds?.length) sp.set('with_genres', params.genreIds.join(','));
-			if (params.year) sp.set('primary_release_year', String(params.year));
+			if (params.yearRange) {
+				sp.set('primary_release_date.gte', `${params.yearRange[0]}-01-01`);
+				sp.set('primary_release_date.lte', `${params.yearRange[1]}-12-31`);
+			}
 			if (params.rating) sp.set('vote_average.gte', String(params.rating));
+			if (params.country) sp.set('with_origin_country', params.country);
+			if (params.language) sp.set('with_original_language', params.language);
+			if (params.languages?.length) sp.set('with_original_language', params.languages[0]);
 			return fetchMediaList<TmdbMovie>(`/discover/movie?${sp}`, 'movie');
 		},
 		tv: (params: {
 			query?: string;
 			genreIds?: number[];
 			page?: number;
-			year?: number;
+			yearRange?: [number, number];
 			rating?: number;
 			sortBy?: string;
+			country?: string;
+			language?: string;
+			languages?: string[];
 		}) => {
 			const sp = new URLSearchParams({
 				page: String(params.page ?? 1),
@@ -186,8 +210,14 @@ export const tmdb = {
 			});
 			if (params.query) sp.set('with_text_query', params.query);
 			if (params.genreIds?.length) sp.set('with_genres', params.genreIds.join(','));
-			if (params.year) sp.set('first_air_date_year', String(params.year));
+			if (params.yearRange) {
+				sp.set('first_air_date.gte', `${params.yearRange[0]}-01-01`);
+				sp.set('first_air_date.lte', `${params.yearRange[1]}-12-31`);
+			}
 			if (params.rating) sp.set('vote_average.gte', String(params.rating));
+			if (params.country) sp.set('with_origin_country', params.country);
+			if (params.language) sp.set('with_original_language', params.language);
+			if (params.languages?.length) sp.set('with_original_language', params.languages[0]);
 			return fetchMediaList<TmdbTvShow>(`/discover/tv?${sp}`, 'tv');
 		}
 	}

@@ -88,25 +88,40 @@
 		clearAllTimers();
 
 		try {
-			const [moviePage, tvPage] = await Promise.all([
-				tmdb.discover.movies({
-					genreIds: selectedGenres,
-					rating: minRating > 0 ? minRating : undefined,
-					sortBy: 'popularity.desc'
-				}),
-				tmdb.discover.tv({
-					genreIds: selectedGenres,
-					rating: minRating > 0 ? minRating : undefined,
-					sortBy: 'popularity.desc'
-				})
+			const pages = [1, 2, 3];
+			const [moviePages, tvPages] = await Promise.all([
+				Promise.all(
+					pages.map((p) =>
+						tmdb.discover.movies({
+							genreIds: selectedGenres,
+							rating: minRating > 0 ? minRating : undefined,
+							yearRange: [yearStart, yearEnd],
+							page: p,
+							sortBy: 'popularity.desc'
+						})
+					)
+				),
+				Promise.all(
+					pages.map((p) =>
+						tmdb.discover.tv({
+							genreIds: selectedGenres,
+							rating: minRating > 0 ? minRating : undefined,
+							yearRange: [yearStart, yearEnd],
+							page: p,
+							sortBy: 'popularity.desc'
+						})
+					)
+				)
 			]);
 
-			const all = [...moviePage.results, ...tvPage.results].filter((item) => {
-				if (!item.poster_path || item.vote_count <= 50) return false;
-				const year = Number(getYear(item));
-				if (year && (year < yearStart || year > yearEnd)) return false;
-				return true;
-			});
+			const all = ([...moviePages, ...tvPages] as {
+					results: (TmdbMovie | TmdbTvShow)[];
+				}[])
+				.flatMap((res) => res.results)
+				.filter((item) => {
+					if (!item.poster_path || item.vote_count <= 50) return false;
+					return true;
+				});
 
 			if (all.length === 0) {
 				isCycling = false;

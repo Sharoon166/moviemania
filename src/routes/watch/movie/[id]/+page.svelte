@@ -32,7 +32,9 @@
 		movie.data?.videos.results.findLast((v) => v.site === 'YouTube' && v.type === 'Trailer') ??
 			movie.data?.videos.results[0]
 	);
-	let unreleased = $derived((movie.data?.vote_average ?? 0) === 0);
+	let unreleased = $derived(
+		(movie.data?.release_date ?? '') > new Date().toISOString().split('T')[0]
+	);
 
 	$effect(() => {
 		if (!browser) return;

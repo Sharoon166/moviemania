@@ -39,7 +39,9 @@
 	);
 
 	let totalSeasons = $derived(show.data?.number_of_seasons ?? 0);
-	let unreleased = $derived((show.data?.vote_average ?? 0) === 0);
+	let unreleased = $derived(
+		(show.data?.first_air_date ?? '') > new Date().toISOString().split('T')[0]
+	);
 
 	let seasonDetail = createQuery(() => ({
 		queryKey: ['tv', Number(id), 'season', season],

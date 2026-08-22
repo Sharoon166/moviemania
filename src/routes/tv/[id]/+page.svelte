@@ -40,7 +40,9 @@
 	let creators = $derived(
 		show.data?.credits?.crew?.filter((c) => c.job === 'Executive Producer').slice(0, 2) ?? []
 	);
-	let unreleased = $derived((show.data?.vote_average ?? 0) === 0);
+	let unreleased = $derived(
+		(show.data?.first_air_date ?? '') > new Date().toISOString().split('T')[0]
+	);
 </script>
 
 {#if show.data}
@@ -129,7 +131,7 @@
 					{:else}
 						<a
 							href={`/watch/tv/${show.data.id}?season=1&episode=1`}
-							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-6 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95"
+							class="flex items-center gap-2.5 rounded-full bg-gold-500 px-6 py-3 text-sm font-bold text-black transition-all duration-300 hover:bg-gold-400 hover:shadow-gold-300 active:scale-95"
 						>
 							<PlayCircleIcon class="h-5 w-5" weight="fill" />
 							Watch Now

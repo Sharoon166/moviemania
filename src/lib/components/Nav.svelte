@@ -38,8 +38,6 @@
 		{ href: '/shorts', label: 'Shorts', Icon: PlayIcon },
 		{ href: '/collections', label: 'Collections', Icon: CardsThreeIcon },
 		{ href: '/wheel', label: 'Wheel', Icon: CircleDashedIcon },
-		{ href: '/watchlist', label: 'Watchlist', Icon: BookmarkIcon },
-		{ href: '/settings', label: 'Settings', Icon: GearSixIcon },
 		{ href: '/about', label: 'About', Icon: InfoIcon }
 	];
 
@@ -137,7 +135,7 @@
 		</div>
 
 		<!-- Mobile: Watchlist icon + Settings + Random button -->
-		<div class="flex items-center gap-2">
+		<div class="flex md:hidden items-center gap-2">
 			<a
 				href="/watchlist"
 				class="relative flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-fg/5 hover:text-fg active:scale-90"
