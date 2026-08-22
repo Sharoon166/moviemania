@@ -1,4 +1,5 @@
 import { StorageService } from './storage';
+import { createCrossTabChannel } from './cross-tab';
 
 export interface ContinueWatchingItem {
 	id: number;
@@ -18,6 +19,19 @@ const MAX_ITEMS = 20;
 class ContinueWatching {
 	items = $state<ContinueWatchingItem[]>(storage.load() ?? []);
 
+	private channel = createCrossTabChannel('continue-watching');
+
+	constructor() {
+		this.channel.onReceive((data) => {
+			if (Array.isArray(data)) this.items = data as ContinueWatchingItem[];
+		});
+	}
+
+	private commit() {
+		storage.save(this.items);
+		this.channel.send(this.items);
+	}
+
 	upsert(item: Omit<ContinueWatchingItem, 'updatedAt'>) {
 		const existing = [...this.items];
 		const idx = existing.findIndex((i) => i.id === item.id && i.mediaType === item.mediaType);
@@ -29,17 +43,17 @@ class ContinueWatching {
 			if (existing.length > MAX_ITEMS) existing.length = MAX_ITEMS;
 		}
 		this.items = existing;
-		storage.save(this.items);
+		this.commit();
 	}
 
 	remove(id: number, mediaType: 'movie' | 'tv') {
 		this.items = this.items.filter((i) => !(i.id === id && i.mediaType === mediaType));
-		storage.save(this.items);
+		this.commit();
 	}
 
 	clear() {
 		this.items = [];
-		storage.save(this.items);
+		this.commit();
 	}
 
 	reload() {

@@ -59,7 +59,7 @@
 	)}
 	data-sveltekit-preload-data="hover"
 >
-	<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
+	<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
 		<!-- Logo -->
 		<a href="/" class="group flex items-center gap-2.5">
 			<div class="flex h-8 w-8 items-center justify-center transition-all duration-300">
@@ -73,7 +73,7 @@
 		</a>
 
 		<!-- Desktop nav (md+) -->
-		<div class="relative hidden items-center gap-2 md:flex">
+		<div class="relative hidden items-center gap-2 lg:flex">
 			{#each navLinks as { href, label, Icon } (href)}
 				<a
 					{href}
@@ -135,7 +135,7 @@
 		</div>
 
 		<!-- Mobile: Watchlist icon + Settings + Random button -->
-		<div class="flex md:hidden items-center gap-2">
+		<div class="flex lg:hidden items-center gap-2">
 			<a
 				href="/watchlist"
 				class="relative flex h-9 w-9 items-center justify-center rounded-xl text-neutral-300 transition-all duration-200 hover:bg-fg/5 hover:text-fg active:scale-90"
@@ -175,7 +175,7 @@
 </nav>
 
 <!-- ─── Mobile bottom tab bar ─── -->
-<nav class="fixed inset-x-0 bottom-0 z-1000 md:hidden">
+<nav class="fixed inset-x-0 bottom-0 z-1000 lg:hidden">
 	<div class="border-t border-fg/6 bg-surface-950/90 backdrop-blur-xl">
 		<div
 			class="mx-auto flex h-16 max-w-sm items-center justify-around px-2 pb-[env(safe-area-inset-bottom)]"

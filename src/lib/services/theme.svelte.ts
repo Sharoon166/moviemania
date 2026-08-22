@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { SvelteSet } from 'svelte/reactivity';
+import { createCrossTabChannel } from './cross-tab';
 
 interface Theme {
 	id: string;
@@ -283,6 +284,11 @@ const FONT_KEYS_BY_FAMILY: Record<string, string[]> = {
 
 const CUSTOM_THEMES_KEY = 'moviemania_custom_themes';
 
+interface ThemeSyncMessage {
+	kind: 'state' | 'custom-themes';
+	data: unknown;
+}
+
 class ThemeStore {
 	activeThemeId = $state('doom');
 	activeDisplayFont = $state("'Oxanium', sans-serif");
@@ -291,6 +297,22 @@ class ThemeStore {
 
 	private styleEl: HTMLStyleElement | null = null;
 	private loadedFonts = new SvelteSet<string>();
+	private channel = createCrossTabChannel('theme');
+
+	constructor() {
+		this.channel.onReceive((msg) => this.handleRemote(msg as ThemeSyncMessage));
+	}
+
+	private handleRemote(msg: ThemeSyncMessage) {
+		if (!browser) return;
+		try {
+			if (msg.kind === 'custom-themes') {
+				this.customThemes = msg.data as Theme[];
+				return;
+			}
+			this.restoreFrom(msg.data as { themeId: string; displayFont?: string; bodyFont?: string });
+		} catch {}
+	}
 
 	get allThemes(): Theme[] {
 		return [...themes, ...this.customThemes];
@@ -317,6 +339,7 @@ class ThemeStore {
 		if (!browser) return;
 		try {
 			localStorage.setItem(CUSTOM_THEMES_KEY, JSON.stringify(this.customThemes));
+			this.channel.send({ kind: 'custom-themes', data: this.customThemes });
 		} catch {}
 	}
 
@@ -501,18 +524,25 @@ class ThemeStore {
 		this.activeDisplayFont = "'Oxanium', sans-serif";
 		this.activeBodyFont = "'Oxanium', sans-serif";
 		localStorage.removeItem('theme-switcher');
+		this.channel.send({
+			kind: 'state',
+			data: {
+				themeId: this.activeThemeId,
+				displayFont: this.activeDisplayFont,
+				bodyFont: this.activeBodyFont
+			}
+		});
 	}
 
 	saveState() {
 		if (!browser) return;
-		localStorage.setItem(
-			'theme-switcher',
-			JSON.stringify({
-				themeId: this.activeThemeId,
-				displayFont: this.activeDisplayFont,
-				bodyFont: this.activeBodyFont
-			})
-		);
+		const data = {
+			themeId: this.activeThemeId,
+			displayFont: this.activeDisplayFont,
+			bodyFont: this.activeBodyFont
+		};
+		localStorage.setItem('theme-switcher', JSON.stringify(data));
+		this.channel.send({ kind: 'state', data });
 	}
 
 	restoreState() {
@@ -521,34 +551,36 @@ class ThemeStore {
 		const raw = localStorage.getItem('theme-switcher');
 		if (!raw) return;
 		try {
-			const data = JSON.parse(raw);
-			const theme = this.findTheme(data.themeId);
-			if (theme) {
-				this.activeThemeId = data.themeId;
-				this.activeDisplayFont = data.displayFont ?? theme.fontDisplay;
-				this.activeBodyFont = data.bodyFont ?? theme.fontBody;
-
-				Promise.all([
-					this.loadFontForFamily(this.extractFamilyName(theme.fontDisplay)),
-					this.loadFontForFamily(this.extractFamilyName(theme.fontBody))
-				]).then(() => {
-					this.applyTheme(theme);
-					const root = document.documentElement;
-					root.style.setProperty('--font-display', this.activeDisplayFont);
-					root.style.setProperty('--font-body', this.activeBodyFont);
-
-					if (this.styleEl) {
-						this.styleEl.textContent = this.buildStyleTag(
-							theme.text,
-							theme.accent,
-							theme.surface,
-							this.activeDisplayFont,
-							this.activeBodyFont
-						);
-					}
-				});
-			}
+			this.restoreFrom(JSON.parse(raw));
 		} catch {}
+	}
+
+	private restoreFrom(data: { themeId: string; displayFont?: string; bodyFont?: string }) {
+		const theme = this.findTheme(data.themeId);
+		if (!theme) return;
+		this.activeThemeId = data.themeId;
+		this.activeDisplayFont = data.displayFont ?? theme.fontDisplay;
+		this.activeBodyFont = data.bodyFont ?? theme.fontBody;
+
+		Promise.all([
+			this.loadFontForFamily(this.extractFamilyName(theme.fontDisplay)),
+			this.loadFontForFamily(this.extractFamilyName(theme.fontBody))
+		]).then(() => {
+			this.applyTheme(theme);
+			const root = document.documentElement;
+			root.style.setProperty('--font-display', this.activeDisplayFont);
+			root.style.setProperty('--font-body', this.activeBodyFont);
+
+			if (this.styleEl) {
+				this.styleEl.textContent = this.buildStyleTag(
+					theme.text,
+					theme.accent,
+					theme.surface,
+					this.activeDisplayFont,
+					this.activeBodyFont
+				);
+			}
+		});
 	}
 }
 

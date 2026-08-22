@@ -1,4 +1,5 @@
 import { StorageService } from './storage';
+import { createCrossTabChannel } from './cross-tab';
 
 export type MediaType = 'movie' | 'tv';
 
@@ -37,6 +38,19 @@ const storage = new StorageService<WatchlistItem[]>('moviemania_watchlist');
 class Watchlist {
 	items = $state<WatchlistItem[]>(storage.load() ?? []);
 
+	private channel = createCrossTabChannel('watchlist');
+
+	constructor() {
+		this.channel.onReceive((data) => {
+			if (Array.isArray(data)) this.items = data as WatchlistItem[];
+		});
+	}
+
+	private commit(): void {
+		storage.save(this.items);
+		this.channel.send(this.items);
+	}
+
 	has(id: number, mediaType: MediaType): boolean {
 		return this.items.some((i) => i.id === id && i.mediaType === mediaType);
 	}
@@ -56,7 +70,7 @@ class Watchlist {
 			});
 		}
 		this.items = existing;
-		storage.save(this.items);
+		this.commit();
 	}
 
 	toggle(item: Omit<WatchlistItem, 'watched' | 'notes' | 'tags' | 'addedAt'>): boolean {
@@ -70,28 +84,28 @@ class Watchlist {
 
 	remove(id: number, mediaType: MediaType): void {
 		this.items = this.items.filter((i) => !(i.id === id && i.mediaType === mediaType));
-		storage.save(this.items);
+		this.commit();
 	}
 
 	toggleWatched(id: number, mediaType: MediaType): void {
 		this.items = this.items.map((i) =>
 			i.id === id && i.mediaType === mediaType ? { ...i, watched: !i.watched } : i
 		);
-		storage.save(this.items);
+		this.commit();
 	}
 
 	updateNotes(id: number, mediaType: MediaType, notes: string): void {
 		this.items = this.items.map((i) =>
 			i.id === id && i.mediaType === mediaType ? { ...i, notes } : i
 		);
-		storage.save(this.items);
+		this.commit();
 	}
 
 	updateTags(id: number, mediaType: MediaType, tags: string[]): void {
 		this.items = this.items.map((i) =>
 			i.id === id && i.mediaType === mediaType ? { ...i, tags } : i
 		);
-		storage.save(this.items);
+		this.commit();
 	}
 
 	filter(opts: FilterOptions = {}): WatchlistItem[] {
@@ -175,13 +189,13 @@ class Watchlist {
 		}
 
 		this.items = [...map.values()];
-		storage.save(this.items);
+		this.commit();
 		return { added, merged };
 	}
 
 	clear(): void {
 		this.items = [];
-		storage.save(this.items);
+		this.commit();
 	}
 }
 

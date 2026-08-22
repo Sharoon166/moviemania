@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { SvelteSet } from 'svelte/reactivity';
 import { embedSources, type EmbedSource } from '$lib/api/tmdb';
+import { createCrossTabChannel } from './cross-tab';
 
 const STORAGE_KEY = 'moviemania_app_settings';
 
@@ -30,8 +31,23 @@ class AppSettings {
 	showHeatmap = $state(defaults.showHeatmap);
 	enableThemeGenerator = $state(defaults.enableThemeGenerator);
 
+	private channel = createCrossTabChannel('settings');
+
+	constructor() {
+		this.channel.onReceive((data) => this.apply(data as Partial<AppSettingsData>));
+	}
+
 	get defaultServer(): EmbedSource {
 		return embedSources.find((s) => s.id === this.defaultServerId) ?? embedSources[0];
+	}
+
+	private apply(data: Partial<AppSettingsData>) {
+		if (data.defaultMediaFilter) this.defaultMediaFilter = data.defaultMediaFilter;
+		if (data.defaultSortBy) this.defaultSortBy = data.defaultSortBy;
+		if (data.itemsPerPage) this.itemsPerPage = data.itemsPerPage;
+		if (data.defaultServerId) this.defaultServerId = data.defaultServerId;
+		if (data.showHeatmap !== undefined) this.showHeatmap = data.showHeatmap;
+		if (data.enableThemeGenerator !== undefined) this.enableThemeGenerator = data.enableThemeGenerator;
 	}
 
 	load() {
@@ -39,13 +55,7 @@ class AppSettings {
 		try {
 			const raw = localStorage.getItem(STORAGE_KEY);
 			if (!raw) return;
-			const data: Partial<AppSettingsData> = JSON.parse(raw);
-			if (data.defaultMediaFilter) this.defaultMediaFilter = data.defaultMediaFilter;
-			if (data.defaultSortBy) this.defaultSortBy = data.defaultSortBy;
-			if (data.itemsPerPage) this.itemsPerPage = data.itemsPerPage;
-			if (data.defaultServerId) this.defaultServerId = data.defaultServerId;
-			if (data.showHeatmap !== undefined) this.showHeatmap = data.showHeatmap;
-			if (data.enableThemeGenerator !== undefined) this.enableThemeGenerator = data.enableThemeGenerator;
+			this.apply(JSON.parse(raw));
 		} catch {}
 	}
 
@@ -61,6 +71,7 @@ class AppSettings {
 				enableThemeGenerator: this.enableThemeGenerator
 			};
 			localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+			this.channel.send(data);
 		} catch {}
 	}
 
