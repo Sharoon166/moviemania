@@ -98,7 +98,7 @@
 </svelte:head>
 {#if movie.data}
 	<div class="relative flex min-h-screen flex-col">
-		<div class="flex flex-col items-center pt-20 pb-8">
+		<div class="flex flex-col items-center justify-center pt-42 pb-8 sm:pt-20">
 			<div class="w-full max-w-5xl px-4">
 				{#if unreleased}
 					<div
@@ -160,7 +160,7 @@
 
 					{#if !cinemaMode}
 						<div class="flex flex-wrap items-center justify-between gap-3 pt-4">
-							<div class="w-full flex justify-center items-center gap-2">
+							<div class="w-full">
 								<ServerPicker
 									{server}
 									onselect={(src) => {
@@ -169,7 +169,7 @@
 									}}
 								/>
 							</div>
-							<div class="flex items-center gap-2">
+							<div class="flex w-full items-center gap-2 max-md:justify-center">
 								{#if video}
 									<button
 										onclick={() => (showTrailer = true)}
@@ -206,7 +206,7 @@
 			<div class="mx-auto w-full max-w-5xl px-4 pb-16">
 				<div class="flex flex-col gap-3">
 					<div class="flex items-center gap-3">
-						<h1 class="font-display text-2xl font-bold text-fg">{movie.data.title}</h1>
+						<h1 class="font-display text-2xl font-bold text-pretty text-fg">{movie.data.title}</h1>
 						<WatchlistButton
 							id={movie.data.id}
 							mediaType="movie"
@@ -238,9 +238,5 @@
 {/if}
 
 {#if showTrailer && video}
-	<TrailerModal
-		videoKey={video.key}
-		videoName={video.name}
-		onclose={() => (showTrailer = false)}
-	/>
+	<TrailerModal videoKey={video.key} videoName={video.name} onclose={() => (showTrailer = false)} />
 {/if}

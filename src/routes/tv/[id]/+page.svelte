@@ -83,7 +83,7 @@
 				{/if}
 			</div>
 			<div class="flex max-w-3xl flex-col gap-5">
-				<h1 class="font-display text-3xl text-balance font-extrabold text-fg sm:text-5xl">
+				<h1 class="font-display text-3xl font-extrabold text-balance text-fg sm:text-5xl">
 					{show.data.name}
 				</h1>
 
@@ -108,7 +108,9 @@
 					</span>
 				</div>
 
-				<p class="max-w-2xl text-sm sm:text-base leading-relaxed text-neutral-300">{show.data.overview}</p>
+				<p class="max-w-2xl text-sm leading-relaxed text-neutral-300 sm:text-base">
+					{show.data.overview}
+				</p>
 
 				<div class="flex flex-wrap gap-2">
 					{#each show.data.genres as genre (genre.id)}
@@ -137,18 +139,6 @@
 							Watch Now
 						</a>
 					{/if}
-					<WatchlistButton
-						id={show.data.id}
-						mediaType="tv"
-						title={show.data.name}
-						posterPath={show.data.poster_path}
-						genres={show.data.genres}
-						tmdbRating={show.data.vote_average}
-						releaseYear={show.data.first_air_date
-							? Number(show.data.first_air_date.slice(0, 4))
-							: null}
-						runtime={show.data.episode_run_time[0] ?? null}
-					/>
 					{#if !unreleased && video}
 						<button
 							onclick={() => (showTrailer = true)}
@@ -169,6 +159,18 @@
 							Download
 						</a>
 					{/if}
+					<WatchlistButton
+						id={show.data.id}
+						mediaType="tv"
+						title={show.data.name}
+						posterPath={show.data.poster_path}
+						genres={show.data.genres}
+						tmdbRating={show.data.vote_average}
+						releaseYear={show.data.first_air_date
+							? Number(show.data.first_air_date.slice(0, 4))
+							: null}
+						runtime={show.data.episode_run_time?.[0] ?? null}
+					/>
 				</div>
 			</div>
 		</div>

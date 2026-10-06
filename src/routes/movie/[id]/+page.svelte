@@ -101,7 +101,7 @@
 				{/if}
 			</div>
 			<div class="flex max-w-3xl flex-col gap-5">
-				<h1 class="font-display text-3xl font-extrabold text-fg sm:text-5xl text-balance">
+				<h1 class="font-display text-3xl font-extrabold text-balance text-fg sm:text-5xl">
 					{movie.data.title}
 				</h1>
 
@@ -147,7 +147,9 @@
 					<p class="text-base text-gold-400/70 italic">{movie.data.tagline}</p>
 				{/if}
 
-				<p class="max-w-2xl text-sm sm:text-base leading-relaxed text-neutral-300">{movie.data.overview}</p>
+				<p class="max-w-2xl text-sm leading-relaxed text-neutral-300 sm:text-base">
+					{movie.data.overview}
+				</p>
 
 				<div class="flex flex-wrap gap-2">
 					{#each movie.data.genres as genre (genre.id)}
@@ -195,18 +197,6 @@
 							Watch Now
 						</a>
 					{/if}
-					<WatchlistButton
-						id={movie.data.id}
-						mediaType="movie"
-						title={movie.data.title}
-						posterPath={movie.data.poster_path}
-						genres={movie.data.genres}
-						tmdbRating={movie.data.vote_average}
-						releaseYear={movie.data.release_date
-							? Number(movie.data.release_date.slice(0, 4))
-							: null}
-						runtime={movie.data.runtime}
-					/>
 					{#if !unreleased && video}
 						<button
 							onclick={() => (showTrailer = true)}
@@ -227,6 +217,18 @@
 							Download
 						</a>
 					{/if}
+					<WatchlistButton
+						id={movie.data.id}
+						mediaType="movie"
+						title={movie.data.title}
+						posterPath={movie.data.poster_path}
+						genres={movie.data.genres}
+						tmdbRating={movie.data.vote_average}
+						releaseYear={movie.data.release_date
+							? Number(movie.data.release_date.slice(0, 4))
+							: null}
+						runtime={movie.data.runtime}
+					/>
 				</div>
 			</div>
 		</div>

@@ -194,7 +194,7 @@
 
 			<h1
 				{title}
-				class="line-clamp-2 max-w-3xl font-display text-2xl  font-black text-fg md:text-4xl"
+				class="line-clamp-2 max-w-3xl font-display text-2xl font-black text-fg md:text-4xl"
 			>
 				{title}
 			</h1>
@@ -224,16 +224,15 @@
 			<div class="flex flex-wrap gap-3 pt-3">
 				<a
 					href={`/watch/${mediaType}/${current.id}`}
-					class="group flex items-center gap-2.5 rounded-full bg-gold-500 px-8 py-3.5 text-sm font-bold text-black transition-all duration-300 hover:scale-[1.03] hover:bg-gold-400 hover:shadow-gold-300 active:scale-95"
+					class="group flex items-center gap-2 rounded-full bg-gold-500 px-4 py-3 text-sm font-bold text-black transition-all duration-300 hover:scale-[1.03] hover:bg-gold-400 hover:shadow-gold-300 active:scale-95 sm:px-8"
 				>
 					<PlayIcon class="h-5 w-5" weight="fill" />
-
 					Watch Now
 				</a>
 
 				<a
 					href={`/${mediaType}/${current.id}`}
-					class="flex items-center gap-2.5 rounded-full border border-fg/10 bg-fg/5 px-8 py-3.5 text-sm font-semibold text-fg backdrop-blur-md transition-all duration-300 hover:border-fg/20 hover:bg-fg/10 active:scale-95"
+					class="flex items-center gap-2 rounded-full border border-fg/10 bg-fg/5 px-4 py-3 text-sm font-semibold text-fg backdrop-blur-md transition-all duration-300 hover:border-fg/20 hover:bg-fg/10 active:scale-95 sm:px-8"
 				>
 					<InfoIcon class="h-5 w-5" />
 

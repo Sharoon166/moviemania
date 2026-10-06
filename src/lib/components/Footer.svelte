@@ -7,6 +7,7 @@
 	const navLinks = [
 		{ href: '/browse', label: 'Search' },
 		{ href: '/shorts', label: 'Shorts' },
+		{ href: '/wheel', label: 'Wheel' },
 		{ href: '/collections', label: 'Collections' },
 		{ href: '/watchlist', label: 'Watchlist' },
 		{ href: '/settings', label: 'Settings' }
@@ -81,7 +82,9 @@
 			</div>
 		</div>
 
-		<div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-fg/5 pt-6 md:flex-row">
+		<div
+			class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-fg/5 pt-6 md:flex-row"
+		>
 			<span class="text-xs text-neutral-600">&copy; {currentYear} Moviemania</span>
 			<span class="text-xs text-neutral-600">
 				Made by
@@ -90,7 +93,8 @@
 					target="_blank"
 					rel="noopener noreferrer"
 					class="text-neutral-400 underline decoration-neutral-700 underline-offset-2 transition-colors hover:text-neutral-300"
-				>Sharoon Shaleem</a>
+					>Sharoon Shaleem</a
+				>
 			</span>
 		</div>
 	</div>

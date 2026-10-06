@@ -10,6 +10,7 @@
 	import MagnifyingGlassIcon from 'phosphor-svelte/lib/MagnifyingGlassIcon';
 	import StarIcon from 'phosphor-svelte/lib/StarIcon';
 	import PlayIcon from 'phosphor-svelte/lib/PlayIcon';
+	import { CaretUpDownIcon } from 'phosphor-svelte';
 
 	let {
 		tvId,
@@ -130,34 +131,27 @@
 	});
 </script>
 
-<div class="w-full rounded-2xl border border-fg/10 bg-surface-900/95 shadow-xl backdrop-blur-xl overflow-hidden">
+<div
+	class="w-full overflow-hidden rounded-2xl border border-fg/10 bg-surface-900/95 shadow-xl backdrop-blur-xl"
+>
 	<!-- Header - Collapsible -->
 	<button
 		onclick={toggleExpanded}
-		class="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-fg/5"
+		class="flex w-full items-center justify-between gap-x-4 px-5 py-4 text-left transition-colors hover:bg-fg/5"
 	>
 		<div class="max-w-full">
-			<div class="flex items-center gap-2">
+			<div>
 				<h3 class="line-clamp-2 font-display text-base font-bold text-fg">
-					{#if nextEpisode}
-						Up Next - {nextEpisode.name}
-					{:else}
-						Episode {episode}
+					{#if episode && currentEpisode}
+						Playing - Episode {episode} - {currentEpisode.name}
+					{:else if episode}
+						Playing - Episode {episode}
 					{/if}
 				</h3>
 			</div>
-			{#if currentEpisode}
-				<p class="mt-0.5 truncate text-xs text-neutral-400">
-					Playing - Episode {episode} - {currentEpisode.name}
-				</p>
-			{/if}
 		</div>
-		<div class="ml-4">
-			{#if isExpanded}
-				<CaretUpIcon class="h-5 w-5 text-neutral-400" weight="bold" />
-			{:else}
-				<CaretDownIcon class="h-5 w-5 text-neutral-400" weight="bold" />
-			{/if}
+		<div class="w-fit">
+			<CaretUpDownIcon class="h-5 w-5 text-neutral-400" weight="bold" />
 		</div>
 	</button>
 
@@ -227,7 +221,7 @@
 						</div>
 					</div>
 
-					<div class="flex flex-1 gap-1.5 overflow-x-auto">
+					<div class="no-scrollbar flex flex-1 gap-1.5 overflow-x-auto">
 						{#each Array(totalSeasons) as _, i (i)}
 							<button
 								onclick={() => {
@@ -247,7 +241,7 @@
 			</div>
 
 			<!-- Episode List -->
-			<div class="max-h-125 overflow-y-auto overscroll-contain">
+			<div class="max-h-125 overflow-y-auto">
 				{#if seasonDetail.data}
 					<div class="space-y-0">
 						{#each filteredEpisodes as ep (ep.id)}
@@ -255,7 +249,7 @@
 							<button
 								onclick={() => select(season, ep.episode_number)}
 								class={cn(
-									'group flex w-full items-start gap-3 border-b border-fg/5 px-4 py-3 text-left transition-all duration-200 last:border-b-0',
+									'group flex w-full items-center gap-3 border-b border-fg/5 px-4 py-3 text-left transition-all duration-200 last:border-b-0',
 									isActive ? 'bg-surface-800/80' : 'hover:bg-fg/5'
 								)}
 							>
@@ -298,7 +292,7 @@
 								</div>
 
 								<!-- Episode Info -->
-								<div class="min-w-0 flex-1">
+								<div class="min-w-0 flex-1 space-y-2">
 									<h4
 										class={cn(
 											'line-clamp-2 text-sm leading-snug font-medium',

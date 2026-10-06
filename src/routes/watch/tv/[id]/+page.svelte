@@ -176,7 +176,7 @@
 
 {#if show.data}
 	<div class="relative flex min-h-screen flex-col">
-		<div class="flex flex-col items-center pt-20 pb-8">
+		<div class="flex flex-col items-center pt-42 pb-8 sm:pt-20">
 			<div class="mx-auto w-full max-w-5xl px-4">
 				{#if unreleased}
 					<div
@@ -300,7 +300,7 @@
 								/>
 							</div>
 
-							<div class="flex items-center gap-2">
+							<div class="flex w-full items-center gap-2 max-md:justify-center">
 								{#if video}
 									<button
 										onclick={() => (showTrailer = true)}
@@ -351,7 +351,7 @@
 			<div class="mx-auto w-full max-w-5xl px-4 pb-16">
 				<div class="flex flex-col gap-3">
 					<div class="flex items-center gap-3">
-						<h1 class="font-display text-2xl font-bold text-fg">{show.data.name}</h1>
+						<h1 class="font-display text-2xl font-bold text-pretty text-fg">{show.data.name}</h1>
 						<WatchlistButton
 							id={show.data.id}
 							mediaType="tv"
@@ -362,7 +362,7 @@
 							releaseYear={show.data.first_air_date
 								? Number(show.data.first_air_date.slice(0, 4))
 								: null}
-							runtime={show.data.episode_run_time[0] ?? null}
+							runtime={show.data.episode_run_time?.[0] ?? null}
 							variant="icon"
 						/>
 					</div>
@@ -383,9 +383,5 @@
 {/if}
 
 {#if showTrailer && video}
-	<TrailerModal
-		videoKey={video.key}
-		videoName={video.name}
-		onclose={() => (showTrailer = false)}
-	/>
+	<TrailerModal videoKey={video.key} videoName={video.name} onclose={() => (showTrailer = false)} />
 {/if}
